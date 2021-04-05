@@ -20,7 +20,6 @@ public class Test{
 		// test.timing(new HW05_4108056012__4(), LLCTD);
 		// test.timing(new HW05_4108056020_hash_gcd(), LLCTD);
 		// test.timing(new HW05_4108056020_1(), LLCTD);
-		test.timing(new HW05_4108056020_5_(), LLCTD);
 		test.timing(new HW05_4108056020_5(), LLCTD);
 		// test.timing(new HW05_4108056038_1_(), LLCTD);
 		// test.timing(new HW05_4108056038_1(), LLCTD);
