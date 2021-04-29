@@ -764,27 +764,11 @@ public class Test{
 		System.out.println("Start timing method H_Finding() of "+HF.getClass().getName()+"...");
 		double totalCost = 0;
 		double time = 0;
-		int result = -2;
+		int result = -2, td[];
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
-			if(CHECK_ANS && HillFinding_ans == -2 && i==0){
-				System.out.println("HillFinding test data answer loading from: "+PATH+"\\HillFinding_test_data_ans.txt");
-				try {
-					final java.io.BufferedReader br = new java.io.BufferedReader(
-					new java.io.InputStreamReader(new java.io.FileInputStream(PATH+"\\HillFinding_test_data_ans.txt")));
-					String line;
-					while(br.ready() && (line = br.readLine()) != null){
-						System.out.println("Correct answer: "+line);
-						HillFinding_ans = Integer.valueOf(line);
-					}
-					br.close();
-				} catch (final java.io.FileNotFoundException e) {
-					System.out.println("\"HillFinding_test_data_ans.txt\" file not found.");
-					System.exit(0);
-				} catch (final java.io.IOException e) {
-				}
-			}
+			td = java.util.Arrays.copyOf(TD,TD.length);
 			time = -System.nanoTime();
-			result = HF.H_Finding(TD);
+			result = HF.H_Finding(td);
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
 			"\t"+HF.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1000?"%.6f":"%.3fm")+"s\n",time*(time>1000?1000:1));
@@ -968,10 +952,11 @@ public class Test{
 		System.out.println("Start timing method T_Sum() of "+TS.getClass().getName()+"...");
 		double totalCost = 0;
 		double time = 0;
-		int result = -1;
+		int result = -1, td[];
 		for (int i = -1; RUN_TIME > ++i && totalCost != -1;) {
+			td = java.util.Arrays.copyOf(TD,TD.length);
 			time = -System.nanoTime();
-			result = TS.T_sum(TD);
+			result = TS.T_sum(td);
 			time = (System.nanoTime() + time) / 1e6;
 			if(SHOW_COUNT) System.out.printf(
 			"\t"+TS.getClass().getName()+" running count..."+(i+1)+"\tTime: %.7fs\n",time);
@@ -990,7 +975,7 @@ public class Test{
 			"\t"+TS.getClass().getName()+" method T_Sum() "+
 			"average running time: %.7fs\n",averageTime);
 		}
-		if(CHECK_ANS) System.out.println("\tResault: "+TS.T_sum(TD));// +", Correct: 1338261");
+		if(CHECK_ANS) System.out.println("\tResault: "+result);// +", Correct: 1338261");
 		System.out.println("End of timing "+TS.getClass().getName()+".\n");
 		return result;
 	}
@@ -1076,7 +1061,7 @@ public class Test{
 			"\t"+AD.getClass().getName()+" method min() "+
 			"average running time: "+(averageTime>1000?"%.6f":"%.3fm")+"s\n",averageTime*(averageTime>1000?1000:1));
 		}
-		System.out.println("\tResault: "+AD.min());
+		System.out.println("\tResault: "+result);
 
 		System.out.println("Start timing "+AD.getClass().getName()+" method max()...");
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
@@ -1100,7 +1085,7 @@ public class Test{
 			"\t"+AD.getClass().getName()+" method max() "+
 			"average running time: "+(averageTime>1000?"%.6f":"%.3fm")+"s\n",averageTime*(averageTime>1000?1000:1));
 		}
-		System.out.println("\tResault: "+AD.max());
+		System.out.println("\tResault: "+result);
 		System.out.println("End of timing "+AD.getClass().getName()+".\n");
 		return result;
 	}
