@@ -1,6 +1,6 @@
 /**<!--미안해...노정훤-->
  * NCHU CSE 1092 algorithm homework local test class
- * @version 4.29.14.00
+ * @version 4.29.14.15
  * @author twjmy@msn.com
  */
 public class Test{
@@ -113,9 +113,9 @@ public class Test{
 			td = java.util.Arrays.copyOf(TD,TD.length);
 			time = -System.nanoTime();
 			result = BP.bestPhone(td);
-			time = (System.nanoTime()+time)/1e9;
+			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+BP.getClass().getName()+" running count..."+(i+1)+"\tTime: %.6fs\n",time);
+			"\t"+BP.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1000?"%.6f":"%.3fm")+"s\n",time*(time>1000?1000:1));
 			// if(CHECK_ANS) if(!result) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -129,7 +129,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+BP.getClass().getName()+" method bestPhone() "+
-			"average running time: %.6fs\n",averageTime);
+			"average running time: "+(averageTime>1000?"%.6f":"%.3fm")+"s\n",averageTime*(averageTime>1000?1000:1));
 			if(CHECK_ANS){
 				final StringBuffer SB = new StringBuffer("\tResault: [");
 				for(final int[] i:result){
@@ -309,9 +309,9 @@ public class Test{
 			td = java.util.Arrays.copyOf(TD,TD.length);
 			time = -System.nanoTime();
 			result = Llk.checkLLK(td);
-			time = (System.nanoTime()+time)/1e9;
+			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+Llk.getClass().getName()+" running count..."+(i+1)+"\tTime: %.6fs\n",time);
+			"\t"+Llk.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1000?"%.6f":"%.3fm")+"s\n",time*(time>1000?1000:1));
 			// if(CHECK_ANS) if(!result) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -325,7 +325,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+Llk.getClass().getName()+" method checkLLK() "+
-			"average running time: %.6fs\n",averageTime);
+			"average running time: "+(averageTime>1000?"%.6f":"%.3fm")+"s\n",averageTime*(averageTime>1000?1000:1));
 			if(CHECK_ANS) System.out.println("\tResault: "+result);
 		}
 		System.out.println("End of timing "+Llk.getClass().getName()+".\n");
@@ -511,9 +511,9 @@ public class Test{
 			td = java.util.Arrays.copyOf(TD,TD.length);
 			time = -System.nanoTime();
 			result = O0r.one0k(td);
-			time = (System.nanoTime()+time)/1e9;
+			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+O0r.getClass().getName()+" running count..."+(i+1)+"\tTime: %.6fs\n",time);
+			"\t"+O0r.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1000?"%.6f":"%.3fm")+"s\n",time*(time>1000?1000:1));
 			if(CHECK_ANS && One_0k_rock_ans != null)
 			 for(int c = -1; ++c < One_0k_rock_ans.length;)
 			  if(result[c] != One_0k_rock_ans[c]){
@@ -532,7 +532,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+O0r.getClass().getName()+" method one0k() "+
-			"average running time: %.6fs\n",averageTime);
+			"average running time: "+(averageTime>1000?"%.6f":"%.3fm")+"s\n",averageTime*(averageTime>1000?1000:1));
 		}
 		if(CHECK_ANS) System.out.println("\tResault: " + java.util.Arrays.toString(result) + "\n\tCorrect: "
 					+ java.util.Arrays.toString(One_0k_rock_ans));
@@ -785,9 +785,9 @@ public class Test{
 			}
 			time = -System.nanoTime();
 			result = HF.H_Finding(TD);
-			time = (System.nanoTime()+time)/1e9;
+			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+HF.getClass().getName()+" running count..."+(i+1)+"\tTime: %.6fs\n",time);
+			"\t"+HF.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1000?"%.6f":"%.3fm")+"s\n",time*(time>1000?1000:1));
 			if(CHECK_ANS) if(HillFinding_ans != -2 && result != HillFinding_ans) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -801,7 +801,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+HF.getClass().getName()+" method H_Finding() "+
-			"average running time: %.6fs\n",averageTime);
+			"average running time: "+(averageTime>1000?"%.6f":"%.3fm")+"s\n",averageTime*(averageTime>1000?1000:1));
 		}
 		if(CHECK_ANS) System.out.println("\tResault: "+result+", Correct: "+HillFinding_ans);
 		System.out.println("End of timing "+HF.getClass().getName()+".\n");
@@ -972,7 +972,7 @@ public class Test{
 		for (int i = -1; RUN_TIME > ++i && totalCost != -1;) {
 			time = -System.nanoTime();
 			result = TS.T_sum(TD);
-			time = (System.nanoTime() + time) / 1e9;
+			time = (System.nanoTime() + time) / 1e6;
 			if(SHOW_COUNT) System.out.printf(
 			"\t"+TS.getClass().getName()+" running count..."+(i+1)+"\tTime: %.7fs\n",time);
 			// if(CHECK_ANS) if(result != 1338261) totalCost = -1;
@@ -1060,7 +1060,7 @@ public class Test{
 			result = AD.min();
 			time = (System.nanoTime()+time)/1000000000.0;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+AD.getClass().getName()+" running count..."+(i+1)+"\tTime: %.6fs\n",time);
+			"\t"+AD.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1000?"%.6f":"%.3fm")+"s\n",time*(time>1000?1000:1));
 			// if(CHECK_ANS) if(a != -1-1-1) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -1074,7 +1074,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+AD.getClass().getName()+" method min() "+
-			"average running time: %.6fs\n",averageTime);
+			"average running time: "+(averageTime>1000?"%.6f":"%.3fm")+"s\n",averageTime*(averageTime>1000?1000:1));
 		}
 		System.out.println("\tResault: "+AD.min());
 
@@ -1082,9 +1082,9 @@ public class Test{
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
 			time = -System.nanoTime();
 			result = AD.max();
-			time = (System.nanoTime()+time)/1e9;
+			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+AD.getClass().getName()+" running count..."+(i+1)+"\tTime: %.6fs\n",time);
+			"\t"+AD.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1000?"%.6f":"%.3fm")+"s\n",time*(time>1000?1000:1));
 			// if(CHECK_ANS) if(a != -1-1-1) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -1098,7 +1098,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+AD.getClass().getName()+" method max() "+
-			"average running time: %.6fs\n",averageTime);
+			"average running time: "+(averageTime>1000?"%.6f":"%.3fm")+"s\n",averageTime*(averageTime>1000?1000:1));
 		}
 		System.out.println("\tResault: "+AD.max());
 		System.out.println("End of timing "+AD.getClass().getName()+".\n");
@@ -1161,7 +1161,7 @@ public class Test{
 			return null;
 		}
 		System.out.printf("["+java.time.LocalDate.now() + " " + java.time.LocalTime.now() + "] "
-				+ Fastest.getClass().getName() + " is the fastest, cost: %.6fs\n", Fastest_Cost);
+				+ Fastest.getClass().getName() + " is the fastest, cost: "+(Fastest_Cost>1000?"%.6f":"%.3fm")+"s\n", Fastest_Cost*(Fastest_Cost>1000?1000:1));
 		return Fastest;
 	}
 
