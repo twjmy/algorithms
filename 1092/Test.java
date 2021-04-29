@@ -5,15 +5,17 @@
  */
 public class Test{
 	public static void main(final String[] args){
-		final Test test = new Test(5,true,false,false,System.getProperty("user.dir"));
-
-		test.loadData_Buy_Phone();
-		test.timing(new HW07_4108056020_1());
-		test.timing(new HW07_4108056020_2());
-		test.timing(new HW07_4108056020_3());
-		test.timing(new HW07_4108056020_4());
-		// test.timing(new HW07_4108056020_5());
+		final Test test = new Test(1,true,false,false,System.getProperty("user.dir"));
+		test.generateData_Buy_Phone_v2();// test.loadData_Buy_Phone_v2();
+		test.timing(new HW08_4108056020_1());
 		test.checkFastest();
+
+		// test.loadData_Buy_Phone();
+		// test.timing(new HW07_4108056020_1());
+		// test.timing(new HW07_4108056020_2());
+		// test.timing(new HW07_4108056020_3());
+		// test.timing(new HW07_4108056020_4());
+		// test.timing(new HW07_4108056020_5());
 
 		// test.generateData_LLK(64); // test.loadData_LLK();
 		// test.timing(new HW05_4108056001_1());
@@ -71,7 +73,218 @@ public class Test{
 	}
 
 	/**
-	 * The test data for {@link #timing(Buy_Phone)} while not assigned.
+	 * The test data for {@link #timing(Buy_Phone_v2, int[][])} while not assigned.
+	 *
+	 * @since 4.14
+	 * @see #timing(Buy_Phone_v2)
+	 */
+	public int[][] Buy_Phone_v2_test_data = null;
+
+	/**
+	 * Timing class {@link Buy_Phone_v2} by specific test data. If not assign, Load test data
+	 * automatically from {@code Buy_Phone_v2_test_data.txt} under {@link #PATH} setting while
+	 * construct.
+	 * <h3>When {@link #CHECK_ANS} ON only show result.</h3>
+	 *
+	 * @param BP {@link Buy_Phone_v2}
+	 * @return the result of last timing
+	 * @since 4.14
+	 * @see #Buy_Phone_v2_test_data
+	 * @see #timing(Buy_Phone_v2, int[][])
+	 * @see #loadData_Buy_Phone_v2()
+	 * @see #generateData_Buy_Phone_v2()
+	 */
+	public int[][] timing(final Buy_Phone_v2 BP){
+		if(Buy_Phone_v2_test_data == null) loadData_Buy_Phone_v2();
+		return timing(BP, Buy_Phone_v2_test_data);
+	}
+
+	/**
+	 * @param BP {@link Buy_Phone_v2}
+	 * @param TD test data of {@link Buy_Phone_v2}
+	 * @return the result of last timing
+	 * @since 4.14
+	 * @see #timing(Buy_Phone_v2)
+	 */
+	public int[][] timing(final Buy_Phone_v2 BP, final int[][] TD) {
+		System.out.println("Start timing method bestPhone() of "+BP.getClass().getName()+"...");
+		double totalCost = 0;
+		double time;
+		int[][] td, result = null;
+		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
+			td = java.util.Arrays.copyOf(TD,TD.length);
+			time = -System.nanoTime();
+			result = BP.bestPhone(td);
+			time = (System.nanoTime()+time)/1e6;
+			if(SHOW_COUNT) System.out.printf(
+			"\t"+BP.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
+			// if(CHECK_ANS) if(!result) totalCost = -1;
+			if(totalCost != -1) totalCost += time;
+		}
+		if(totalCost == -1) System.out.println(
+		"\t"+BP.getClass().getName()+" method bestPhone() Wrong Answer.");
+		else {
+			double averageTime = totalCost/RUN_TIME;
+			if(Fastest_Cost>averageTime) {
+				Fastest_Cost = averageTime;
+				Fastest = BP;
+			}
+			System.out.printf(
+			"\t"+BP.getClass().getName()+" method bestPhone() "+
+			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
+			if(CHECK_ANS){
+				final StringBuffer SB = new StringBuffer("\tResault: [");
+				for(final int[] i:result){
+					if(i==null) SB.append(",");
+					else SB.append(String.format("[%d,%d],",i[0],i[1]));
+				}
+				System.out.println(new StringBuffer(SB.substring(0,SB.length()-1)+"]"));
+			}
+		}
+		System.out.println("End of timing "+BP.getClass().getName()+".\n");
+		return result;
+	}
+
+	/**
+	 * Generate test data of {@link Buy_Phone_v2} and set {@link #Buy_Phone_v2_test_data}.
+	 * <p>File {@code Buy_Phone_v2_test_data.txt} will create or replace to the specific
+	 * directory(defaultly {@link #PATH}) automatically. It will NOT generate the
+	 * corresponding answer.
+	 * <h2>Check the answer by yourself
+	 *
+	 * @return test data of {@link Buy_Phone_v2}
+	 * @since 4.14
+	 * @see #Buy_Phone_v2_test_data
+	 * @see #generateData_Buy_Phone_v2(int, int, String)
+	 * @see #loadData_Buy_Phone_v2()
+	 * @see #timing(Buy_Phone_v2, int[][])
+	 */
+	public int[][] generateData_Buy_Phone_v2(){
+		return generateData_Buy_Phone_v2(1000);
+	}
+
+	/**
+	 * @param LEN  the length of the array to generate
+	 * @return test data of {@link Buy_Phone_v2}
+	 * @since 4.14
+	 * @see #generateData_Buy_Phone_v2()
+	 */
+	public int[][] generateData_Buy_Phone_v2(final int LEN){
+		return generateData_Buy_Phone_v2(LEN, 50001);
+	}
+
+	/**
+	 * @param LEN  the length of the array to generate
+	 * @param RANGE  {@code 0 ~ RANGE-1} in the array to generate
+	 * @return test data of {@link Buy_Phone_v2}
+	 * @see #generateData_Buy_Phone_v2()
+	 */
+	public int[][] generateData_Buy_Phone_v2(final int LEN, final int RANGE){
+		return generateData_Buy_Phone_v2(LEN, RANGE, PATH);
+	}
+
+	/**
+	 * @param LEN  the length of the array to generate
+	 * @param RANGE  {@code 0 ~ RANGE-1} in the array to generate
+	 * @param PATH  the directory for file {@code Buy_Phone_v2_test_data.txt} to save
+	 * @return test data of {@link Buy_Phone_v2}
+	 * @see #generateData_Buy_Phone_v2()
+	 */
+	public int[][] generateData_Buy_Phone_v2(final int LEN, final int RANGE, final String PATH){
+		System.out.println("Buy_Phone_v2 test data generating by size: " + LEN + ", range: 0 ~ " + (RANGE-1) + "...");
+		final java.util.List<Integer[]> test_data = new java.util.ArrayList<Integer[]>(LEN);
+		for(int i = -1; LEN > ++i;){
+			test_data.add(new Integer[]{
+				(int)(Math.random()*RANGE), (int)(Math.random()*RANGE),
+				(int)(Math.random()*RANGE), (int)(Math.random()*RANGE),
+				(int)(Math.random()*RANGE), (int)(Math.random()*RANGE)
+			});
+		}
+		try {
+			final java.io.File file = new java.io.File(PATH);
+			file.createNewFile();
+			System.out.println("Buy_Phone_v2 test data saving on: "+PATH+"\\Buy_Phone_v2_test_data.txt");
+			java.io.BufferedWriter bw = new java.io.BufferedWriter(
+				new java.io.FileWriter(new java.io.File(
+					PATH+"\\Buy_Phone_v2_test_data.txt"))
+			);
+			Buy_Phone_v2_test_data = new int[LEN][6];
+			for(int i = -1; LEN > ++i;){
+				Buy_Phone_v2_test_data[i] = new int[]{
+					test_data.get(i)[0], test_data.get(i)[1], test_data.get(i)[2],
+					test_data.get(i)[3], test_data.get(i)[4], test_data.get(i)[5]
+				};
+				bw.write(
+					Buy_Phone_v2_test_data[i][0]+" "+Buy_Phone_v2_test_data[i][1]+" "+
+					Buy_Phone_v2_test_data[i][2]+" "+Buy_Phone_v2_test_data[i][3]+" "+
+					Buy_Phone_v2_test_data[i][4]+" "+Buy_Phone_v2_test_data[i][5]+(i==LEN-1?"":"\r\n"));
+			}
+			bw.flush(); bw.close();
+		} catch (final java.io.IOException e) {
+		}
+		final int[][] result = new int[test_data.size()][];
+		for(int i = -1; test_data.size() > ++i;){
+			result[i] = new int[]{test_data.get(i)[0], test_data.get(i)[1]};
+			if(SHOW_TEST_DATA) System.out.println(
+				result[i][0]+" "+result[i][1]+" "+result[i][2]+" "+
+				result[i][3]+" "+result[i][4]+" "+result[i][5]
+			);
+		}
+		System.out.println("Buy_Phone_v2 test data and answer generated.");
+		return result;
+	}
+
+	/**
+	 * Load test data of {@link Buy_Phone_v2} from specific directory(defaultly
+	 * {@link #PATH}) and set {@link #Buy_Phone_v2_test_data}. The name of the file must be
+	 * {@code Buy_Phone_v2_test_data.txt}.
+	 *
+	 * @return test data of {@link Buy_Phone_v2}
+	 * @since 4.14
+	 * @see #Buy_Phone_v2_test_data
+	 * @see #loadData_Buy_Phone_v2(String)
+	 * @see #generateData_Buy_Phone_v2()
+	 * @see #timing(Buy_Phone_v2, int[][])
+	 */
+	public int[][] loadData_Buy_Phone_v2(){
+		return loadData_Buy_Phone_v2(PATH);
+	}
+
+	/**
+	 * @param PATH the directory of {@code Buy_Phone_v2_test_data.txt}
+	 * @return loaded test data of {@link Buy_Phone_v2}
+	 * @see #loadData_Buy_Phone_v2()
+	 */
+	public int[][] loadData_Buy_Phone_v2(final String PATH){
+		System.out.println("Buy_Phone_v2 test data loading from: " + PATH + "\\Buy_Phone_v2_test_data.txt");
+		java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
+		try {
+			final java.io.BufferedReader br = new java.io.BufferedReader(
+					new java.io.InputStreamReader(new java.io.FileInputStream(PATH + "\\Buy_Phone_v2_test_data.txt")));
+			String[] line;
+			while(br.ready() && (line = br.readLine().split(" ")) != null){
+				data.add(new Integer[]{
+					Integer.valueOf(line[0]), Integer.valueOf(line[1]),
+					Integer.valueOf(line[2]), Integer.valueOf(line[3]),
+					Integer.valueOf(line[4]), Integer.valueOf(line[5])
+				});
+			}
+			br.close();
+		} catch (final java.io.IOException e) {
+			System.out.println("\"Buy_Phone_v2_test_data.txt\" file not found.");
+			System.exit(0);
+		}
+		Buy_Phone_v2_test_data = new int[data.size()][2];
+		for(int i = -1; data.size() > ++i;){
+			Buy_Phone_v2_test_data[i][0] = data.get(i)[0].intValue(); Buy_Phone_v2_test_data[i][1] = data.get(i)[1].intValue();
+			if(SHOW_TEST_DATA) System.out.println("("+Buy_Phone_v2_test_data[i][0]+","+Buy_Phone_v2_test_data[i][1]+")");
+		}
+		System.out.println("Buy_Phone_v2 test data initialized. Array length: "+Buy_Phone_v2_test_data.length);
+		return Buy_Phone_v2_test_data;
+	}
+
+	/**
+	 * The test data for {@link #timing(Buy_Phone, int[][])} while not assigned.
 	 *
 	 * @since 4.14
 	 * @see #timing(Buy_Phone)
@@ -80,7 +293,7 @@ public class Test{
 
 	/**
 	 * Timing class {@link Buy_Phone} by specific test data. If not assign, Load test data
-	 * automatically from {@code LLK_data_ans.txt} under {@link #PATH} setting while
+	 * automatically from {@code Buy_Phone_test.txt} under {@link #PATH} setting while
 	 * construct.
 	 * <h3>When {@link #CHECK_ANS} ON only show result.</h3>
 	 *
@@ -88,7 +301,7 @@ public class Test{
 	 * @return the result of last timing
 	 * @since 4.14
 	 * @see #Buy_Phone_test_data
-	 * @see #timing(Buy_Phone, int[])
+	 * @see #timing(Buy_Phone, int[][])
 	 * @see #loadData_Buy_Phone()
 	 * @see #generateData_Buy_Phone()
 	 */
@@ -115,7 +328,7 @@ public class Test{
 			result = BP.bestPhone(td);
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+BP.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1000?"%.6f":"%.3fm")+"s\n",time*(time>1000?1000:1));
+			"\t"+BP.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
 			// if(CHECK_ANS) if(!result) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -129,7 +342,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+BP.getClass().getName()+" method bestPhone() "+
-			"average running time: "+(averageTime>1000?"%.6f":"%.3fm")+"s\n",averageTime*(averageTime>1000?1000:1));
+			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 			if(CHECK_ANS){
 				final StringBuffer SB = new StringBuffer("\tResault: [");
 				for(final int[] i:result){
@@ -155,7 +368,7 @@ public class Test{
 	 * @see #Buy_Phone_test_data
 	 * @see #generateData_Buy_Phone(int, int, String)
 	 * @see #loadData_Buy_Phone()
-	 * @see #timing(Buy_Phone, int[])
+	 * @see #timing(Buy_Phone, int[][])
 	 */
 	public int[][] generateData_Buy_Phone(){
 		return generateData_Buy_Phone(1000);
@@ -230,7 +443,7 @@ public class Test{
 	 * @see #Buy_Phone_test_data
 	 * @see #loadData_Buy_Phone(String)
 	 * @see #generateData_Buy_Phone()
-	 * @see #timing(Buy_Phone, int[])
+	 * @see #timing(Buy_Phone, int[][])
 	 */
 	public int[][] loadData_Buy_Phone(){
 		return loadData_Buy_Phone(PATH);
@@ -267,7 +480,7 @@ public class Test{
 	}
 
 	/**
-	 * The test data for {@link #timing(LLK, int[])} while not assigned.
+	 * The test data for {@link #timing(LLK, int[][])} while not assigned.
 	 *
 	 * @since 3.31
 	 * @see #timing(LLK)
@@ -276,7 +489,7 @@ public class Test{
 
 	/**
 	 * Timing class {@link LLK} by specific test data. If not assign, Load test data
-	 * automatically from {@code LLK_data_ans.txt} under {@link #PATH} setting while
+	 * automatically from {@code LLK_test_data.txt} under {@link #PATH} setting while
 	 * construct.
 	 * <h3>When {@link #CHECK_ANS} ON only show result.</h3>
 	 *
@@ -284,7 +497,7 @@ public class Test{
 	 * @return the result of last timing
 	 * @since 3.31
 	 * @see #LLK_test_data
-	 * @see #timing(LLK, int[])
+	 * @see #timing(LLK, int[][])
 	 * @see #loadData_LLK()
 	 * @see #generateData_LLK()
 	 */
@@ -311,7 +524,7 @@ public class Test{
 			result = Llk.checkLLK(td);
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+Llk.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1000?"%.6f":"%.3fm")+"s\n",time*(time>1000?1000:1));
+			"\t"+Llk.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
 			// if(CHECK_ANS) if(!result) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -325,7 +538,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+Llk.getClass().getName()+" method checkLLK() "+
-			"average running time: "+(averageTime>1000?"%.6f":"%.3fm")+"s\n",averageTime*(averageTime>1000?1000:1));
+			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 			if(CHECK_ANS) System.out.println("\tResault: "+result);
 		}
 		System.out.println("End of timing "+Llk.getClass().getName()+".\n");
@@ -344,7 +557,7 @@ public class Test{
 	 * @see #LLK_test_data
 	 * @see #generateData_LLK(int, int, String)
 	 * @see #loadData_LLK()
-	 * @see #timing(LLK, int[])
+	 * @see #timing(LLK, int[][])
 	 */
 	public int[][] generateData_LLK(){
 		return generateData_LLK(10000);
@@ -420,7 +633,7 @@ public class Test{
 	 * @see #LLK_test_data
 	 * @see #loadData_LLK(String)
 	 * @see #generateData_LLK()
-	 * @see #timing(LLK, int[])
+	 * @see #timing(LLK, int[][])
 	 */
 	public int[][] loadData_LLK(){
 		return loadData_LLK(PATH);
@@ -458,7 +671,7 @@ public class Test{
 
 	/**
 	 * The answer for check and break loop in
-	 * {@link #timing(HillFinding, int[])} while switch
+	 * {@link #timing(One_0k_rock, String[])} while switch
 	 * {@link #CHECK_ANS} on.
 	 * @since 3.24
 	 * @see #timing(One_0k_rock, String[])
@@ -513,7 +726,7 @@ public class Test{
 			result = O0r.one0k(td);
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+O0r.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1000?"%.6f":"%.3fm")+"s\n",time*(time>1000?1000:1));
+			"\t"+O0r.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
 			if(CHECK_ANS && One_0k_rock_ans != null)
 			 for(int c = -1; ++c < One_0k_rock_ans.length;)
 			  if(result[c] != One_0k_rock_ans[c]){
@@ -532,7 +745,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+O0r.getClass().getName()+" method one0k() "+
-			"average running time: "+(averageTime>1000?"%.6f":"%.3fm")+"s\n",averageTime*(averageTime>1000?1000:1));
+			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 		}
 		if(CHECK_ANS) System.out.println("\tResault: " + java.util.Arrays.toString(result) + "\n\tCorrect: "
 					+ java.util.Arrays.toString(One_0k_rock_ans));
@@ -771,7 +984,7 @@ public class Test{
 			result = HF.H_Finding(td);
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+HF.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1000?"%.6f":"%.3fm")+"s\n",time*(time>1000?1000:1));
+			"\t"+HF.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
 			if(CHECK_ANS) if(HillFinding_ans != -2 && result != HillFinding_ans) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -785,7 +998,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+HF.getClass().getName()+" method H_Finding() "+
-			"average running time: "+(averageTime>1000?"%.6f":"%.3fm")+"s\n",averageTime*(averageTime>1000?1000:1));
+			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 		}
 		if(CHECK_ANS) System.out.println("\tResault: "+result+", Correct: "+HillFinding_ans);
 		System.out.println("End of timing "+HF.getClass().getName()+".\n");
@@ -1043,9 +1256,9 @@ public class Test{
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
 			time = -System.nanoTime();
 			result = AD.min();
-			time = (System.nanoTime()+time)/1000000000.0;
+			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+AD.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1000?"%.6f":"%.3fm")+"s\n",time*(time>1000?1000:1));
+			"\t"+AD.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
 			// if(CHECK_ANS) if(a != -1-1-1) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -1059,7 +1272,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+AD.getClass().getName()+" method min() "+
-			"average running time: "+(averageTime>1000?"%.6f":"%.3fm")+"s\n",averageTime*(averageTime>1000?1000:1));
+			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 		}
 		System.out.println("\tResault: "+result);
 
@@ -1069,7 +1282,7 @@ public class Test{
 			result = AD.max();
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+AD.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1000?"%.6f":"%.3fm")+"s\n",time*(time>1000?1000:1));
+			"\t"+AD.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
 			// if(CHECK_ANS) if(a != -1-1-1) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -1083,7 +1296,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+AD.getClass().getName()+" method max() "+
-			"average running time: "+(averageTime>1000?"%.6f":"%.3fm")+"s\n",averageTime*(averageTime>1000?1000:1));
+			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 		}
 		System.out.println("\tResault: "+result);
 		System.out.println("End of timing "+AD.getClass().getName()+".\n");
@@ -1146,7 +1359,7 @@ public class Test{
 			return null;
 		}
 		System.out.printf("["+java.time.LocalDate.now() + " " + java.time.LocalTime.now() + "] "
-				+ Fastest.getClass().getName() + " is the fastest, cost: "+(Fastest_Cost>1000?"%.6f":"%.3fm")+"s\n", Fastest_Cost*(Fastest_Cost>1000?1000:1));
+				+ Fastest.getClass().getName() + " is the fastest, cost: "+(Fastest_Cost>1e3?"%.6f":"%.3fm")+"s\n", Fastest_Cost/(Fastest_Cost>1e3?1e3:1));
 		return Fastest;
 	}
 
