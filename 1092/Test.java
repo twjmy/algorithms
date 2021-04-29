@@ -6,7 +6,7 @@
 public class Test{
 	public static void main(final String[] args){
 		final Test test = new Test(1,true,false,false,System.getProperty("user.dir"));
-		test.generateData_Buy_Phone_v2();// test.loadData_Buy_Phone_v2();
+		test.loadData_Buy_Phone_v2();// test.generateData_Buy_Phone_v2();
 		test.timing(new HW08_4108056020_1());
 		test.checkFastest();
 
@@ -136,9 +136,9 @@ public class Test{
 				final StringBuffer SB = new StringBuffer("\tResault: [");
 				for(final int[] i:result){
 					if(i==null) SB.append(",");
-					else SB.append(String.format("[%d,%d],",i[0],i[1]));
+					else SB.append(String.format("[%d,%d,%d,%d,%d,%d],",i[0],i[1],i[2],i[3],i[4],i[5]));
 				}
-				System.out.println(new StringBuffer(SB.substring(0,SB.length()-1)+"]"));
+				System.out.println(SB.substring(0,SB.length()-1)+"]");
 			}
 		}
 		System.out.println("End of timing "+BP.getClass().getName()+".\n");
@@ -208,7 +208,7 @@ public class Test{
 				new java.io.FileWriter(new java.io.File(
 					PATH+"\\Buy_Phone_v2_test_data.txt"))
 			);
-			Buy_Phone_v2_test_data = new int[LEN][6];
+			Buy_Phone_v2_test_data = new int[LEN][];
 			for(int i = -1; LEN > ++i;){
 				Buy_Phone_v2_test_data[i] = new int[]{
 					test_data.get(i)[0], test_data.get(i)[1], test_data.get(i)[2],
@@ -224,7 +224,11 @@ public class Test{
 		}
 		final int[][] result = new int[test_data.size()][];
 		for(int i = -1; test_data.size() > ++i;){
-			result[i] = new int[]{test_data.get(i)[0], test_data.get(i)[1]};
+			result[i] = new int[]{
+				test_data.get(i)[0], test_data.get(i)[1],
+				test_data.get(i)[2], test_data.get(i)[3],
+				test_data.get(i)[4], test_data.get(i)[5]
+			};
 			if(SHOW_TEST_DATA) System.out.println(
 				result[i][0]+" "+result[i][1]+" "+result[i][2]+" "+
 				result[i][3]+" "+result[i][4]+" "+result[i][5]
@@ -274,10 +278,18 @@ public class Test{
 			System.out.println("\"Buy_Phone_v2_test_data.txt\" file not found.");
 			System.exit(0);
 		}
-		Buy_Phone_v2_test_data = new int[data.size()][2];
+		Buy_Phone_v2_test_data = new int[data.size()][];
 		for(int i = -1; data.size() > ++i;){
-			Buy_Phone_v2_test_data[i][0] = data.get(i)[0].intValue(); Buy_Phone_v2_test_data[i][1] = data.get(i)[1].intValue();
-			if(SHOW_TEST_DATA) System.out.println("("+Buy_Phone_v2_test_data[i][0]+","+Buy_Phone_v2_test_data[i][1]+")");
+			Buy_Phone_v2_test_data[i] = new int[]{
+				data.get(i)[0].intValue(), data.get(i)[1].intValue(),
+				data.get(i)[2].intValue(), data.get(i)[3].intValue(),
+				data.get(i)[4].intValue(), data.get(i)[5].intValue()
+			};
+			if(SHOW_TEST_DATA) System.out.println(
+				Buy_Phone_v2_test_data[i][0]+" "+Buy_Phone_v2_test_data[i][1]+" "+
+				Buy_Phone_v2_test_data[i][2]+" "+Buy_Phone_v2_test_data[i][3]+" "+
+				Buy_Phone_v2_test_data[i][4]+" "+Buy_Phone_v2_test_data[i][5]+" "
+			);
 		}
 		System.out.println("Buy_Phone_v2 test data initialized. Array length: "+Buy_Phone_v2_test_data.length);
 		return Buy_Phone_v2_test_data;
