@@ -1,6 +1,6 @@
 /**<!--미안해...노정훤-->
  * NCHU CSE 1092 algorithm homework local test class
- * @version 4.25
+ * @version 4.29
  * @author twjmy@msn.com
  */
 public class Test{
@@ -12,7 +12,7 @@ public class Test{
 		test.timing(new HW07_4108056020_2());
 		test.timing(new HW07_4108056020_3());
 		test.timing(new HW07_4108056020_4());
-		test.timing(new HW07_4108056020_5());
+		// test.timing(new HW07_4108056020_5());
 		test.checkFastest();
 
 		// test.generateData_LLK(64); // test.loadData_LLK();
@@ -26,7 +26,6 @@ public class Test{
 		// test.timing(new HW05_4108056012_4());
 		// test.timing(new HW05_4108056012__4());
 		// test.timing(new HW05_4108056020_hash_gcd());
-		// test.timing(new PCL4107056019_2021());
 		// test.timing(new HW05_4108056020_1());
 		// test.timing(new HW05_4108056020_2());
 		// test.timing(new HW05_4108056020_3());
@@ -36,6 +35,7 @@ public class Test{
 		// test.timing(new HW05_4108056021_2());
 		// test.timing(new HW05_4108056038_1_());
 		// test.timing(new HW05_4108056038_1());
+		// test.timing(new PCL4107056019_2021());
 		// test.timing(new PCL4107056019__2021());
 		// test.timing(new PCL4107056019_2021());
 		// test.timing(new PCL4107056019());
@@ -82,7 +82,7 @@ public class Test{
 	 * Timing class {@link Buy_Phone} by specific test data. If not assign, Load test data
 	 * automatically from {@code LLK_data_ans.txt} under {@link #PATH} setting while
 	 * construct.
-	 * <h3>When {@link #CHECK_ANS} ON only show result.
+	 * <h3>When {@link #CHECK_ANS} ON only show result.</h3>
 	 *
 	 * @param BP {@link Buy_Phone}
 	 * @return the result of last timing
@@ -108,10 +108,11 @@ public class Test{
 		System.out.println("Start to timing "+BP.getClass()+" function bestPhone()...");
 		double totalCost = 0;
 		double time;
-		int[][] result = null;
+		int[][] td, result = null;
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
+			td = java.util.Arrays.copyOf(TD,TD.length);
 			time = -System.nanoTime();
-			result = BP.bestPhone(TD);
+			result = BP.bestPhone(td);
 			time = (System.nanoTime()+time)/1e9;
 			if(SHOW_COUNT) System.out.printf(
 			"\t"+BP.getClass()+" running count..."+(i+1)+"\tTime: %.6fs\n",time);
@@ -167,7 +168,7 @@ public class Test{
 	 * @see #generateData_Buy_Phone()
 	 */
 	public int[][] generateData_Buy_Phone(final int LEN){
-		return generateData_Buy_Phone(LEN, Integer.MAX_VALUE);
+		return generateData_Buy_Phone(LEN, 50001);
 	}
 
 	/**
@@ -277,7 +278,7 @@ public class Test{
 	 * Timing class {@link LLK} by specific test data. If not assign, Load test data
 	 * automatically from {@code LLK_data_ans.txt} under {@link #PATH} setting while
 	 * construct.
-	 * <h3>When {@link #CHECK_ANS} ON only show result.
+	 * <h3>When {@link #CHECK_ANS} ON only show result.</h3>
 	 *
 	 * @param llk {@link LLK}
 	 * @return the result of last timing
@@ -303,10 +304,11 @@ public class Test{
 		System.out.println("Start to timing "+Llk.getClass()+" function checkLLK()...");
 		double totalCost = 0;
 		double time;
-		boolean result = false;
+		int[][] td; boolean result = false;
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
+			td = java.util.Arrays.copyOf(TD,TD.length);
 			time = -System.nanoTime();
-			result = Llk.checkLLK(TD);
+			result = Llk.checkLLK(td);
 			time = (System.nanoTime()+time)/1e9;
 			if(SHOW_COUNT) System.out.printf(
 			"\t"+Llk.getClass()+" running count..."+(i+1)+"\tTime: %.6fs\n",time);
@@ -504,29 +506,11 @@ public class Test{
 		System.out.println("Start timing "+O0r.getClass()+" function one0k()...");
 		double totalCost = 0;
 		double time = 0;
-		boolean[] result = null;
+		String[] td; boolean[] result = null;
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
-			if(CHECK_ANS && One_0k_rock_ans == null && i==0){
-				System.out.println("One_0k_rock test data answer loading from: "+PATH+"\\One_0k_rock_test_data_ans.txt");
-				try {
-					final java.io.BufferedReader br = new java.io.BufferedReader(
-					new java.io.InputStreamReader(new java.io.FileInputStream(PATH+"\\One_0k_rock_test_data_ans.txt")));
-					String line;
-					One_0k_rock_ans = new boolean[TD.length];
-					System.out.println("Correct answer:");
-					for(int r=0; br.ready() && (line = br.readLine()) != null;r++){
-						System.out.println(line);
-						One_0k_rock_ans[r] = Boolean.valueOf(line);
-					}
-					br.close();
-				} catch (final java.io.FileNotFoundException e) {
-					System.out.println("\"One_0k_rock_test_data_ans.txt\" file not found.");
-					System.exit(0);
-				} catch (final java.io.IOException e) {
-				}
-			}
+			td = java.util.Arrays.copyOf(TD,TD.length);
 			time = -System.nanoTime();
-			result = O0r.one0k(TD);
+			result = O0r.one0k(td);
 			time = (System.nanoTime()+time)/1e9;
 			if(SHOW_COUNT) System.out.printf(
 			"\t"+O0r.getClass()+" running count..."+(i+1)+"\tTime: %.6fs\n",time);
@@ -1174,7 +1158,7 @@ public class Test{
 	public Object checkFastest(){
 		if(Fastest == null) return null;
 		System.out.printf("["+java.time.LocalDate.now() + " " + java.time.LocalTime.now() + "] "
-				+ Fastest.getClass() + " is the fastest, cost: %.6fs", Fastest_Cost);
+				+ Fastest.getClass() + " is the fastest, cost: %.6fs\n", Fastest_Cost);
 		return Fastest;
 	}
 
