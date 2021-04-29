@@ -1,6 +1,6 @@
 /**<!--미안해...노정훤-->
  * NCHU CSE 1092 algorithm homework local test class
- * @version 4.29.17.00
+ * @version 4.29.20.19
  * @author twjmy@msn.com
  */
 public class Test{
