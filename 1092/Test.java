@@ -1,13 +1,16 @@
 /**<!--미안해...노정훤-->
  * NCHU CSE 1092 algorithm homework local test class
- * @version 4.29.14.15
+ * @version 4.29.17.00
  * @author twjmy@msn.com
  */
 public class Test{
 	public static void main(final String[] args){
-		final Test test = new Test(1,true,false,false,System.getProperty("user.dir"));
+		final Test test = new Test(1,"matrix",false,false,System.getProperty("user.dir"));
+
 		test.loadData_Buy_Phone_v2();// test.generateData_Buy_Phone_v2();
-		test.timing(new HW08_4108056020_1());
+		// test.timing(new HW08_4108056020_1());
+		test.timing(new HW08_4108056020_2());
+		test.timing(new HW08_4108056020_3());
 		test.checkFastest();
 
 		// test.loadData_Buy_Phone();
@@ -118,7 +121,7 @@ public class Test{
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
 			"\t"+BP.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
-			// if(CHECK_ANS) if(!result) totalCost = -1;
+			// if(CHECK_ANS!=null) if(!result) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
 		if(totalCost == -1) System.out.println(
@@ -132,13 +135,18 @@ public class Test{
 			System.out.printf(
 			"\t"+BP.getClass().getName()+" method bestPhone() "+
 			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
-			if(CHECK_ANS){
-				final StringBuffer SB = new StringBuffer("\tResault: [");
-				for(final int[] i:result){
-					if(i==null) SB.append(",");
-					else SB.append(String.format("[%d,%d,%d,%d,%d,%d],",i[0],i[1],i[2],i[3],i[4],i[5]));
-				}
-				System.out.println(SB.substring(0,SB.length()-1)+"]");
+			switch(CHECK_ANS){
+				case "matrix","square": 
+					final StringBuffer SB = new StringBuffer("\tResult: \n");
+					for(final int[] i:result){
+						SB.append("\t\t");
+						if(i==null) SB.append("null");
+						else for(final int j:i) SB.append(j+" ");
+						SB.append("\n");
+					}
+					System.out.println(SB);
+					break;
+				case "default": System.out.println("\tResult: "+java.util.Arrays.deepToString(result));
 			}
 		}
 		System.out.println("End of timing "+BP.getClass().getName()+".\n");
@@ -341,7 +349,7 @@ public class Test{
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
 			"\t"+BP.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
-			// if(CHECK_ANS) if(!result) totalCost = -1;
+			// if(CHECK_ANS!=null) if(!result) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
 		if(totalCost == -1) System.out.println(
@@ -355,13 +363,18 @@ public class Test{
 			System.out.printf(
 			"\t"+BP.getClass().getName()+" method bestPhone() "+
 			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
-			if(CHECK_ANS){
-				final StringBuffer SB = new StringBuffer("\tResault: [");
-				for(final int[] i:result){
-					if(i==null) SB.append(",");
-					else SB.append(String.format("[%d,%d],",i[0],i[1]));
-				}
-				System.out.println(new StringBuffer(SB.substring(0,SB.length()-1)+"]"));
+			switch(CHECK_ANS){
+				case "matrix","square": 
+					final StringBuffer SB = new StringBuffer("\tResult: \n");
+					for(final int[] i:result){
+						SB.append("\t\t");
+						if(i==null) SB.append("null");
+						else for(final int j:i) SB.append(j+" ");
+						SB.append("\n");
+					}
+					System.out.println(SB);
+					break;
+				case "default": System.out.println("\tResult: "+java.util.Arrays.deepToString(result));
 			}
 		}
 		System.out.println("End of timing "+BP.getClass().getName()+".\n");
@@ -537,7 +550,7 @@ public class Test{
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
 			"\t"+Llk.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
-			// if(CHECK_ANS) if(!result) totalCost = -1;
+			// if(CHECK_ANS!=null) if(!result) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
 		if(totalCost == -1) System.out.println(
@@ -551,7 +564,7 @@ public class Test{
 			System.out.printf(
 			"\t"+Llk.getClass().getName()+" method checkLLK() "+
 			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
-			if(CHECK_ANS) System.out.println("\tResault: "+result);
+			if(CHECK_ANS!=null) System.out.println("\tResult: "+result);
 		}
 		System.out.println("End of timing "+Llk.getClass().getName()+".\n");
 		return result;
@@ -739,7 +752,7 @@ public class Test{
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
 			"\t"+O0r.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
-			if(CHECK_ANS && One_0k_rock_ans != null)
+			if(CHECK_ANS != null && One_0k_rock_ans != null)
 			 for(int c = -1; ++c < One_0k_rock_ans.length;)
 			  if(result[c] != One_0k_rock_ans[c]){
 				totalCost = -1;
@@ -759,7 +772,7 @@ public class Test{
 			"\t"+O0r.getClass().getName()+" method one0k() "+
 			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 		}
-		if(CHECK_ANS) System.out.println("\tResault: " + java.util.Arrays.toString(result) + "\n\tCorrect: "
+		if(CHECK_ANS!=null) System.out.println("\tResult: " + java.util.Arrays.toString(result) + "\n\tCorrect: "
 					+ java.util.Arrays.toString(One_0k_rock_ans));
 		System.out.println("End of timing "+O0r.getClass().getName()+".\n");
 		return result;
@@ -997,7 +1010,7 @@ public class Test{
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
 			"\t"+HF.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
-			if(CHECK_ANS) if(HillFinding_ans != -2 && result != HillFinding_ans) totalCost = -1;
+			if(CHECK_ANS!=null) if(HillFinding_ans != -2 && result != HillFinding_ans) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
 		if(totalCost == -1) System.out.println(
@@ -1012,7 +1025,7 @@ public class Test{
 			"\t"+HF.getClass().getName()+" method H_Finding() "+
 			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 		}
-		if(CHECK_ANS) System.out.println("\tResault: "+result+", Correct: "+HillFinding_ans);
+		if(CHECK_ANS!=null) System.out.println("\tResult: "+result+", Correct: "+HillFinding_ans);
 		System.out.println("End of timing "+HF.getClass().getName()+".\n");
 		return result;
 	}
@@ -1185,7 +1198,7 @@ public class Test{
 			time = (System.nanoTime() + time) / 1e6;
 			if(SHOW_COUNT) System.out.printf(
 			"\t"+TS.getClass().getName()+" running count..."+(i+1)+"\tTime: %.7fs\n",time);
-			// if(CHECK_ANS) if(result != 1338261) totalCost = -1;
+			// if(CHECK_ANS!=null) if(result != 1338261) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
 		if(totalCost == -1) System.out.println(
@@ -1200,7 +1213,7 @@ public class Test{
 			"\t"+TS.getClass().getName()+" method T_Sum() "+
 			"average running time: %.7fs\n",averageTime);
 		}
-		if(CHECK_ANS) System.out.println("\tResault: "+result);// +", Correct: 1338261");
+		if(CHECK_ANS!=null) System.out.println("\tResult: "+result);// +", Correct: 1338261");
 		System.out.println("End of timing "+TS.getClass().getName()+".\n");
 		return result;
 	}
@@ -1271,10 +1284,10 @@ public class Test{
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
 			"\t"+AD.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
-			// if(CHECK_ANS) if(a != -1-1-1) totalCost = -1;
+			// if(CHECK_ANS!=null) if(a != -1-1-1) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
-		if(CHECK_ANS && totalCost == -1) System.out.println(
+		if(CHECK_ANS != null && totalCost == -1) System.out.println(
 		"\t"+AD.getClass().getName()+" method min() Wrong Answer.");
 		else {
 			double averageTime = totalCost/RUN_TIME;
@@ -1286,7 +1299,7 @@ public class Test{
 			"\t"+AD.getClass().getName()+" method min() "+
 			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 		}
-		System.out.println("\tResault: "+result);
+		System.out.println("\tResult: "+result);
 
 		System.out.println("Start timing "+AD.getClass().getName()+" method max()...");
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
@@ -1295,10 +1308,10 @@ public class Test{
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
 			"\t"+AD.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
-			// if(CHECK_ANS) if(a != -1-1-1) totalCost = -1;
+			// if(CHECK_ANS!=null) if(a != -1-1-1) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
-		if(CHECK_ANS && totalCost == -1) System.out.println(
+		if(CHECK_ANS != null && totalCost == -1) System.out.println(
 		"\t"+AD.getClass().getName()+" method max() Wrong Answer.");
 		else {
 			double averageTime = totalCost/RUN_TIME;
@@ -1310,7 +1323,7 @@ public class Test{
 			"\t"+AD.getClass().getName()+" method max() "+
 			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 		}
-		System.out.println("\tResault: "+result);
+		System.out.println("\tResult: "+result);
 		System.out.println("End of timing "+AD.getClass().getName()+".\n");
 		return result;
 	}
@@ -1392,7 +1405,7 @@ public class Test{
 	/** The times of running for calculating average running time */
 	public final int RUN_TIME;
 	/** Switch of show answer and break timming loop when wrong answer */
-	public final boolean CHECK_ANS;
+	public final String CHECK_ANS;
 	/** Switch of show the cost of every running */
 	public final boolean SHOW_COUNT;
 	/** Switch of show the test data you use */
@@ -1428,7 +1441,7 @@ public class Test{
 	 *
 	 * <pre>
 	 * final int RUN_TIME = 10;
-	 * final boolean CHECK_ANS = false;
+	 * final String CHECK_ANS = null;//print by java
 	 * final boolean SHOW_COUNT = false;
 	 * final boolean SHOW_TEST_DATA = false;
 	 * final String PATH = System.getProperty("user.dir");// current workspace.
@@ -1472,7 +1485,7 @@ public class Test{
 	 * @see #Test()
 	 */
 	public Test(final int RUN_TIME, final boolean ALL){
-		this(RUN_TIME, ALL, ALL, ALL);
+		this(RUN_TIME, null, ALL, ALL);
 	}
 
 	/**
@@ -1502,7 +1515,7 @@ public class Test{
 	 * @see #Test()
 	 */
 	public Test(final int RUN_TIME, final boolean ALL, final String PATH){
-		this(RUN_TIME, ALL, ALL, ALL, PATH);
+		this(RUN_TIME, null, ALL, ALL, PATH);
 	}
 
 	/**
@@ -1511,7 +1524,7 @@ public class Test{
 	 * @param SHOW_TEST_DATA the value to be set for {@link #SHOW_TEST_DATA}
 	 * @see #Test()
 	 */
-	public Test(final boolean CHECK_ANS, final boolean SHOW_COUNT, final boolean SHOW_TEST_DATA){
+	public Test(final String CHECK_ANS, final boolean SHOW_COUNT, final boolean SHOW_TEST_DATA){
 		this(10,CHECK_ANS, SHOW_COUNT, SHOW_TEST_DATA);
 	}
 
@@ -1522,7 +1535,7 @@ public class Test{
 	 * @param SHOW_TEST_DATA the value to be set for {@link #SHOW_TEST_DATA}
 	 * @see #Test()
 	 */
-	public Test(final int RUN_TIME, final boolean CHECK_ANS, final boolean SHOW_COUNT, final boolean SHOW_TEST_DATA){
+	public Test(final int RUN_TIME, final String CHECK_ANS, final boolean SHOW_COUNT, final boolean SHOW_TEST_DATA){
 		this(RUN_TIME,CHECK_ANS, SHOW_COUNT, SHOW_TEST_DATA, System.getProperty("user.dir"));
 	}
 
@@ -1533,7 +1546,7 @@ public class Test{
 	 * @param PATH the value to be set for {@link #PATH}
 	 * @see #Test()
 	 */
-	public Test(final boolean CHECK_ANS, final boolean SHOW_COUNT, final boolean SHOW_TEST_DATA, final String PATH){
+	public Test(final String CHECK_ANS, final boolean SHOW_COUNT, final boolean SHOW_TEST_DATA, final String PATH){
 		this(10,CHECK_ANS, SHOW_COUNT, SHOW_TEST_DATA,PATH);
 	}
 
@@ -1545,12 +1558,17 @@ public class Test{
 	 * @param PATH the value to be set for {@link #PATH}
 	 * @see #Test()
 	 */
-	public Test(final int RUN_TIME, final boolean CHECK_ANS, final boolean SHOW_COUNT, final boolean SHOW_TEST_DATA, final String PATH){
+	public Test(final int RUN_TIME, final String CHECK_ANS, final boolean SHOW_COUNT, final boolean SHOW_TEST_DATA, final String PATH){
 		this.RUN_TIME=RUN_TIME; this.PATH=PATH;
-		this.CHECK_ANS=CHECK_ANS; this.SHOW_COUNT=SHOW_COUNT; this.SHOW_TEST_DATA=SHOW_TEST_DATA;
+		this.SHOW_COUNT=SHOW_COUNT; this.SHOW_TEST_DATA=SHOW_TEST_DATA;
 		System.out.println(this.getClass().getName()+": Path: " + PATH);
 		System.out.println(this.getClass().getName()+": Run times of every method: "+RUN_TIME);
 		if(SHOW_COUNT) System.out.println(this.getClass().getName()+": Show count status.");
-		if(CHECK_ANS) System.out.println(this.getClass().getName()+": Check answers.");
+		switch(CHECK_ANS.toLowerCase()){
+			case "default","matrix","square":
+				System.out.println(this.getClass().getName()+": Check answers in format '"+CHECK_ANS+"''.");
+				this.CHECK_ANS=CHECK_ANS.toLowerCase(); break;
+			default: this.CHECK_ANS=null;
+		}
 	}
 }
