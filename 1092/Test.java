@@ -11,6 +11,8 @@ public class Test{
 		// test.timing(new HW08_4108056020_1());
 		test.timing(new HW08_4108056020_2());
 		test.timing(new HW08_4108056020_3());
+		test.timing(new HW08_4108056020_4());
+		test.timing(new HW08_4108056020_5());
 		test.checkFastest();
 
 		// test.loadData_Buy_Phone();
@@ -127,7 +129,7 @@ public class Test{
 		if(totalCost == -1) System.out.println(
 		"\t"+BP.getClass().getName()+" method bestPhone() Wrong Answer.");
 		else {
-			double averageTime = totalCost/RUN_TIME;
+			final double averageTime = totalCost/RUN_TIME;
 			if(Fastest_Cost>averageTime) {
 				Fastest_Cost = averageTime;
 				Fastest = BP;
@@ -212,7 +214,7 @@ public class Test{
 			final java.io.File file = new java.io.File(PATH);
 			file.createNewFile();
 			System.out.println("Buy_Phone_v2 test data saving on: "+PATH+"\\Buy_Phone_v2_test_data.txt");
-			java.io.BufferedWriter bw = new java.io.BufferedWriter(
+			final java.io.BufferedWriter bw = new java.io.BufferedWriter(
 				new java.io.FileWriter(new java.io.File(
 					PATH+"\\Buy_Phone_v2_test_data.txt"))
 			);
@@ -269,7 +271,7 @@ public class Test{
 	 */
 	public int[][] loadData_Buy_Phone_v2(final String PATH){
 		System.out.println("Buy_Phone_v2 test data loading from: " + PATH + "\\Buy_Phone_v2_test_data.txt");
-		java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
+		final java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
 		try {
 			final java.io.BufferedReader br = new java.io.BufferedReader(
 					new java.io.InputStreamReader(new java.io.FileInputStream(PATH + "\\Buy_Phone_v2_test_data.txt")));
@@ -355,7 +357,7 @@ public class Test{
 		if(totalCost == -1) System.out.println(
 		"\t"+BP.getClass().getName()+" method bestPhone() Wrong Answer.");
 		else {
-			double averageTime = totalCost/RUN_TIME;
+			final double averageTime = totalCost/RUN_TIME;
 			if(Fastest_Cost>averageTime) {
 				Fastest_Cost = averageTime;
 				Fastest = BP;
@@ -437,7 +439,7 @@ public class Test{
 			final java.io.File file = new java.io.File(PATH);
 			file.createNewFile();
 			System.out.println("Buy_Phone test data saving on: "+PATH+"\\Buy_Phone_test_data.txt");
-			java.io.BufferedWriter bw = new java.io.BufferedWriter(
+			final java.io.BufferedWriter bw = new java.io.BufferedWriter(
 				new java.io.FileWriter(new java.io.File(
 					PATH+"\\Buy_Phone_test_data.txt"))
 			);
@@ -481,7 +483,7 @@ public class Test{
 	 */
 	public int[][] loadData_Buy_Phone(final String PATH){
 		System.out.println("Buy_Phone test data loading from: " + PATH + "\\Buy_Phone_test_data.txt");
-		java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
+		final java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
 		try {
 			final java.io.BufferedReader br = new java.io.BufferedReader(
 					new java.io.InputStreamReader(new java.io.FileInputStream(PATH + "\\Buy_Phone_test_data.txt")));
@@ -556,7 +558,7 @@ public class Test{
 		if(totalCost == -1) System.out.println(
 		"\t"+Llk.getClass().getName()+" method checkLLK() Wrong Answer.");
 		else {
-			double averageTime = totalCost/RUN_TIME;
+			final double averageTime = totalCost/RUN_TIME;
 			if(Fastest_Cost>averageTime) {
 				Fastest_Cost = averageTime;
 				Fastest = Llk;
@@ -627,7 +629,7 @@ public class Test{
 			final java.io.File file = new java.io.File(PATH);
 			file.createNewFile();
 			System.out.println("LLK test data saving on: "+PATH+"\\LLK_test_data.txt");
-			java.io.BufferedWriter bw = new java.io.BufferedWriter(
+			final java.io.BufferedWriter bw = new java.io.BufferedWriter(
 				new java.io.FileWriter(new java.io.File(
 					PATH+"\\LLK_test_data.txt"))
 			);
@@ -671,7 +673,7 @@ public class Test{
 	 */
 	public int[][] loadData_LLK(final String PATH){
 		System.out.println("LLK test data loading from: " + PATH + "\\LLK_test_data.txt");
-		java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
+		final java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
 		try {
 			final java.io.BufferedReader br = new java.io.BufferedReader(
 					new java.io.InputStreamReader(new java.io.FileInputStream(PATH + "\\LLK_test_data.txt")));
@@ -763,7 +765,7 @@ public class Test{
 		if(totalCost == -1) System.out.println(
 					"\t" + O0r.getClass().getName() + " method one0k() Wrong Answer.");
 		else {
-			double averageTime = totalCost/RUN_TIME;
+			final double averageTime = totalCost/RUN_TIME;
 			if(Fastest_Cost>averageTime) {
 				Fastest_Cost = averageTime;
 				Fastest = O0r;
@@ -1016,7 +1018,7 @@ public class Test{
 		if(totalCost == -1) System.out.println(
 		"\t"+HF.getClass().getName()+" method H_Finding() Wrong Answer.");
 		else {
-			double averageTime = totalCost/RUN_TIME;
+			final double averageTime = totalCost/RUN_TIME;
 			if(Fastest_Cost>averageTime) {
 				Fastest_Cost = averageTime;
 				Fastest = HF;
@@ -1204,7 +1206,7 @@ public class Test{
 		if(totalCost == -1) System.out.println(
 		"\t"+TS.getClass().getName()+" method T_Sum() Wrong Answer.");
 		else {
-			double averageTime = totalCost/RUN_TIME;
+			final double averageTime = totalCost/RUN_TIME;
 			if(Fastest_Cost>averageTime) {
 				Fastest_Cost = averageTime;
 				Fastest = TS;
@@ -1254,7 +1256,7 @@ public class Test{
 			System.exit(0);
 		} catch (final java.io.IOException e) {
 		}
-		int[] ThreeSum_test_data = data.stream().mapToInt(Integer::intValue).toArray();
+		final int[] ThreeSum_test_data = data.stream().mapToInt(Integer::intValue).toArray();
 		System.out.println("ThreeSum test data initialized. Array length: "+ThreeSum_test_data.length);
 		return ThreeSum_test_data;
 	}
@@ -1290,7 +1292,7 @@ public class Test{
 		if(CHECK_ANS != null && totalCost == -1) System.out.println(
 		"\t"+AD.getClass().getName()+" method min() Wrong Answer.");
 		else {
-			double averageTime = totalCost/RUN_TIME;
+			final double averageTime = totalCost/RUN_TIME;
 			if(Fastest_Cost>averageTime) {
 				Fastest_Cost = averageTime;
 				Fastest = AD;
@@ -1314,7 +1316,7 @@ public class Test{
 		if(CHECK_ANS != null && totalCost == -1) System.out.println(
 		"\t"+AD.getClass().getName()+" method max() Wrong Answer.");
 		else {
-			double averageTime = totalCost/RUN_TIME;
+			final double averageTime = totalCost/RUN_TIME;
 			if(Fastest_Cost>averageTime) {
 				Fastest_Cost = averageTime;
 				Fastest = AD;
@@ -1339,7 +1341,7 @@ public class Test{
 	public int[] generateData_ArrayData(final int LEN){
 		System.out.println("Generating ArrayData test data...");
 		ArrayData_test_data = new int[LEN];
-		StringBuffer str = new StringBuffer("[");
+		final StringBuffer str = new StringBuffer("[");
 		for(int e=-1;ArrayData_test_data.length>++e;){
 			ArrayData_test_data[e] = (int)(Math.random()*(Integer.MAX_VALUE));
 			if(Math.random()<0.5) ArrayData_test_data[e] = ~ArrayData_test_data[e];
@@ -1349,7 +1351,7 @@ public class Test{
 			final java.io.File file = new java.io.File(PATH);
 			file.createNewFile();
 			System.out.println("ArrayData test data saving on: "+PATH+"\\ArrayData_test_data.txt");
-			java.io.BufferedWriter bw = new java.io.BufferedWriter(
+			final java.io.BufferedWriter bw = new java.io.BufferedWriter(
 				new java.io.FileWriter(new java.io.File(
 					PATH+"\\ArrayData_test_data.txt"))
 			);
