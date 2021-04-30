@@ -1,14 +1,15 @@
 /**<!--미안해...노정훤-->
  * NCHU CSE 1092 algorithm homework local test class
- * @version 4.29.20.19
+ * @version 5.1
  * @author twjmy@msn.com
  */
 public class Test{
 	public static void main(final String[] args){
-		final Test test = new Test(1,"matrix",false,false,System.getProperty("user.dir"));
+		final Test test = new Test(1,"row",false,false,System.getProperty("user.dir"));
 
 		test.loadData_Buy_Phone_v2();// test.generateData_Buy_Phone_v2();
-		// test.timing(new HW08_4108056020_1());
+		// test.Buy_Phone_v2_test_data = new int[][]{{8,7,7,4,2,1},{2,4,4,6,2,1},{4,0,5,1,3,2},{5,2,4,3,7,3},{7,5,6,9,8,9}};
+		test.timing(new HW08_4108056020_1());
 		test.timing(new HW08_4108056020_2());
 		test.timing(new HW08_4108056020_3());
 		test.timing(new HW08_4108056020_4());
@@ -32,20 +33,19 @@ public class Test{
 		// test.timing(new HW05_4108056012_3());
 		// test.timing(new HW05_4108056012_4());
 		// test.timing(new HW05_4108056012__4());
-		// test.timing(new HW05_4108056020_hash_gcd());
 		// test.timing(new HW05_4108056020_1());
 		// test.timing(new HW05_4108056020_2());
 		// test.timing(new HW05_4108056020_3());
 		// test.timing(new HW05_4108056020_4());
 		// test.timing(new HW05_4108056020_5());
+		// test.timing(new HW05_4108056020_hash_gcd());
 		// test.timing(new HW05_4108056021_1());
 		// test.timing(new HW05_4108056021_2());
 		// test.timing(new HW05_4108056038_1_());
 		// test.timing(new HW05_4108056038_1());
+		// test.timing(new PCL4107056019());
 		// test.timing(new PCL4107056019_2021());
 		// test.timing(new PCL4107056019__2021());
-		// test.timing(new PCL4107056019_2021());
-		// test.timing(new PCL4107056019());
 
 		// test.generateData_One_0k_rock(20); // test.loadData_One_0k_rock();
 		// test.timing(new HW04_4108056007_4());
@@ -69,8 +69,8 @@ public class Test{
 		// test.timing(new HW02_4108056001_1(), TSumTD);
 		// test.timing(new HW02_4108056020_1(), TSumTD);
 		// test.timing(new HW02_4108056020_2(), TSumTD);
-		// test.timing(new HW02_4108056020_5(), TSumTD);
 		// test.timing(new HW02_4108056020_4(), TSumTD);
+		// test.timing(new HW02_4108056020_5(), TSumTD);
 		// test.timing(new HW02_4108056021_1(), TSumTD);
 		// test.timing(new HW02_4108056021_2(), TSumTD);
 		// test.timing(new HW02_4108056036_2(), TSumTD);
@@ -138,7 +138,7 @@ public class Test{
 			"\t"+BP.getClass().getName()+" method bestPhone() "+
 			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 			switch(CHECK_ANS){
-				case "matrix","square": 
+				case "matrix","square","row": 
 					final StringBuffer SB = new StringBuffer("\tResult: \n");
 					for(final int[] i:result){
 						SB.append("\t\t");
@@ -366,7 +366,7 @@ public class Test{
 			"\t"+BP.getClass().getName()+" method bestPhone() "+
 			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 			switch(CHECK_ANS){
-				case "matrix","square": 
+				case "matrix","square","row": 
 					final StringBuffer SB = new StringBuffer("\tResult: \n");
 					for(final int[] i:result){
 						SB.append("\t\t");
@@ -1567,7 +1567,7 @@ public class Test{
 		System.out.println(this.getClass().getName()+": Run times of every method: "+RUN_TIME);
 		if(SHOW_COUNT) System.out.println(this.getClass().getName()+": Show count status.");
 		switch(CHECK_ANS.toLowerCase()){
-			case "default","matrix","square":
+			case "default","matrix","square","row":
 				System.out.println(this.getClass().getName()+": Check answers in format '"+CHECK_ANS+"''.");
 				this.CHECK_ANS=CHECK_ANS.toLowerCase(); break;
 			default: this.CHECK_ANS=null;
