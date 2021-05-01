@@ -1,11 +1,11 @@
 /**<!--미안해...노정훤-->
  * NCHU CSE 1092 algorithm homework local test class
- * @version 5.1
+ * @version 5.1.21.02
  * @author twjmy@msn.com
  */
 public class Test{
 	public static void main(final String[] args){
-		final Test test = new Test(1,"row",false,false,System.getProperty("user.dir"));
+		final Test test = new Test(5,"row",false,false,System.getProperty("user.dir"));
 
 		test.loadData_Buy_Phone_v2();// test.generateData_Buy_Phone_v2();
 		// test.Buy_Phone_v2_test_data = new int[][]{{8,7,7,4,2,1},{2,4,4,6,2,1},{4,0,5,1,3,2},{5,2,4,3,7,3},{7,5,6,9,8,9}};
@@ -13,7 +13,7 @@ public class Test{
 		test.timing(new HW08_4108056020_2());
 		test.timing(new HW08_4108056020_3());
 		test.timing(new HW08_4108056020_4());
-		test.timing(new HW08_4108056020_5());
+		// test.timing(new HW08_4108056020_5());
 		test.checkFastest();
 
 		// test.loadData_Buy_Phone();
@@ -1568,7 +1568,7 @@ public class Test{
 		if(SHOW_COUNT) System.out.println(this.getClass().getName()+": Show count status.");
 		switch(CHECK_ANS.toLowerCase()){
 			case "default","matrix","square","row":
-				System.out.println(this.getClass().getName()+": Check answers in format '"+CHECK_ANS+"''.");
+				System.out.println(this.getClass().getName()+": Check answers in format '"+CHECK_ANS+"'.");
 				this.CHECK_ANS=CHECK_ANS.toLowerCase(); break;
 			default: this.CHECK_ANS=null;
 		}
