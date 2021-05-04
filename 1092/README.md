@@ -6,69 +6,14 @@ description: NCHU CSE 1092 Term Algorithm Homework # 在此輸入描述
 image: null # 在此輸入預覽圖片網址
 ---
 
+# 1092 演算法 ![](https://img.shields.io/badge/dynamic/json?color=aqua&query=%24.viewcount&label=%E8%A7%80%E7%9C%8B%E6%AC%A1%E6%95%B8&suffix=%E6%AC%A1&url=https%3A%2F%2Fhackmd.io%2F%40VJ%2F1092-algorithms-nchu%2Finfo) [![hackmd-github-sync-badge](https://hackmd.io/fRHOXqCNSx6Wd3yEKjQf2w/badge)](https://hackmd.io/fRHOXqCNSx6Wd3yEKjQf2w)
+
 :::spoiler 目錄
 [TOC]
 :::
 
-[HW01 - ArrayData](#HW01---ArrayData)
-
-# 1092 演算法 ![](https://img.shields.io/badge/dynamic/json?color=aqua&query=%24.viewcount&label=%E8%A7%80%E7%9C%8B%E6%AC%A1%E6%95%B8&suffix=%E6%AC%A1&url=https%3A%2F%2Fhackmd.io%2F%40VJ%2F1092-algorithms-nchu%2Finfo) [![hackmd-github-sync-badge](https://hackmd.io/fRHOXqCNSx6Wd3yEKjQf2w/badge)](https://hackmd.io/fRHOXqCNSx6Wd3yEKjQf2w)
-
-## HW09
-
-### Abstract class
-
-### Assigment
-
-### Solution
-
-## HW08
-
-### Abstract class
-
-### Assigment
-
-### Solution
-
-## HW07
-
-### Abstract class
-
-### Assigment
-
-### Solution
-
-## HW06
-
-### Abstract class
-
-### Assigment
-
-### Solution
-
-## HW05
-
-### Abstract class
-
-### Assigment
-
-### Solution
-
-## HW04
-
-### Abstract class
-
-### Assigment
-
-### Solution
-
-## HW03
-
-### Abstract class
-
-### Assigment
-
-### Solution
++ [HW01 - ArrayData](#HW01---ArrayData)
++ [HW02 - ThreeSum](#HW02---ThreeSum)
 
 ## HW02 - ThreeSum
 
