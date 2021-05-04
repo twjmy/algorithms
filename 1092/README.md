@@ -14,6 +14,65 @@ image: null # 在此輸入預覽圖片網址
 
 + [HW01 - ArrayData](#HW01---ArrayData)
 + [HW02 - ThreeSum](#HW02---ThreeSum)
++ [HW03 - HillFinding](HW03---HillFinding)
+
+---
+
+<!--
+## HW - 
+
+### Assigment
+
+### Abstract class
+
+### Solution
+-->
+
+---
+
+## HW03 - HillFinding
+
+### Assigment
+
+**Input**: An array. In this mission we find the peak of the array, then find out which cutting position of the array which could produce a sorted array.
+
+**Final return**: Cutting position of the array 
+
+| Example  | Method Calling                      |
+| -------- | ----------------------------------- |
+| Input 1  | `H_Finding(new int{5,6,7,1,2,3,4})` |
+| Output 1 | `H_Finding(int[])` = 3              |
+| Input 2  | `H_Finding(new int{5,7,8,8,1,3,4})` |
+| Output 2 | `H_Finding(int[])` = 2              |
+
+Please refer to the attached .jpg file to see the example
+
+<details>
+ <summary>attached .jpg file</summary>
+ <img src="https://lms.nchu.edu.tw/sysdata/attach/exercise.30426/2390c9e66e43ce6dabe3b00596cc3e52.jpg" alt="Example 1">
+ <img src="https://lms.nchu.edu.tw/sysdata/attach/exercise.30426/8798c80c1fad0655d38c5e51c9c20ae8.jpg" alt="Example 2">
+ </details>
+
+TestCase(input) will not include arrays like:
+
+1. All same: `8,8,8,8,8,8`
+2. Whole ascending: `1,2,3,4,5,6,7`
+
+### Abstract class
+
+```java=!
+public abstract class HillFinding {
+    public abstract int H_Finding(int[] A);
+}
+```
+
+### Solution
+
+#### Brute-force
+
+...
+
+---
 
 ## HW02 - ThreeSum
 
@@ -26,7 +85,7 @@ image: null # 在此輸入預覽圖片網址
 | Input   | `T_sum(new int{-1,1,2,4,8,-3})` |
 | Output  | `T_sum(int[])` = 2              |
 
-(分別是(1,2,-3)以及(-1,4,-3)2組)
+分別是 (1,2,-3) 以及 (-1,4,-3) 2組
 
 ### Abstract class
 
@@ -53,6 +112,7 @@ public class HW02_1 extends ThreeSum{
     }
 }
 ```
+
 暴力解，時間複雜度是 `O(N³)`。
 
 #### Binary search
@@ -81,7 +141,7 @@ public class HW02_1 extends ThreeSum{
 }
 ```
 
-這樣時間複雜度是 `O(N²)`，另外由於老師不讓我們 `import` ，所以我們要自己實作 `sort(int[])`。
+這樣時間複雜度是 `O(N²)`。另外由於老師不讓我們 `import` ，所以我們要自己實作 `sort(int[])`。
 
 ---
 
