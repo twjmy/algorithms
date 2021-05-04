@@ -17,28 +17,73 @@ image: null # 在此輸入預覽圖片網址
 
 ## HW02 - ThreeSum
 
-### Abstract class
-
-```java=
-public abstract class ThreeSum {
-    public abstract int T_sum(int[] A);
-}
-```
-
 ### Assigment
 
 計算陣列中任意三個數字相加為零的組合數 (數組中不會有重複的數字)
 
-| Example | Function Calling                |
+| Example | Method Calling                  |
 | ------- | ------------------------------- |
 | Input   | `T_sum(new int{-1,1,2,4,8,-3})` |
 | Output  | `T_sum(int[])` = 2              |
 
 (分別是(1,2,-3)以及(-1,4,-3)2組)
 
+### Abstract class
+
+```java=!
+public abstract class ThreeSum {
+    public abstract int T_sum(int[] A);
+}
+```
+
 ### Solution
 
 #### Brute-force
+
+```java=!
+public class HW02_1 extends ThreeSum{
+    public int T_sum(int[] A){
+        int count = 0;
+        for(int i = 0; i < N; i++)
+            for(int j = i+1; j < N; j++)
+                for(int k = j+1; k < N; k++)
+                    if(a[i]+a[j]+a[k] == 0)
+                        count++;
+        return count;
+    }
+}
+```
+暴力解，時間複雜度是 `O(N³)`。
+
+#### Binary search
+
+參考老師的[投影片](https://www.dropbox.com/s/cxrvhuj9mnk2uio/%E6%BC%94%E7%AE%97%E6%B3%95%E8%AC%9B%E7%BE%A92020.pdf) Lecture 2 第 40,42 頁裡的程式碼，整合、修改一下
+
+```java=!
+import java.util.Arrays;
+public class HW02_1 extends ThreeSum{
+    public int T_sum(int[] a){
+        Arrays.sort(a);
+        int N = a.length-2;
+        int cnt = 0;
+        for(int i = 0; i < N; i++){
+            int key = -a[i];
+            int lo = i+1, hi = a.length-1;
+            while(lo < hi){ 
+                int sum = a[lo] + a[hi];
+                if(key < sum) hi--;
+                else if (key > sum) lo++;
+                else{ hi--; lo++; cnt++; }
+            }
+        }
+        return cnt;
+    }
+}
+```
+
+這樣時間複雜度是 `O(N²)`，另外由於老師不讓我們 `import` ，所以我們要自己實作 `sort(int[])`。
+
+---
 
 ## HW01 - ArrayData
 
@@ -46,12 +91,12 @@ public abstract class ThreeSum {
 
 會給一個Array，分別求Array的最大值和最小值
 
-| Example | Function Calling            |
+| Example | Method Calling              |
 | ------- | --------------------------- |
 | Input   | `ArrayData(new int{1,2,3})` |
 | Output  | `min()` = 3, `max()` = 1    |
 
-### [Abstract class](https://github.com/twjmy/algorithms-nchu/blob/3ccad0141bc3975f69101f366f14bac8fe7c7d57/1092/ArrayData.java#L1-L5)
+### Abstract class
 
 ```java=!
 public abstract class ArrayData {
@@ -64,7 +109,7 @@ public abstract class ArrayData {
 ### Solution
 
 由於助教沒有給定傳入陣列的方式，一開始假設助教使用 `HW01.A=測資`，所以直接實作
-`min()`、`max()`
+`max()`、`min()`
 
 ```java=!
 public class HW01_1 extends ArrayData{
@@ -81,7 +126,7 @@ public class HW01_1 extends ArrayData{
 }
 ```
 
-結果當然是報錯的，因為助教是用建構元 `ArrayData(int[])` 來建構我們的 `class` 成物件再用這個物件呼叫 `min()`、`max()`，所以應該這樣實作
+結果當然是報錯的，因為助教是用建構元 `ArrayData(int[])` 來建構我們的 `class` 成物件再用這個物件呼叫 `max()`、`min()`，所以應該這樣實作
 
 ```java=!
 public class HW01_2 extends ArrayData{
@@ -103,4 +148,19 @@ public class HW01_2 extends ArrayData{
 
 這樣實作的時間複雜度會是 `O(N)`。但既然助教在建構元就傳入陣列了，我們可以在建構的時候就找出最大、最小值再呼叫
 
-理論上助教如果計時是在呼叫 `min()`、`max()` 前後才開始計時，這個版本相當於直接回傳答案，所以時間複雜度會是 `O(1)`。
+```java=!
+public class HW01_3 extends ArrayData{
+    public int max, min;
+    public HW01_3(final int[] A){
+        max = min = A[0];
+        for(int i = 1; i < A.length; i++)
+            if(A[i]>max) max = A[i];
+            if(A[i]<min) min = A[i];
+        }
+    }
+    public int max(){ return max; }
+    public int min(){ return min; }
+}
+```
+
+理論上助教如果計時是在呼叫 `max()`、`min()` 前後才開始計時，這個版本相當於直接回傳答案，所以時間複雜度會是 `O(1)`。
