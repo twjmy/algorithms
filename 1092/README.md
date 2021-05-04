@@ -6,21 +6,105 @@ description: NCHU CSE 1092 Term Algorithm Homework # 在此輸入描述
 image: null # 在此輸入預覽圖片網址
 ---
 
-<!--[TOC]-->
+:::spoiler 目錄
+[TOC]
+:::
 
 [HW01 - ArrayData](#HW01---ArrayData)
 
 # 1092 演算法 ![](https://img.shields.io/badge/dynamic/json?color=aqua&query=%24.viewcount&label=%E8%A7%80%E7%9C%8B%E6%AC%A1%E6%95%B8&suffix=%E6%AC%A1&url=https%3A%2F%2Fhackmd.io%2F%40VJ%2F1092-algorithms-nchu%2Finfo) [![hackmd-github-sync-badge](https://hackmd.io/fRHOXqCNSx6Wd3yEKjQf2w/badge)](https://hackmd.io/fRHOXqCNSx6Wd3yEKjQf2w)
+
+## HW09
+
+### Abstract class
+
+### Assigment
+
+### Solution
+
+## HW08
+
+### Abstract class
+
+### Assigment
+
+### Solution
+
+## HW07
+
+### Abstract class
+
+### Assigment
+
+### Solution
+
+## HW06
+
+### Abstract class
+
+### Assigment
+
+### Solution
+
+## HW05
+
+### Abstract class
+
+### Assigment
+
+### Solution
+
+## HW04
+
+### Abstract class
+
+### Assigment
+
+### Solution
+
+## HW03
+
+### Abstract class
+
+### Assigment
+
+### Solution
+
+## HW02 - ThreeSum
+
+### Abstract class
+
+```java=
+public abstract class ThreeSum {
+    public abstract int T_sum(int[] A);
+}
+```
+
+### Assigment
+
+計算陣列中任意三個數字相加為零的組合數 (數組中不會有重複的數字)
+
+| Example | Function Calling                |
+| ------- | ------------------------------- |
+| Input   | `T_sum(new int{-1,1,2,4,8,-3})` |
+| Output  | `T_sum(int[])` = 2              |
+
+(分別是(1,2,-3)以及(-1,4,-3)2組)
+
+### Solution
+
+#### Brute-force
 
 ## HW01 - ArrayData
 
 ### Assigment
 
 會給一個Array，分別求Array的最大值和最小值
-| I/O    | Function Calling            |
-| ------ | --------------------------- |
-| Input  | `ArrayData(new int{1,2,3})` |
-| Output | `min()` = 3, `max()` = 1    |
+
+| Example | Function Calling            |
+| ------- | --------------------------- |
+| Input   | `ArrayData(new int{1,2,3})` |
+| Output  | `min()` = 3, `max()` = 1    |
 
 ### [Abstract class](https://github.com/twjmy/algorithms-nchu/blob/3ccad0141bc3975f69101f366f14bac8fe7c7d57/1092/ArrayData.java#L1-L5)
 
@@ -75,67 +159,3 @@ public class HW01_2 extends ArrayData{
 這樣實作的時間複雜度會是 `O(N)`。但既然助教在建構元就傳入陣列了，我們可以在建構的時候就找出最大、最小值再呼叫
 
 理論上助教如果計時是在呼叫 `min()`、`max()` 前後才開始計時，這個版本相當於直接回傳答案，所以時間複雜度會是 `O(1)`。
-
-## HW02
-
-### Abstract class
-
-### Assigment
-
-### Solution
-
-## HW03
-
-### Abstract class
-
-### Assigment
-
-### Solution
-
-## HW04
-
-### Abstract class
-
-### Assigment
-
-### Solution
-
-## HW05
-
-### Abstract class
-
-### Assigment
-
-### Solution
-
-## HW06
-
-### Abstract class
-
-### Assigment
-
-### Solution
-
-## HW07
-
-### Abstract class
-
-### Assigment
-
-### Solution
-
-## HW08
-
-### Abstract class
-
-### Assigment
-
-### Solution
-
-## HW09
-
-### Abstract class
-
-### Assigment
-
-### Solution
