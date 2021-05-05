@@ -8,7 +8,7 @@ image: null # 在此輸入預覽圖片網址
 
 # 1092 演算法 ![](https://img.shields.io/badge/dynamic/json?color=aqua&query=%24.viewcount&label=%E8%A7%80%E7%9C%8B%E6%AC%A1%E6%95%B8&suffix=%E6%AC%A1&url=https%3A%2F%2Fhackmd.io%2F%40VJ%2F1092-algorithms-nchu%2Finfo) [![hackmd-github-sync-badge](https://hackmd.io/fRHOXqCNSx6Wd3yEKjQf2w/badge)](https://hackmd.io/fRHOXqCNSx6Wd3yEKjQf2w)
 
-:::spoiler 目錄
+::: spoiler 目錄
 [TOC]
 :::
 
@@ -50,9 +50,9 @@ TestCase(input) will not include arrays like:
 | Example  | Method Calling                      |
 | -------- | ----------------------------------- |
 | Input 1  | `H_Finding(new int{5,6,7,1,2,3,4})` |
-| Output 1 | `H_Finding(int[])` = 3              |
+| Output 1 | `H_Finding(int[]) = (int) 3`        |
 | Input 2  | `H_Finding(new int{5,7,8,8,1,3,4})` |
-| Output 2 | `H_Finding(int[])` = 2              |
+| Output 2 | `H_Finding(int[]) = (int) 2`        |
 
 ### Abstract class
 
@@ -66,19 +66,45 @@ public abstract class HillFinding {
 
 #### Brute-force
 
+因為題目說不會有 `1,2,3,4,5,6,7` 的情況，可以這樣實作
+
 ```java=!
 public class HW03_1 extends HillFinding {
     public int H_Finding(int[] A){
-        //TODO Auto-generated method stub
-        return 0;
+        int i = 0;
+        for(i=0; A[i]<=A[++i];);
+        return A.length-1-i;
     }
 }
 ```
 
-
 暴力解，時間複雜度是 `O(N)`。
 
 #### Binary search
+
+同樣，參考老師的[投影片](https://www.dropbox.com/s/cxrvhuj9mnk2uio/%E6%BC%94%E7%AE%97%E6%B3%95%E8%AC%9B%E7%BE%A92020.pdf) Lecture 2 第 40 頁裡的程式碼，修改一下
+
+```java=!
+public class HW03_4108056020_1 extends HillFinding {
+    public int H_Finding(final int[] A) {
+        final int END = A.length-1;
+        int lo = 0, hi=END;
+        for(mid=hi>>>1; lo <= hi; mid = lo+hi>>>1){
+            if(mid < END && A[mid+1] < A[mid])
+                return END-i-1;
+            else if(mid > lo && A[mid-1] > A[mid])
+                return END-i;
+            else if(A[hi]>A[mid]) hi = mid-1;
+            else lo = mid+1;
+        }
+        int i;
+        for(i=0; A[i]<=A[++i];); // 最後手段
+        return END-i;
+    }
+}
+```
+
+為防例外狀況所以我加了最後手段，但如果在迴圈裡找到答案，這樣時間複雜度是 `O(lgN)`。
 
 ---
 
@@ -91,7 +117,7 @@ public class HW03_1 extends HillFinding {
 | Example | Method Calling                  |
 | ------- | ------------------------------- |
 | Input   | `T_sum(new int{-1,1,2,4,8,-3})` |
-| Output  | `T_sum(int[])` = 2              |
+| Output  | `T_sum(int[]) = (int) 2`        |
 
 分別是 (1,2,-3) 以及 (-1,4,-3) 2組
 
@@ -159,10 +185,10 @@ public class HW02_1 extends ThreeSum{
 
 會給一個Array，分別求Array的最大值和最小值
 
-| Example | Method Calling              |
-| ------- | --------------------------- |
-| Input   | `ArrayData(new int{1,2,3})` |
-| Output  | `min()` = 3, `max()` = 1    |
+| Example | Method Calling                     |
+| ------- | ---------------------------------- |
+| Input   | `ArrayData(new int{1,2,3})`        |
+| Output  | `min() = (int) 3, max() = (int) 1` |
 
 ### Abstract class
 
