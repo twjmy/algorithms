@@ -1,12 +1,12 @@
 ---
 lang: zh-tw
-tags: java # 在此輸入標籤(以","分隔)
+tags: java, algorithm # 在此輸入標籤(以","分隔)
 title: 1092-algorithms-nchu # 在此輸入標題
 description: NCHU CSE 1092 Term Algorithm Homework # 在此輸入描述
 image: null # 在此輸入預覽圖片網址
 ---
 
-# 1092 演算法 ![](https://img.shields.io/badge/dynamic/json?color=aqua&query=%24.viewcount&label=%E8%A7%80%E7%9C%8B%E6%AC%A1%E6%95%B8&suffix=%E6%AC%A1&url=https%3A%2F%2Fhackmd.io%2F%40VJ%2F1092-algorithms-nchu%2Finfo) [![hackmd-github-sync-badge](https://hackmd.io/fRHOXqCNSx6Wd3yEKjQf2w/badge)](https://hackmd.io/fRHOXqCNSx6Wd3yEKjQf2w)
+# 1092 演算法 ![](https://img.shields.io/badge/dynamic/json?color=aqua&query=%24.viewcount&label=%E9%BB%9E%E6%93%8A%E6%AC%A1%E6%95%B8&suffix=%E6%AC%A1&url=https%3A%2F%2Fhackmd.io%2F%40VJ%2F1092-algorithms-nchu%2Finfo) [![hackmd-github-sync-badge](https://hackmd.io/fRHOXqCNSx6Wd3yEKjQf2w/badge)](https://hackmd.io/fRHOXqCNSx6Wd3yEKjQf2w)
 
 ::: spoiler 目錄
 [TOC]
