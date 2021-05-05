@@ -1,8 +1,8 @@
 public class HW08_4108056020_3 extends Buy_Phone_v2{
-	static int a[][], r[] = new int[4], e[][][] = new int[4][][], c = 0;
+	int a[][];
 	final public int[][] STACK = new int[1000][], AUX = new int[1000][];
 
-	public int[][] bestPhone(final int[][] inputArr){                                                                                                                                                                                                        if(c > 0) for(int i = 0; i < c; ++i) if(r[i]==a.length) return e[i]; else if(HW08_4108056020_1.c>0) for(i = 0; i < HW08_4108056020_1.c; ++i) if(HW08_4108056020_1.r[i]==a.length) return HW08_4108056020_1.e[i]; else if(HW08_4108056020_2.c>0) for(i = 0; i < HW08_4108056020_2.c; ++i) if(HW08_4108056020_2.r[i]==a.length) return HW08_4108056020_2.e[i]; else if(HW08_4108056020_4.c>0) for(i = 0; i < HW08_4108056020_4.c; ++i) if(HW08_4108056020_4.r[i]==a.length) return HW08_4108056020_4.e[i]; else if(HW08_4108056020_5.c>0) for(i = 0; i < HW08_4108056020_5.c; ++i) if(HW08_4108056020_5.r[i]==a.length) return HW08_4108056020_5.e[i];
+	public int[][] bestPhone(final int[][] inputArr){
 		a = inputArr;
 		final int AEND = a.length-1;
 		// Merge Sort: O(NlogN)
@@ -30,12 +30,6 @@ public class HW08_4108056020_3 extends Buy_Phone_v2{
 		final int SEND = AEND-top, ANS[][] = new int[AEND-top][]; top++;
 		// copy answer from stack to ans: O(N)
 		System.arraycopy(STACK, top, ANS, 0, SEND);
-		if(c==r.length){
-			final int rcp[] = new int[c<<1], ecp[][][] = new int[c<<1][][];
-			System.arraycopy(r, 0, rcp, 0, c); System.arraycopy(e, 0, ecp, 0, c);
-			r = rcp; e = ecp;
-		}
-		r[c] = a.length; e[c++] = ANS;
 		// return answer, total: T(NlogN+2N) ~ O(NlogN)
 		return ANS;
 	}
