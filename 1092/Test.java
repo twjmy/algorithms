@@ -9,10 +9,13 @@ public class Test{
 
 		test.loadData_Buy_Phone_v2();// test.generateData_Buy_Phone_v2();
 		// test.Buy_Phone_v2_test_data = new int[][]{{8,7,7,4,2,1},{2,4,4,6,2,1},{4,0,5,1,3,2},{5,2,4,3,7,3},{7,5,6,9,8,9}};
+		test.timing(new HW08_4108056016_3());
+		// test.timing(new HW08_4108056016__3());
+		// test.timing(new HW08_4108056016_3_());
 		test.timing(new HW08_4108056020_1());
-		test.timing(new HW08_4108056020_2());
-		test.timing(new HW08_4108056020_3());
-		test.timing(new HW08_4108056020_4());
+		// test.timing(new HW08_4108056020_2());
+		// test.timing(new HW08_4108056020_3());
+		// test.timing(new HW08_4108056020_4());
 		// test.timing(new HW08_4108056020_5());
 		test.checkFastest();
 
@@ -57,7 +60,9 @@ public class Test{
 		// test.timing(new HW04_4108056020_5());
 		// test.timing(new HW04_4108056020_RE());
 
-		// test.generateData_HillFinding(30000); // test.loadData_HillFinding();
+		// test.loadData_HillFinding(); // test.generateData_HillFinding(30000);
+		// test.HillFinding_test_data = new int[]{2,3,4,1};
+		// test.HillFinding_ans = 0;
 		// test.timing(new HW03_4108056001_2());
 		// test.timing(new HW03_4108056020_1());
 		// test.timing(new HW03_4108056020_2());
@@ -117,7 +122,9 @@ public class Test{
 		double time;
 		int[][] td, result = null;
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
-			td = java.util.Arrays.copyOf(TD,TD.length);
+			td = new int[TD.length][];
+			for(int j = 0; j< TD.length; j++)
+				td[j] = java.util.Arrays.copyOf(TD[j], 6);
 			time = -System.nanoTime();
 			result = BP.bestPhone(td);
 			time = (System.nanoTime()+time)/1e6;
@@ -345,7 +352,9 @@ public class Test{
 		double time;
 		int[][] td, result = null;
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
-			td = java.util.Arrays.copyOf(TD,TD.length);
+			td = new int[TD.length][];
+			for(int j = 0; j< TD.length; j++)
+				td[j] = java.util.Arrays.copyOf(TD[j], 6);
 			time = -System.nanoTime();
 			result = BP.bestPhone(td);
 			time = (System.nanoTime()+time)/1e6;
@@ -546,7 +555,9 @@ public class Test{
 		double time;
 		int[][] td; boolean result = false;
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
-			td = java.util.Arrays.copyOf(TD,TD.length);
+			td = new int[TD.length][];
+			for(int j = 0; j< TD.length; j++)
+				td[j] = java.util.Arrays.copyOf(TD[j], 2);
 			time = -System.nanoTime();
 			result = Llk.checkLLK(td);
 			time = (System.nanoTime()+time)/1e6;
