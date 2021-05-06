@@ -1,4 +1,4 @@
-public class HW08_4108056020_3 extends Buy_Phone_v2{
+public class HW08_4108056020_3 extends Buy_Phone_v2 {
 	int a[][];
 	final int[][] AUX = new int[1000][], STACK = new int[1000][];
 
