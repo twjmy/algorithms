@@ -3,8 +3,6 @@ public class HW08_4108056020_3 extends Buy_Phone_v2 {
 	final int[][] AUX = new int[1000][], STACK = new int[1000][];
 
 	public int[][] bestPhone(final int[][] inputArr){
-		final int[][] A = Bag.seek(inputArr.length);
-		if(A != null) return A;
 		a = inputArr;
 		final int AEND = a.length-1;
 		mergeSort(0, AEND);
@@ -26,7 +24,6 @@ public class HW08_4108056020_3 extends Buy_Phone_v2 {
 		}
 		final int SEND = AEND-top, ANS[][] = new int[AEND-top][]; top++;
 		System.arraycopy(STACK, top, ANS, 0, SEND);
-		Bag.push(a.length, ANS);
 		return ANS;
 	}
 
