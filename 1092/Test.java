@@ -1,6 +1,6 @@
 /**<!--미안해...노정훤-->
  * NCHU CSE 1092 algorithm homework local test class
- * @version 5.15.21.10
+ * @version 5.15.21.24
  * @author twjmy@msn.com
  */
 public class Test{
@@ -15,9 +15,8 @@ public class Test{
 		};
 		for(final int n : list){
 			test.loadData_LSD(test.PATH+"\\LSD_test_data_"+n+".txt");
-			for(final LSD e : lsd){
+			for(final LSD e : lsd)
 				test.timing(e);
-			}
 		}
 		test.checkFastest();
 
@@ -157,11 +156,10 @@ public class Test{
 				Fastest = lsd;
 			}
 			System.out.printf(
-			((!CHECK_ANS.equals("min"))?"\t":"")+lsd.getClass().getName()+" method Distance() "+
-			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
-			switch(CHECK_ANS){
-				case "matrix","square","row","default": System.out.printf("\tResult: "+result+((!CHECK_ANS.equals("min"))?"\n":""));
-			}
+			((!CHECK_ANS.equals("min"))?"\t":"")+lsd.getClass().getName()+" method Distance() "
+			+"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s"
+			+(CHECK_ANS!=null?("\tResult: "+result+
+			(CHECK_ANS.equals("min")?("\tArray length: "+TD.length):"")):"")+"\n",averageTime/(averageTime>1e3?1e3:1));
 		}
 		if(!CHECK_ANS.equals("min"))System.out.println("End of timing "+lsd.getClass().getName()+".\n");
 		return result;
@@ -213,7 +211,7 @@ public class Test{
 	 * @see #generateData_LSD()
 	 */
 	public int[][] generateData_LSD(final int LEN, final int RANGE, final String PATH){
-		System.out.println("LSD test data generating by size: " + LEN + ", range: 0 ~ " + (RANGE-1) + "...");
+		if(!CHECK_ANS.equals("min"))System.out.println("LSD test data generating by size: " + LEN + ", range: 0 ~ " + (RANGE-1) + "...");
 		final java.util.List<Integer[]> test_data = new java.util.ArrayList<Integer[]>(LEN);
 		for(int i = -1; LEN > ++i;){
 			test_data.add(new Integer[]{
@@ -223,7 +221,7 @@ public class Test{
 		try {
 			final java.io.File file = new java.io.File(PATH);
 			file.createNewFile();
-			System.out.println("LSD test data saving on: "+PATH+"\\LSD_test_data.txt");
+			if(!CHECK_ANS.equals("min"))System.out.println("LSD test data saving on: "+PATH+"\\LSD_test_data.txt");
 			final java.io.BufferedWriter bw = new java.io.BufferedWriter(
 				new java.io.FileWriter(new java.io.File(
 					PATH+"\\LSD_test_data.txt"))
@@ -248,7 +246,7 @@ public class Test{
 				result[i][0]+" "+result[i][1]
 			);
 		}
-		System.out.println("LSD test data and answer generated.");
+		if(!CHECK_ANS.equals("min"))System.out.println("LSD test data and answer generated.");
 		return result;
 	}
 
@@ -274,7 +272,7 @@ public class Test{
 	 * @see #loadData_LSD()
 	 */
 	public int[][] loadData_LSD(final String PATH){
-		System.out.println("LSD test data loading from: " + PATH);
+		if(!CHECK_ANS.equals("min"))System.out.println("LSD test data loading from: " + PATH);
 		final java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
 		try {
 			final java.io.BufferedReader br = new java.io.BufferedReader(
@@ -299,7 +297,7 @@ public class Test{
 				LSD_test_data[i][0]+" "+LSD_test_data[i][1]
 			);
 		}
-		System.out.println("LSD test data initialized. Array length: "+LSD_test_data.length);
+		if(!CHECK_ANS.equals("min"))System.out.println("LSD test data initialized. Array length: "+LSD_test_data.length);
 		return LSD_test_data;
 	}
 
