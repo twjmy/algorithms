@@ -1,23 +1,26 @@
 /**<!--미안해...노정훤-->
  * NCHU CSE 1092 algorithm homework local test class
- * @version 5.1.21.02
+ * @version 5.15
  * @author twjmy@msn.com
  */
 public class Test{
 	public static void main(final String[] args){
 		final Test test = new Test(5,"row",false,false,System.getProperty("user.dir"));
 
-		test.loadData_Buy_Phone_v2();// test.generateData_Buy_Phone_v2();
+		test.loadData_LSD();
+		test.timing(new HW09_4108056020_1());
+		test.checkFastest();
+
+		// test.loadData_Buy_Phone_v2();// test.generateData_Buy_Phone_v2();
 		// test.Buy_Phone_v2_test_data = new int[][]{{8,7,7,4,2,1},{2,4,4,6,2,1},{4,0,5,1,3,2},{5,2,4,3,7,3},{7,5,6,9,8,9}};
-		test.timing(new HW08_4108056016_3());
+		// test.timing(new HW08_4108056016_3());
 		// test.timing(new HW08_4108056016__3());
 		// test.timing(new HW08_4108056016_3_());
-		test.timing(new HW08_4108056020_1());
+		// test.timing(new HW08_4108056020_1());
 		// test.timing(new HW08_4108056020_2());
 		// test.timing(new HW08_4108056020_3());
 		// test.timing(new HW08_4108056020_4());
 		// test.timing(new HW08_4108056020_5());
-		test.checkFastest();
 
 		// test.loadData_Buy_Phone();
 		// test.timing(new HW07_4108056020_1());
@@ -80,6 +83,212 @@ public class Test{
 		// test.timing(new HW02_4108056021_2(), TSumTD);
 		// test.timing(new HW02_4108056036_2(), TSumTD);
 		// test.timing(new HW02_4108056036_3(), TSumTD);
+	}
+
+	/**
+	 * The test data for {@link #timing(LSD, int[][])} while not assigned.
+	 *
+	 * @since 5.12
+	 * @see #timing(LSD)
+	 */
+	public int[][] LSD_test_data = null;
+
+	/**
+	 * Timing class {@link LSD} by specific test data. If not assign, Load test data
+	 * automatically from {@code LSD_test_data.txt} under {@link #PATH} setting while
+	 * construct.
+	 * <h3>When {@link #CHECK_ANS} ON only show result.</h3>
+	 *
+	 * @param lsd {@link LSD}
+	 * @return the result of last timing
+	 * @since 5.12
+	 * @see #LSD_test_data
+	 * @see #timing(LSD, int)
+	 * @see #loadData_LSD()
+	 * @see #generateData_LSD()
+	 */
+	public int timing(final LSD lsd){
+		if(LSD_test_data == null) loadData_LSD();
+		return timing(lsd, LSD_test_data);
+	}
+
+	/**
+	 * @param lsd {@link LSD}
+	 * @param TD test data of {@link LSD}
+	 * @return the result of last timing
+	 * @since 5.12
+	 * @see #timing(LSD)
+	 */
+	public int timing(final LSD lsd, final int[][] TD) {
+		System.out.println("Start timing method Distance() of "+lsd.getClass().getName()+"...");
+		double totalCost = 0;
+		double time;
+		int td[][], result = 0;
+		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
+			td = new int[TD.length][];
+			for(int j = 0; j< TD.length; j++)
+				td[j] = java.util.Arrays.copyOf(TD[j], 2);
+			time = -System.nanoTime();
+			result = lsd.Distance(td);
+			time = (System.nanoTime()+time)/1e6;
+			if(SHOW_COUNT) System.out.printf(
+			"\t"+lsd.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
+			// if(CHECK_ANS!=null) if(!result) totalCost = -1;
+			if(totalCost != -1) totalCost += time;
+		}
+		if(totalCost == -1) System.out.println(
+		"\t"+lsd.getClass().getName()+" method Distance() Wrong Answer.");
+		else {
+			final double averageTime = totalCost/RUN_TIME;
+			if(Fastest_Cost>averageTime) {
+				Fastest_Cost = averageTime;
+				Fastest = lsd;
+			}
+			System.out.printf(
+			"\t"+lsd.getClass().getName()+" method Distance() "+
+			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
+			switch(CHECK_ANS){
+				case "matrix","square","row","default": System.out.println("\tResult: "+result);
+			}
+		}
+		System.out.println("End of timing "+lsd.getClass().getName()+".\n");
+		return result;
+	}
+
+	/**
+	 * Generate test data of {@link LSD} and set {@link #LSD_test_data}.
+	 * <p>File {@code LSD_test_data.txt} will create or replace to the specific
+	 * directory(defaultly {@link #PATH}) automatically. It will NOT generate the
+	 * corresponding answer.
+	 * <h2>Check the answer by yourself
+	 *
+	 * @return test data of {@link LSD}
+	 * @since 5.12
+	 * @see #LSD_test_data
+	 * @see #generateData_LSD(int, int, String)
+	 * @see #loadData_LSD()
+	 * @see #timing(LSD, int[][])
+	 */
+	public int[][] generateData_LSD(){
+		return generateData_LSD(1000);
+	}
+
+	/**
+	 * @param LEN  the length of the array to generate
+	 * @return test data of {@link LSD}
+	 * @since 5.12
+	 * @see #generateData_LSD()
+	 */
+	public int[][] generateData_LSD(final int LEN){
+		return generateData_LSD(LEN, 50001);
+	}
+
+	/**
+	 * @param LEN  the length of the array to generate
+	 * @param RANGE  {@code 0 ~ RANGE-1} in the array to generate
+	 * @return test data of {@link LSD}
+	 * @see #generateData_LSD()
+	 */
+	public int[][] generateData_LSD(final int LEN, final int RANGE){
+		return generateData_LSD(LEN, RANGE, PATH);
+	}
+
+	/**
+	 * @param LEN  the length of the array to generate
+	 * @param RANGE  {@code 0 ~ RANGE-1} in the array to generate
+	 * @param PATH  the directory for file {@code LSD_test_data.txt} to save
+	 * @return test data of {@link LSD}
+	 * @see #generateData_LSD()
+	 */
+	public int[][] generateData_LSD(final int LEN, final int RANGE, final String PATH){
+		System.out.println("LSD test data generating by size: " + LEN + ", range: 0 ~ " + (RANGE-1) + "...");
+		final java.util.List<Integer[]> test_data = new java.util.ArrayList<Integer[]>(LEN);
+		for(int i = -1; LEN > ++i;){
+			test_data.add(new Integer[]{
+				(int)(Math.random()*RANGE), (int)(Math.random()*RANGE)
+			});
+		}
+		try {
+			final java.io.File file = new java.io.File(PATH);
+			file.createNewFile();
+			System.out.println("LSD test data saving on: "+PATH+"\\LSD_test_data.txt");
+			final java.io.BufferedWriter bw = new java.io.BufferedWriter(
+				new java.io.FileWriter(new java.io.File(
+					PATH+"\\LSD_test_data.txt"))
+			);
+			LSD_test_data = new int[LEN][];
+			for(int i = -1; LEN > ++i;){
+				LSD_test_data[i] = new int[]{
+					test_data.get(i)[0], test_data.get(i)[1]
+				};
+				bw.write(
+					LSD_test_data[i][0]+" "+LSD_test_data[i][1]+(i==LEN-1?"":"\r\n"));
+			}
+			bw.flush(); bw.close();
+		} catch (final java.io.IOException e) {
+		}
+		final int[][] result = new int[test_data.size()][];
+		for(int i = -1; test_data.size() > ++i;){
+			result[i] = new int[]{
+				test_data.get(i)[0], test_data.get(i)[1]
+			};
+			if(SHOW_TEST_DATA) System.out.println(
+				result[i][0]+" "+result[i][1]
+			);
+		}
+		System.out.println("LSD test data and answer generated.");
+		return result;
+	}
+
+	/**
+	 * Load test data of {@link LSD} from specific directory(defaultly
+	 * {@link #PATH}) and set {@link #LSD_test_data}. The name of the file must be
+	 * {@code LSD_test_data.txt}.
+	 *
+	 * @return test data of {@link LSD}
+	 * @since 5.12
+	 * @see #LSD_test_data
+	 * @see #loadData_LSD(String)
+	 * @see #generateData_LSD()
+	 * @see #timing(LSD, int[][])
+	 */
+	public int[][] loadData_LSD(){
+		return loadData_LSD(PATH);
+	}
+
+	/**
+	 * @param PATH the directory of {@code LSD_test_data.txt}
+	 * @return loaded test data of {@link LSD}
+	 * @see #loadData_LSD()
+	 */
+	public int[][] loadData_LSD(final String PATH){
+		System.out.println("LSD test data loading from: " + PATH + "\\LSD_test_data.txt");
+		final java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
+		try {
+			final java.io.BufferedReader br = new java.io.BufferedReader(
+					new java.io.InputStreamReader(new java.io.FileInputStream(PATH + "\\LSD_test_data.txt")));
+			String[] line;
+			while(br.ready() && (line = br.readLine().split(" ")) != null){
+				data.add(new Integer[]{
+					Integer.valueOf(line[0]), Integer.valueOf(line[1])
+				});
+			}
+			br.close();
+		} catch (final java.io.IOException e) {
+			System.out.println("\"LSD_test_data.txt\" file not found.");
+			System.exit(0);
+		}
+		LSD_test_data = new int[data.size()][];
+		for(int i = -1; data.size() > ++i;){
+			LSD_test_data[i] = new int[]{
+				data.get(i)[0].intValue(), data.get(i)[1].intValue()
+			};
+			if(SHOW_TEST_DATA) System.out.println(
+				LSD_test_data[i][0]+" "+LSD_test_data[i][1]
+			);
+		}
+		System.out.println("LSD test data initialized. Array length: "+LSD_test_data.length);
+		return LSD_test_data;
 	}
 
 	/**
