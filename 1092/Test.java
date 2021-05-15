@@ -1,14 +1,24 @@
 /**<!--미안해...노정훤-->
  * NCHU CSE 1092 algorithm homework local test class
- * @version 5.15
+ * @version 5.15.21.10
  * @author twjmy@msn.com
  */
 public class Test{
 	public static void main(final String[] args){
-		final Test test = new Test(5,"row",false,false,System.getProperty("user.dir"));
+		final Test test = new Test(10,"min",false,false,System.getProperty("user.dir"));
 
-		test.loadData_LSD();
-		test.timing(new HW09_4108056020_1());
+		final int[] list = {398,598,788,7694};
+		final LSD[] lsd = {
+			// new HW09_4108056020_1(),
+			new HW09_4108056020_2(),
+			new HW09_4108056020_5(),
+		};
+		for(final int n : list){
+			test.loadData_LSD(test.PATH+"\\LSD_test_data_"+n+".txt");
+			for(final LSD e : lsd){
+				test.timing(e);
+			}
+		}
 		test.checkFastest();
 
 		// test.loadData_Buy_Phone_v2();// test.generateData_Buy_Phone_v2();
@@ -120,7 +130,7 @@ public class Test{
 	 * @see #timing(LSD)
 	 */
 	public int timing(final LSD lsd, final int[][] TD) {
-		System.out.println("Start timing method Distance() of "+lsd.getClass().getName()+"...");
+		if(!CHECK_ANS.equals("min"))System.out.println("Start timing method Distance() of "+lsd.getClass().getName()+"...");
 		double totalCost = 0;
 		double time;
 		int td[][], result = 0;
@@ -131,8 +141,10 @@ public class Test{
 			time = -System.nanoTime();
 			result = lsd.Distance(td);
 			time = (System.nanoTime()+time)/1e6;
-			if(SHOW_COUNT) System.out.printf(
-			"\t"+lsd.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
+			if(!CHECK_ANS.equals("min")&&SHOW_COUNT) System.out.printf(
+						"\t" + lsd.getClass().getName() + " running count..." + (i + 1) + "\tTime: "
+						+ (time > 1e3 ? "%.6f" : "%.3fm") + "s\tResult: " + result + "\n",
+						time * (time > 1e3 ? 1000 : 1));
 			// if(CHECK_ANS!=null) if(!result) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -145,13 +157,13 @@ public class Test{
 				Fastest = lsd;
 			}
 			System.out.printf(
-			"\t"+lsd.getClass().getName()+" method Distance() "+
+			((!CHECK_ANS.equals("min"))?"\t":"")+lsd.getClass().getName()+" method Distance() "+
 			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 			switch(CHECK_ANS){
-				case "matrix","square","row","default": System.out.println("\tResult: "+result);
+				case "matrix","square","row","default": System.out.printf("\tResult: "+result+((!CHECK_ANS.equals("min"))?"\n":""));
 			}
 		}
-		System.out.println("End of timing "+lsd.getClass().getName()+".\n");
+		if(!CHECK_ANS.equals("min"))System.out.println("End of timing "+lsd.getClass().getName()+".\n");
 		return result;
 	}
 
@@ -160,7 +172,7 @@ public class Test{
 	 * <p>File {@code LSD_test_data.txt} will create or replace to the specific
 	 * directory(defaultly {@link #PATH}) automatically. It will NOT generate the
 	 * corresponding answer.
-	 * <h2>Check the answer by yourself
+	 * <h2>Check the answer by yourself</h2>
 	 *
 	 * @return test data of {@link LSD}
 	 * @since 5.12
@@ -242,8 +254,8 @@ public class Test{
 
 	/**
 	 * Load test data of {@link LSD} from specific directory(defaultly
-	 * {@link #PATH}) and set {@link #LSD_test_data}. The name of the file must be
-	 * {@code LSD_test_data.txt}.
+	 * {@link #PATH}) and set {@link #LSD_test_data}. If not assign, the
+	 * name of the file must be {@code LSD_test_data.txt}.
 	 *
 	 * @return test data of {@link LSD}
 	 * @since 5.12
@@ -253,20 +265,20 @@ public class Test{
 	 * @see #timing(LSD, int[][])
 	 */
 	public int[][] loadData_LSD(){
-		return loadData_LSD(PATH);
+		return loadData_LSD(PATH + "\\LSD_test_data.txt");
 	}
 
 	/**
-	 * @param PATH the directory of {@code LSD_test_data.txt}
+	 * @param PATH the absolute path of test data to load
 	 * @return loaded test data of {@link LSD}
 	 * @see #loadData_LSD()
 	 */
 	public int[][] loadData_LSD(final String PATH){
-		System.out.println("LSD test data loading from: " + PATH + "\\LSD_test_data.txt");
+		System.out.println("LSD test data loading from: " + PATH);
 		final java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
 		try {
 			final java.io.BufferedReader br = new java.io.BufferedReader(
-					new java.io.InputStreamReader(new java.io.FileInputStream(PATH + "\\LSD_test_data.txt")));
+					new java.io.InputStreamReader(new java.io.FileInputStream(PATH)));
 			String[] line;
 			while(br.ready() && (line = br.readLine().split(" ")) != null){
 				data.add(new Integer[]{
@@ -275,7 +287,7 @@ public class Test{
 			}
 			br.close();
 		} catch (final java.io.IOException e) {
-			System.out.println("\"LSD_test_data.txt\" file not found.");
+			System.out.println(PATH + " file not found.");
 			System.exit(0);
 		}
 		LSD_test_data = new int[data.size()][];
@@ -376,7 +388,7 @@ public class Test{
 	 * <p>File {@code Buy_Phone_v2_test_data.txt} will create or replace to the specific
 	 * directory(defaultly {@link #PATH}) automatically. It will NOT generate the
 	 * corresponding answer.
-	 * <h2>Check the answer by yourself
+	 * <h2>Check the answer by yourself</h2>
 	 *
 	 * @return test data of {@link Buy_Phone_v2}
 	 * @since 4.14
@@ -606,7 +618,7 @@ public class Test{
 	 * <p>File {@code Buy_Phone_test_data.txt} will create or replace to the specific
 	 * directory(defaultly {@link #PATH}) automatically. It will NOT generate the
 	 * corresponding answer.
-	 * <h2>Check the answer by yourself
+	 * <h2>Check the answer by yourself</h2>
 	 *
 	 * @return test data of {@link Buy_Phone}
 	 * @since 4.14
@@ -797,7 +809,7 @@ public class Test{
 	 * <p>File {@code LLK_test_data.txt} will create or replace to the specific
 	 * directory(defaultly {@link #PATH}) automatically. It will NOT generate the
 	 * corresponding answer.
-	 * <h2>Check the answer by yourself
+	 * <h2>Check the answer by yourself</h2>
 	 *
 	 * @return test data of {@link LLK}
 	 * @since 3.31
@@ -1483,11 +1495,11 @@ public class Test{
 
 	/**
 	 * @deprecated
-	 * <h2>This method is unimplemented</h2> Since TA build the
-	 * {@link Class} by {@code ArrayData(int[])}, the constructor may
-	 * run before calling method {@link ArrayData#min()} or
-	 * {@link ArrayData#max()}. We cannot pass the {@link Class} to the
-	 * timeing method. {@link #timing(ArrayData, int[])}
+	 * <h2>This method is unimplemented</h2>
+	 * Since TA build the {@link Class} by {@code ArrayData(int[])},
+	 * the constructor may run before calling method {@link ArrayData#min()}
+	 * or {@link ArrayData#max()}. We cannot pass the {@link Class} to the
+	 * timeing method {@link #timing(ArrayData, int[])}
 	 *
 	 * @param AD  {@link ArrayData}
 	 * @param TD test data of {@link ArrayData}
@@ -1612,6 +1624,7 @@ public class Test{
 
 	/**
 	 * Fastest class to save
+	 * @since 4.4
 	 * @see #Fastest_Cost
 	 * @see #checkFastest()
 	 */
@@ -1619,10 +1632,11 @@ public class Test{
 
 	/**
 	 * Fastest average cost to save
+	 * @since 4.4
 	 * @see #Fastest
 	 * @see #checkFastest()
 	 */
-	public Double Fastest_Cost = Double.MAX_VALUE;
+	public double Fastest_Cost = Double.MAX_VALUE;
 
 	/** The times of running for calculating average running time */
 	public final int RUN_TIME;
@@ -1787,9 +1801,12 @@ public class Test{
 		System.out.println(this.getClass().getName()+": Run times of every method: "+RUN_TIME);
 		if(SHOW_COUNT) System.out.println(this.getClass().getName()+": Show count status.");
 		switch(CHECK_ANS.toLowerCase()){
-			case "default","matrix","square","row":
-				System.out.println(this.getClass().getName()+": Check answers in format '"+CHECK_ANS+"'.");
-				this.CHECK_ANS=CHECK_ANS.toLowerCase(); break;
+			case "default","matrix","square","row","min":
+				System.out.println(
+					this.getClass().getName()+": Check answers in format '"
+					+(this.CHECK_ANS=CHECK_ANS.toLowerCase())+"'."
+				);
+				break;
 			default: this.CHECK_ANS=null;
 		}
 	}
