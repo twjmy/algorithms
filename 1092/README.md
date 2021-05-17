@@ -50,9 +50,9 @@ TestCase(input) will not include arrays like:
 
 | Example  | Method Calling                      |
 | -------- | ----------------------------------- |
-| Input 1  | `H_Finding(new int{5,6,7,1,2,3,4})` |
+| Input 1  | `H_Finding(new int[]{5,6,7,1,2,3,4})` |
 | Output 1 | `H_Finding(int[]) = (int) 3`        |
-| Input 2  | `H_Finding(new int{5,7,8,8,1,3,4})` |
+| Input 2  | `H_Finding(new int[]{5,7,8,8,1,3,4})` |
 | Output 2 | `H_Finding(int[]) = (int) 2`        |
 
 ### Abstract class
@@ -117,7 +117,7 @@ public class HW03_4108056020_1 extends HillFinding {
 
 | Example | Method Calling                  |
 | ------- | ------------------------------- |
-| Input   | `T_sum(new int{-1,1,2,4,8,-3})` |
+| Input   | `T_sum(new int[]{-1,1,2,4,8,-3})` |
 | Output  | `T_sum(int[]) = (int) 2`        |
 
 分別是 (1,2,-3) 以及 (-1,4,-3) 2組
