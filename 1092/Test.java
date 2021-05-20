@@ -1,23 +1,25 @@
 /**<!--미안해...노정훤-->
  * NCHU CSE 1092 algorithm homework local test class
- * @version 5.15.21.24
+ * @version 5.20
  * @author twjmy@msn.com
  */
 public class Test{
 	public static void main(final String[] args){
-		final Test test = new Test(10,"min",false,false,System.getProperty("user.dir"));
+		final Test test = new Test(1,"min",false,false,System.getProperty("user.dir"));
+		// "min" : shows only 1 line each timing
 
 		final int[] list = {398,598,788,7694};
 		final LSD[] lsd = {
 			// new HW09_4108056020_1(),
 			new HW09_4108056020_2(),
+			new HW09_4108056020_4(),
+			new HW09_4108056020_3(),
 			new HW09_4108056020_5(),
 		};
-		for(final int n : list){
-			test.loadData_LSD(test.PATH+"\\LSD_test_data_"+n+".txt");
-			for(final LSD e : lsd)
-				test.timing(e);
-		}
+        for(int i = 0; i < 10; i++) // simulate the same way TA runs
+			for(final int n : list)
+				for(final LSD e : lsd) // now we can load data via absolute path of the file
+					test.timing(e, test.loadData_LSD(test.PATH+"\\LSD_test_data_"+n+".txt"));
 		test.checkFastest();
 
 		// test.loadData_Buy_Phone_v2();// test.generateData_Buy_Phone_v2();
@@ -142,7 +144,7 @@ public class Test{
 			time = (System.nanoTime()+time)/1e6;
 			if(!CHECK_ANS.equals("min")&&SHOW_COUNT) System.out.printf(
 						"\t" + lsd.getClass().getName() + " running count..." + (i + 1) + "\tTime: "
-						+ (time > 1e3 ? "%.6f" : "%.3fm") + "s\tResult: " + result + "\n",
+						+ (time > 1e3 ? "%.6f " : "%.3f m") + "s\tResult: " + result + "\n",
 						time * (time > 1e3 ? 1000 : 1));
 			// if(CHECK_ANS!=null) if(!result) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
@@ -157,7 +159,7 @@ public class Test{
 			}
 			System.out.printf(
 			((!CHECK_ANS.equals("min"))?"\t":"")+lsd.getClass().getName()+" method Distance() "
-			+"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s"
+			+"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s"
 			+(CHECK_ANS!=null?("\tResult: "+result+
 			(CHECK_ANS.equals("min")?("\tArray length: "+TD.length):"")):"")+"\n",averageTime/(averageTime>1e3?1e3:1));
 		}
@@ -267,7 +269,7 @@ public class Test{
 	}
 
 	/**
-	 * @param PATH the absolute path of test data to load
+	 * @param PATH the absolute path of test data file to load
 	 * @return loaded test data of {@link LSD}
 	 * @see #loadData_LSD()
 	 */
@@ -348,7 +350,7 @@ public class Test{
 			result = BP.bestPhone(td);
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+BP.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
+			"\t"+BP.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f ":"%.3f m")+"s\n",time*(time>1e3?1000:1));
 			// if(CHECK_ANS!=null) if(!result) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -362,7 +364,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+BP.getClass().getName()+" method bestPhone() "+
-			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
+			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 			switch(CHECK_ANS){
 				case "matrix","square","row": 
 					final StringBuffer SB = new StringBuffer("\tResult: \n");
@@ -476,8 +478,8 @@ public class Test{
 
 	/**
 	 * Load test data of {@link Buy_Phone_v2} from specific directory(defaultly
-	 * {@link #PATH}) and set {@link #Buy_Phone_v2_test_data}. The name of the file must be
-	 * {@code Buy_Phone_v2_test_data.txt}.
+	 * {@link #PATH}) and set {@link #Buy_Phone_v2_test_data}. If not assign,
+	 * the name of the file must be {@code Buy_Phone_v2_test_data.txt}.
 	 *
 	 * @return test data of {@link Buy_Phone_v2}
 	 * @since 4.14
@@ -487,20 +489,20 @@ public class Test{
 	 * @see #timing(Buy_Phone_v2, int[][])
 	 */
 	public int[][] loadData_Buy_Phone_v2(){
-		return loadData_Buy_Phone_v2(PATH);
+		return loadData_Buy_Phone_v2(PATH + "\\Buy_Phone_v2_test_data.txt");
 	}
 
 	/**
-	 * @param PATH the directory of {@code Buy_Phone_v2_test_data.txt}
+	 * @param PATH the absolute path of test data file to load
 	 * @return loaded test data of {@link Buy_Phone_v2}
 	 * @see #loadData_Buy_Phone_v2()
 	 */
 	public int[][] loadData_Buy_Phone_v2(final String PATH){
-		System.out.println("Buy_Phone_v2 test data loading from: " + PATH + "\\Buy_Phone_v2_test_data.txt");
+		System.out.println("Buy_Phone_v2 test data loading from: " + PATH);
 		final java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
 		try {
 			final java.io.BufferedReader br = new java.io.BufferedReader(
-					new java.io.InputStreamReader(new java.io.FileInputStream(PATH + "\\Buy_Phone_v2_test_data.txt")));
+					new java.io.InputStreamReader(new java.io.FileInputStream(PATH)));
 			String[] line;
 			while(br.ready() && (line = br.readLine().split(" ")) != null){
 				data.add(new Integer[]{
@@ -511,7 +513,7 @@ public class Test{
 			}
 			br.close();
 		} catch (final java.io.IOException e) {
-			System.out.println("\"Buy_Phone_v2_test_data.txt\" file not found.");
+			System.out.println(PATH + " file not found.");
 			System.exit(0);
 		}
 		Buy_Phone_v2_test_data = new int[data.size()][];
@@ -578,7 +580,7 @@ public class Test{
 			result = BP.bestPhone(td);
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+BP.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
+			"\t"+BP.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f ":"%.3f m")+"s\n",time*(time>1e3?1000:1));
 			// if(CHECK_ANS!=null) if(!result) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -592,7 +594,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+BP.getClass().getName()+" method bestPhone() "+
-			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
+			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 			switch(CHECK_ANS){
 				case "matrix","square","row": 
 					final StringBuffer SB = new StringBuffer("\tResult: \n");
@@ -690,8 +692,8 @@ public class Test{
 
 	/**
 	 * Load test data of {@link Buy_Phone} from specific directory(defaultly
-	 * {@link #PATH}) and set {@link #Buy_Phone_test_data}. The name of the file must be
-	 * {@code Buy_Phone_test_data.txt}.
+	 * {@link #PATH}) and set {@link #Buy_Phone_test_data}. If not assign,
+	 * the name of the file must be {@code Buy_Phone_test_data.txt}.
 	 *
 	 * @return test data of {@link Buy_Phone}
 	 * @since 4.14
@@ -701,20 +703,20 @@ public class Test{
 	 * @see #timing(Buy_Phone, int[][])
 	 */
 	public int[][] loadData_Buy_Phone(){
-		return loadData_Buy_Phone(PATH);
+		return loadData_Buy_Phone(PATH + "\\Buy_Phone_test_data.txt");
 	}
 
 	/**
-	 * @param PATH the directory of {@code Buy_Phone_test_data.txt}
+	 * @param PATH the absolute path of test data file to load
 	 * @return loaded test data of {@link Buy_Phone}
 	 * @see #loadData_Buy_Phone()
 	 */
 	public int[][] loadData_Buy_Phone(final String PATH){
-		System.out.println("Buy_Phone test data loading from: " + PATH + "\\Buy_Phone_test_data.txt");
+		System.out.println("Buy_Phone test data loading from: " + PATH);
 		final java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
 		try {
 			final java.io.BufferedReader br = new java.io.BufferedReader(
-					new java.io.InputStreamReader(new java.io.FileInputStream(PATH + "\\Buy_Phone_test_data.txt")));
+					new java.io.InputStreamReader(new java.io.FileInputStream(PATH)));
 			String[] line; Integer[] xy;
 			while(br.ready() && (line = br.readLine().split(" ")) != null){
 				xy = new Integer[]{ Integer.valueOf(line[0]), Integer.valueOf(line[1]) };
@@ -722,7 +724,7 @@ public class Test{
 			}
 			br.close();
 		} catch (final java.io.IOException e) {
-			System.out.println("\"Buy_Phone_test_data.txt\" file not found.");
+			System.out.println(PATH + " file not found.");
 			System.exit(0);
 		}
 		Buy_Phone_test_data = new int[data.size()][2];
@@ -781,7 +783,7 @@ public class Test{
 			result = Llk.checkLLK(td);
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+Llk.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
+			"\t"+Llk.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f ":"%.3f m")+"s\n",time*(time>1e3?1000:1));
 			// if(CHECK_ANS!=null) if(!result) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -795,7 +797,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+Llk.getClass().getName()+" method checkLLK() "+
-			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
+			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 			if(CHECK_ANS!=null) System.out.println("\tResult: "+result);
 		}
 		System.out.println("End of timing "+Llk.getClass().getName()+".\n");
@@ -837,7 +839,7 @@ public class Test{
 	 * @see #generateData_LLK()
 	 */
 	public int[][] generateData_LLK(final int LEN, final int RANGE){
-		return generateData_LLK(LEN, RANGE, PATH);
+		return generateData_LLK(LEN, RANGE, PATH+"\\LLK_test_data.txt");
 	}
 
 	/**
@@ -858,10 +860,9 @@ public class Test{
 		try {
 			final java.io.File file = new java.io.File(PATH);
 			file.createNewFile();
-			System.out.println("LLK test data saving on: "+PATH+"\\LLK_test_data.txt");
+			System.out.println("LLK test data saving on: "+PATH);
 			final java.io.BufferedWriter bw = new java.io.BufferedWriter(
-				new java.io.FileWriter(new java.io.File(
-					PATH+"\\LLK_test_data.txt"))
+				new java.io.FileWriter(new java.io.File(PATH))
 			);
 			LLK_test_data = new int[LEN][2];
 			for(int i = -1; LEN > ++i;){
@@ -893,20 +894,20 @@ public class Test{
 	 * @see #timing(LLK, int[][])
 	 */
 	public int[][] loadData_LLK(){
-		return loadData_LLK(PATH);
+		return loadData_LLK(PATH + "\\LLK_test_data.txt");
 	}
 
 	/**
-	 * @param PATH the directory of {@code LLK_test_data.txt}
+	 * @param PATH the absolute path of test data file to load
 	 * @return loaded test data of {@link LLK}
 	 * @see #loadData_LLK()
 	 */
 	public int[][] loadData_LLK(final String PATH){
-		System.out.println("LLK test data loading from: " + PATH + "\\LLK_test_data.txt");
+		System.out.println("LLK test data loading from: " + PATH);
 		final java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
 		try {
 			final java.io.BufferedReader br = new java.io.BufferedReader(
-					new java.io.InputStreamReader(new java.io.FileInputStream(PATH + "\\LLK_test_data.txt")));
+					new java.io.InputStreamReader(new java.io.FileInputStream(PATH)));
 			String[] line; Integer[] xy;
 			while(br.ready() && (line = br.readLine().split(" ")) != null){
 				xy = new Integer[]{ Integer.valueOf(line[0]), Integer.valueOf(line[1]) };
@@ -914,7 +915,7 @@ public class Test{
 			}
 			br.close();
 		} catch (final java.io.IOException e) {
-			System.out.println("\"LLK_test_data.txt\" file not found.");
+			System.out.println(PATH + " file not found.");
 			System.exit(0);
 		}
 		LLK_test_data = new int[data.size()][2];
@@ -983,7 +984,7 @@ public class Test{
 			result = O0r.one0k(td);
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+O0r.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
+			"\t"+O0r.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f ":"%.3f m")+"s\n",time*(time>1e3?1000:1));
 			if(CHECK_ANS != null && One_0k_rock_ans != null)
 			 for(int c = -1; ++c < One_0k_rock_ans.length;)
 			  if(result[c] != One_0k_rock_ans[c]){
@@ -1002,7 +1003,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+O0r.getClass().getName()+" method one0k() "+
-			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
+			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 		}
 		if(CHECK_ANS!=null) System.out.println("\tResult: " + java.util.Arrays.toString(result) + "\n\tCorrect: "
 					+ java.util.Arrays.toString(One_0k_rock_ans));
@@ -1129,8 +1130,9 @@ public class Test{
 
 	/**
 	 * Load test data of {@link One_0k_rock} from parameter specific directory and
-	 * set {@link #One_0k_rock_ans}, {@link #One_0k_rock_test_data}. The name of the file must be
-	 * {@code One_0k_rock_test_data.txt} and {@code One_0k_rock_test_data_ans.txt}
+	 * set {@link #One_0k_rock_ans}, {@link #One_0k_rock_test_data}. The name of
+	 * the file must be {@code One_0k_rock_test_data.txt} and
+	 * {@code One_0k_rock_test_data_ans.txt}
 	 *
 	 * @return test data of {@link One_0k_rock}
 	 * @since 3.17
@@ -1241,7 +1243,7 @@ public class Test{
 			result = HF.H_Finding(td);
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+HF.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
+			"\t"+HF.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f ":"%.3f m")+"s\n",time*(time>1e3?1000:1));
 			if(CHECK_ANS!=null) if(HillFinding_ans != -2 && result != HillFinding_ans) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -1255,7 +1257,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+HF.getClass().getName()+" method H_Finding() "+
-			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
+			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 		}
 		if(CHECK_ANS!=null) System.out.println("\tResult: "+result+", Correct: "+HillFinding_ans);
 		System.out.println("End of timing "+HF.getClass().getName()+".\n");
@@ -1451,8 +1453,8 @@ public class Test{
 	}
 
 	/**
-	 * Load test data of {@link ThreeSum} from specific directory The name of the
-	 * file must be {@code ThreeSum_test_data.txt}
+	 * Load test data of {@link ThreeSum} from specific directory.
+	 * If not assign, the name of the file must be {@code ThreeSum_test_data.txt}
 	 *
 	 * @return loaded test data of {@link ThreeSum}
 	 * @since 3.10
@@ -1460,7 +1462,7 @@ public class Test{
 	 * @see #timing(ThreeSum, int[])
 	 */
 	public int[] loadData_ThreeSum() {
-		return loadData_ThreeSum(PATH);
+		return loadData_ThreeSum(PATH + "\\ThreeSum_test_data.txt");
 	}
 
 	/**
@@ -1468,8 +1470,7 @@ public class Test{
 	 * @return loaded test data of {@link ThreeSum}
 	 * @see #loadData_ThreeSum()
 	 */
-	public int[] loadData_ThreeSum(String PATH) {
-		PATH += "\\ThreeSum_test_data.txt";
+	public int[] loadData_ThreeSum(final String PATH) {
 		System.out.println("ThreeSum test data loading from: " + PATH);
 		final java.util.ArrayList<Integer> data = new java.util.ArrayList<>();
 		try {
@@ -1482,7 +1483,7 @@ public class Test{
 			}
 			br.close();
 		} catch (final java.io.FileNotFoundException e) {
-			System.out.println("\"ThreeSum_test_data.txt\" file not found.");
+			System.out.println(PATH + " file not found.");
 			System.exit(0);
 		} catch (final java.io.IOException e) {
 		}
@@ -1515,7 +1516,7 @@ public class Test{
 			result = AD.min();
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+AD.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
+			"\t"+AD.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f ":"%.3f m")+"s\n",time*(time>1e3?1000:1));
 			// if(CHECK_ANS!=null) if(a != -1-1-1) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -1529,7 +1530,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+AD.getClass().getName()+" method min() "+
-			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
+			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 		}
 		System.out.println("\tResult: "+result);
 
@@ -1539,7 +1540,7 @@ public class Test{
 			result = AD.max();
 			time = (System.nanoTime()+time)/1e6;
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+AD.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f":"%.3fm")+"s\n",time*(time>1e3?1000:1));
+			"\t"+AD.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f ":"%.3f m")+"s\n",time*(time>1e3?1000:1));
 			// if(CHECK_ANS!=null) if(a != -1-1-1) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -1553,7 +1554,7 @@ public class Test{
 			}
 			System.out.printf(
 			"\t"+AD.getClass().getName()+" method max() "+
-			"average running time: "+(averageTime>1e3?"%.6f":"%.3fm")+"s\n",averageTime/(averageTime>1e3?1e3:1));
+			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 		}
 		System.out.println("\tResult: "+result);
 		System.out.println("End of timing "+AD.getClass().getName()+".\n");
@@ -1616,7 +1617,7 @@ public class Test{
 			return null;
 		}
 		System.out.printf("["+java.time.LocalDate.now() + " " + java.time.LocalTime.now() + "] "
-				+ Fastest.getClass().getName() + " is the fastest, cost: "+(Fastest_Cost>1e3?"%.6f":"%.3fm")+"s\n", Fastest_Cost/(Fastest_Cost>1e3?1e3:1));
+				+ Fastest.getClass().getName() + " is the fastest, cost: "+(Fastest_Cost>1e3?"%.6f ":"%.3f m")+"s\n", Fastest_Cost/(Fastest_Cost>1e3?1e3:1));
 		return Fastest;
 	}
 
@@ -1753,7 +1754,7 @@ public class Test{
 	}
 
 	/**
-	 * @param CHECK_ANS the value to be set for {@link #CHECK_ANS}
+	 * @param CHECK_ANS can be assign to {@code null}, {@code "default"}, {@code "matrix"}, {@code "square"}, {@code "row"} or {@code "min"} to set {@link #CHECK_ANS}
 	 * @param SHOW_COUNT the value to be set for {@link #SHOW_COUNT}
 	 * @param SHOW_TEST_DATA the value to be set for {@link #SHOW_TEST_DATA}
 	 * @see #Test()
@@ -1764,7 +1765,7 @@ public class Test{
 
 	/**
 	 * @param RUN_TIME the value to be set for {@link #RUN_TIME}
-	 * @param CHECK_ANS the value to be set for {@link #CHECK_ANS}
+	 * @param CHECK_ANS can be assign to {@code null}, {@code "default"}, {@code "matrix"}, {@code "square"}, {@code "row"} or {@code "min"} to set {@link #CHECK_ANS}
 	 * @param SHOW_COUNT the value to be set for {@link #SHOW_COUNT}
 	 * @param SHOW_TEST_DATA the value to be set for {@link #SHOW_TEST_DATA}
 	 * @see #Test()
@@ -1774,7 +1775,7 @@ public class Test{
 	}
 
 	/**
-	 * @param CHECK_ANS the value to be set for {@link #CHECK_ANS}
+	 * @param CHECK_ANS can be assign to {@code null}, {@code "default"}, {@code "matrix"}, {@code "square"}, {@code "row"} or {@code "min"} to set {@link #CHECK_ANS}
 	 * @param SHOW_COUNT the value to be set for {@link #SHOW_COUNT}
 	 * @param SHOW_TEST_DATA the value to be set for {@link #SHOW_TEST_DATA}
 	 * @param PATH the value to be set for {@link #PATH}
@@ -1786,7 +1787,7 @@ public class Test{
 
 	/**
 	 * @param RUN_TIME the value to be set for {@link #RUN_TIME}
-	 * @param CHECK_ANS the value to be set for {@link #CHECK_ANS}
+	 * @param CHECK_ANS can be assign to {@code null}, {@code "default"}, {@code "matrix"}, {@code "square"}, {@code "row"} or {@code "min"} to set {@link #CHECK_ANS}
 	 * @param SHOW_COUNT the value to be set for {@link #SHOW_COUNT}
 	 * @param SHOW_TEST_DATA the value to be set for {@link #SHOW_TEST_DATA}
 	 * @param PATH the value to be set for {@link #PATH}
