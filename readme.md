@@ -22,16 +22,213 @@ image: null # 在此輸入預覽圖片網址
 <!--
 ## HW - 
 
-### Assigment
+### Assignment
 
 ### Abstract class
 
 ### Solution
+
+施工中...:gear:
+
+---
+
 -->
+
+## HW09 - LSD
+
+### Assignment
+
+Your program will take a two-dimensional integer array as input.
+
+Each element in the array represents nodes lined together
+
+Please return the longest shortest-path in the given graph.
+
+Given a graph G = (V, E), find max~u,v~ d(u, v), where d(u,v) denotes the shortest path length between node u and node v, for all possible u, v
+
+(In this home work, You may use java.util.collections、 java.util.ArrayList 、 java.util.Stack, 
+but  java.util.*  is not allowed.)
+{{0,1},{0,2},{0,4},{1,3},{1,4},{2,5},{6,7}}
+
+| Example | Method Calling / Return                    |
+| ------- | ------------------------------------------ |
+| Input   | `Distance(new int[][]{{0,1},{0,2},{0,4},{1,3},{1,4},{2,5},{6,7}})` |
+| Output  | `Distance(int[][]) = (int) 4` |
+
+### Abstract class
+
+```java!=
+public abstract class LSD{
+    public abstract int Distance(int[][] array);
+}
+```
+
+### Solution
+
+施工中...:gear:
+
+---
+
+## HW08 - Buy Phone v2
+
+### Assignment
+
+Your program will take a six-dimensional integer array as input. 
+
+Each element represents a smartphone model which contains two features (e.g., screen size and performance ranking).
+
+Please return an sorted array containing a list of unbeatable smartphone models (In other words, filter out the phone models that can be beaten by some model).
+
+The return array should be sorted by the first element of each array in the output.
+{{8,7,7,4,2,1},{2,4,4,6,2,1},{4,0,5,1,3,2},{5,2,4,3,7,3},{7,5,6,9,8,9}}
+{{7,5,6,9,8,9},{8,7,7,4,2,1}}
+
+| Example | Method Calling / Return                    |
+| ------- | ------------------------------------------ |
+| Input   | `bestPhone(new int[][]{{8,7,7,4,2,1},{2,4,4,6,2,1},{4,0,5,1,3,2},{5,2,4,3,7,3},{7,5,6,9,8,9}})` |
+| Output  | `bestPhone(int[][]) = (int[][]) {{7,5,6,9,8,9},{8,7,7,4,2,1}}` |
+
+### Abstract class
+
+```java!=
+public abstract class Buy_Phone_v2{
+    public abstract int[][] bestPhone(int[][] inputArr);
+}
+```
+
+### Solution
+
+施工中...:gear:
+
+---
+
+## HW07 - Buy Phone
+
+### Assignment
+
+Your program will take a two-dimensional integer array as input. 
+
+Each element represents a smartphone model which contains two features (e.g., screen size and performance ranking).
+
+Please return an array containing a list of unbeatable smartphone models (In other words, filter out the phone models that can be beat by some model).
+
+Given two items A =(X~a~, Y~a~) and B =(X~b~, Y~b~), Item A beats Item B iff x~a~≥x~b~ and y~a~≥y~b~
+
+| Example | Method Calling / Return                    |
+| ------- | ------------------------------------------ |
+| Input   | `bestPhone(new int[][]{{1,1},{2,4},{2,10},{5,4},{4,8},{5,5},{8,4},{10,2},{10,1}})` |
+| Output  | `bestPhone(int[][]) = (int[][]) {{2,10},{4,8},{5,5},{8,4},{10,2}}` |
+
+### Abstract class
+
+```java!=
+public abstract class Buy_Phone{
+    public abstract int[][] bestPhone(int[][] inputArr);
+}
+```
+
+### Solution
+
+施工中...:gear:
+
+---
+
+## HW06 - Dessert Desert
+
+### Assignment
+
+Your program will take an integer arrays as input.
+
+Please return the maximum possible number of blocks in a valid partitioning.
+
+A valid partitioning of the integer array is defined as follows. 
+
++ The numbers are split into blocks — groups of consecutive numbers. The block~i,j~ consists of number n~i~, n~i+1~, ..., n~j~. A block can have only a single number.
++ Every number belongs to one block only.
++ The partitioning should satisfy the condition that after each block is sorted, the whole sequence becomes sorted as well.
+
+| Example | Method Calling / Return                    |
+| ------- | ------------------------------------------ |
+| Input   | `maxBlocks(new int[][]{{1,1,1,1,1,1,1},{1,3,5,7,9},{1,2,3},{5,4,3,2,1},{2,1,3,2}})` |
+| Output  | `maxBlocks(int[][]) = (int[]) {7,5,3,1,2}` |
+
+### Abstract class
+
+```java!=
+public abstract class Dessert_Desert{
+    public abstract int[] maxBlocks(int[][] inputArr);
+}
+```
+
+### Solution
+
+施工中...:gear:
+
+---
+
+## HW05 - LLK
+
+### Assignment
+
+Your program will take a set that consists of two-dimensional points as input. Please determine whether the given set containing three points lie in a line.
+
+Here is our sample testdata: `[[1,1],[2,2],[3,6]]`
+
+| Example | Method Calling / Return                    |
+| ------- | ------------------------------------------ |
+| Input   | `checkLLK(new int[][]{{1,1},{2,2},{3,6}})` |
+| Output  | `checkLLK(int[][]) = (boolean) false`      |
+
+### Abstract class
+
+```java!=
+public abstract class LLK{
+    public abstract boolean checkLLK(int[][] array);
+}
+```
+
+### Solution
+
+施工中...:gear:
+
+---
+
+## HW04 - One 0K Rock
+
+### Assignment
+Your program will take a bunch of string arrays as input.
+Please determine whether a given array comes from { 0^k^1^k^ \| k ∈ Z^+^ }
+( the input arrays do not contain empty string and non 0,1 characters)
+
+For example,
+
+1. Input: ["0011","00111"] , Output: [true,false]
+2. Input: ["01","1100","1111"] , Output: [true,false,false]
+
+| Example  | Method Calling / Return                            |
+| -------- | -------------------------------------------------- |
+| Input 1  | `one0k(new String[]{"0011","00111"})`              |
+| Output 1 | `one0k(String[]) = (boolean[]) {true,false}`       |
+| Input 2  | `one0k(new String[]{"01","1100","1111"})`          |
+| Output 2 | `one0k(String[]) = (boolean[]) {true,false,false}` |
+
+### Abstract class
+
+```java!=
+public abstract class One_0k_rock {
+    public abstract boolean[] one0k(String[] str);
+}
+```
+
+### Solution
+
+施工中...:gear:
+
+---
 
 ## HW03 - HillFinding
 
-### Assigment
+### Assignment
 
 **Input**: An array. In this mission we find the peak of the array, then find out which cutting position of the array which could produce a sorted array.
 
@@ -48,12 +245,12 @@ TestCase(input) will not include arrays like:
 1. All same: `8,8,8,8,8,8`
 2. Whole ascending: `1,2,3,4,5,6,7`
 
-| Example  | Method Calling                      |
-| -------- | ----------------------------------- |
+| Example  | Method Calling / Return               |
+| -------- | ------------------------------------- |
 | Input 1  | `H_Finding(new int[]{5,6,7,1,2,3,4})` |
-| Output 1 | `H_Finding(int[]) = (int) 3`        |
+| Output 1 | `H_Finding(int[]) = (int) 3`          |
 | Input 2  | `H_Finding(new int[]{5,7,8,8,1,3,4})` |
-| Output 2 | `H_Finding(int[]) = (int) 2`        |
+| Output 2 | `H_Finding(int[]) = (int) 2`          |
 
 ### Abstract class
 
@@ -111,14 +308,14 @@ public class HW03_4108056020_1 extends HillFinding {
 
 ## HW02 - ThreeSum
 
-### Assigment
+### Assignment
 
 計算陣列中任意三個數字相加為零的組合數 (數組中不會有重複的數字)
 
-| Example | Method Calling                  |
-| ------- | ------------------------------- |
+| Example | Method Calling / Return           |
+| ------- | --------------------------------- |
 | Input   | `T_sum(new int[]{-1,1,2,4,8,-3})` |
-| Output  | `T_sum(int[]) = (int) 2`        |
+| Output  | `T_sum(int[]) = (int) 2`          |
 
 分別是 (1,2,-3) 以及 (-1,4,-3) 2組
 
@@ -182,11 +379,11 @@ public class HW02_1 extends ThreeSum{
 
 ## HW01 - ArrayData
 
-### Assigment
+### Assignment
 
 會給一個Array，分別求Array的最大值和最小值
 
-| Example | Method Calling                     |
+| Example | Method Calling / Return            |
 | ------- | ---------------------------------- |
 | Input   | `ArrayData(new int{1,2,3})`        |
 | Output  | `min() = (int) 3, max() = (int) 1` |
