@@ -1,4 +1,4 @@
-public class HW05_4108056020_1 extends LLK{
+public class HW05_4108056020_1 extends LLK {
 	class Slot{
 		final long SLOPE; final Slot NEXT;
 		public Slot(final long slope, final Slot next)
