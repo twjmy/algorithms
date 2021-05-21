@@ -1,6 +1,6 @@
 /**<!--미안해...노정훤-->
  * NCHU CSE 1092 algorithm homework local test class
- * @version 5.20
+ * @version 5.21
  * @author twjmy@msn.com
  */
 public class Test{
@@ -8,24 +8,22 @@ public class Test{
 		final Test test = new Test(1,"min",false,false,System.getProperty("user.dir"));
 		// "min" : shows only 1 line each timing
 
- 		final int[] list = {398,598,788,7694};
-		final LSD[] lsd = {
-			// new HW09_4108056020_1(),
-			new HW09_4108056020_2(),
-			new HW09_4108056020_4(),
-			new HW09_4108056020_3(),
-			new HW09_4108056020_5(),
-		};
-        for(int i = 0; i < 10; i++) // simulate the same way TA runs
-			for(final int n : list)
-				for(final LSD e : lsd) // now we can load data via absolute path of the file
-					test.timing(e, test.loadData_LSD(test.PATH+"\\LSD_test_data_"+n+".txt"));
+		for(int i = 0; i < 10; i++) // simulate the same way TA runs
+			for(final int n : new int[]{398,598,788,7694})
+				for(final LSD e : new LSD[]{
+					// new HW09_4108056020_1(),
+					new HW09_4108056020_2(),
+					new HW09_4108056020_3(),
+					new HW09_4108056020_4(),
+					new HW09_4108056020_5(),
+				}) test.timing(e, test.loadData_LSD(test.PATH+"\\LSD_test_data_"+n+".txt"));
+				// now we can load data via absolute path of the file
 		test.checkFastest();
 
 /* 
 		// test.loadData_Buy_Phone_v2();// test.generateData_Buy_Phone_v2();
 		test.Buy_Phone_v2_test_data = new int[][]{{8,7,7,4,2,1},{2,4,4,6,2,1},{4,0,5,1,3,2},{5,2,4,3,7,3},{7,5,6,9,8,9}};
-		final Buy_Phone_v2[] bp2 = {
+		for(final Buy_Phone_v2 e : new Buy_Phone_v2[]{
 			new HW08_4108056016_3(),
 			new HW08_4108056016__3(),
 			new HW08_4108056016_3_(),
@@ -34,25 +32,23 @@ public class Test{
 			new HW08_4108056020_3(),
 			new HW08_4108056020_4(),
 			// new HW08_4108056020_5(),
-		};
-		for(final Buy_Phone_v2 e : bp2) test.timing(e);
+		}) test.timing(e);
 		test.checkFastest();
  */
 /* 
 		test.loadData_Buy_Phone();
-		final Buy_Phone[] bp = {
+		for(final Buy_Phone e : new Buy_Phone[]{
 			new HW07_4108056020_1(),
 			new HW07_4108056020_2(),
 			new HW07_4108056020_3(),
 			new HW07_4108056020_4(),
 			// new HW07_4108056020_5(),
-		};
-		for(final Buy_Phone e : bp) test.timing(e);
+		}) test.timing(e);
 		test.checkFastest();
  */
 /* 
-		test.generateData_LLK(64); // test.loadData_LLK();
-		final LLK[] llk = {
+		test.loadData_LLK(); // test.generateData_LLK(64);
+		for(final LLK e : new LLK[]{
 			new HW05_4108056001_1(),
 			new HW05_4108056007_1(),
 			new HW05_4108056007_2(),
@@ -75,13 +71,12 @@ public class Test{
 			new PCL4107056019(),
 			new PCL4107056019_2021(),
 			new PCL4107056019__2021(),
-		};
-		for(final LLK e : llk) test.timing(e);
+		}) test.timing(e);
 		test.checkFastest();
  */
 /* 
-		test.generateData_One_0k_rock(20); // test.loadData_One_0k_rock();
-		final One_0k_rock[] o0r = {
+		test.loadData_One_0k_rock(); // test.generateData_One_0k_rock(20);
+		for(final One_0k_rock e : new One_0k_rock[]{
 			new HW04_4108056007_4(),
 			new HW04_4108056007_4_(),
 			new HW04_4108056020_1(),
@@ -90,26 +85,25 @@ public class Test{
 			new HW04_4108056020_4(),
 			new HW04_4108056020_5(),
 			new HW04_4108056020_RE(),
-		};
-		for(final One_0k_rock e : o0r) test.timing(e);
+		}) test.timing(e);
  */
 /* 
 		// test.loadData_HillFinding(); // test.generateData_HillFinding(30000);
 		test.HillFinding_test_data = new int[]{2,3,4,1};
 		test.HillFinding_ans = 0;
-		// test.timing(new HW03_4108056001_2());
-		final HillFinding[] hf = {
+		for(final HillFinding e : new HillFinding[]{
+			// new HW03_4108056001_2(),
 			new HW03_4108056020_1(),
 			new HW03_4108056020_2(),
 			new HW03_4108056020_3(),
 			new HW03_4108056020_4(),
 			new HW03_4108056020_5(),
-		};
-		for(final HillFinding e : hf) test.timing(e);
+		}) test.timing(e);
 		test.checkFastest();
  */
-/* 		
-		final ThreeSum[] ts = {
+/* 
+		final int[] TSumTD = test.loadData_ThreeSum();
+		for(final ThreeSum e : new ThreeSum[]{
 			new HW02_4108056001_1(),
 			new HW02_4108056020_1(),
 			new HW02_4108056020_2(),
@@ -119,9 +113,7 @@ public class Test{
 			new HW02_4108056021_2(),
 			new HW02_4108056036_2(),
 			new HW02_4108056036_3(),
-		};
-		final int[] TSumTD = test.loadData_ThreeSum();
-		for(final ThreeSum e : ts) test.timing(e, TSumTD);
+		}) test.timing(e, TSumTD);
 		test.checkFastest();
  */
 	}
@@ -218,7 +210,6 @@ public class Test{
 	/**
 	 * @param LEN  the length of the array to generate
 	 * @return test data of {@link LSD}
-	 * @since 5.12
 	 * @see #generateData_LSD()
 	 */
 	public int[][] generateData_LSD(final int LEN){
@@ -435,7 +426,6 @@ public class Test{
 	/**
 	 * @param LEN  the length of the array to generate
 	 * @return test data of {@link Buy_Phone_v2}
-	 * @since 4.14
 	 * @see #generateData_Buy_Phone_v2()
 	 */
 	public int[][] generateData_Buy_Phone_v2(final int LEN){
@@ -666,7 +656,6 @@ public class Test{
 	/**
 	 * @param LEN  the length of the array to generate
 	 * @return test data of {@link Buy_Phone}
-	 * @since 4.14
 	 * @see #generateData_Buy_Phone()
 	 */
 	public int[][] generateData_Buy_Phone(final int LEN){
@@ -857,7 +846,6 @@ public class Test{
 	/**
 	 * @param LEN  the length of the array to generate
 	 * @return test data of {@link LLK}
-	 * @since 3.31
 	 * @see #generateData_LLK()
 	 */
 	public int[][] generateData_LLK(final int LEN){
@@ -1599,7 +1587,7 @@ public class Test{
 		return result;
 	}
 
-	int[] ArrayData_test_data;
+	public int[] ArrayData_test_data;
 	/**
 	 * Generate test data of {@link ArrayData}
 	 *
@@ -1643,7 +1631,7 @@ public class Test{
 	}
 
 	/**
-	 * Print the fastest class after timing.
+	 * Print the fastest class after timing, then reset {@link #Fastest} and {@link #Fastest_Cost}.
 	 * @return {@link #Fastest}
 	 * @since 4.4
 	 * @see #Fastest
@@ -1655,8 +1643,12 @@ public class Test{
 			return null;
 		}
 		System.out.printf("["+java.time.LocalDate.now() + " " + java.time.LocalTime.now() + "] "
-				+ Fastest.getClass().getName() + " is the fastest, cost: "+(Fastest_Cost>1e3?"%.6f ":"%.3f m")+"s\n", Fastest_Cost/(Fastest_Cost>1e3?1e3:1));
-		return Fastest;
+				+ Fastest.getClass().getName() + " is the fastest, cost: "
+				+ (Fastest_Cost>1e3?"%.6f ":"%.3f m")+"s\n\n", Fastest_Cost/(Fastest_Cost>1e3?1e3:1));
+		Object tmp = Fastest;
+		Fastest = null;
+		Fastest_Cost = Double.MAX_VALUE;
+		return tmp;
 	}
 
 	/**
