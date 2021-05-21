@@ -44,7 +44,7 @@ Each element in the array represents nodes lined together
 
 Please return the longest shortest-path in the given graph.
 
-Given a graph G = (V, E), find max~u,v~ d(u, v), where d(u,v) denotes the shortest path length between node u and node v, for all possible u, v
+Given a graph G = (V, E), find max<sub>u,v</sub> d(u, v), where d(u,v) denotes the shortest path length between node u and node v, for all possible u, v
 
 (In this home work, You may use java.util.collections、 java.util.ArrayList 、 java.util.Stack, 
 but  java.util.*  is not allowed.)
@@ -112,7 +112,7 @@ Each element represents a smartphone model which contains two features (e.g., sc
 
 Please return an array containing a list of unbeatable smartphone models (In other words, filter out the phone models that can be beat by some model).
 
-Given two items A =(X~a~, Y~a~) and B =(X~b~, Y~b~), Item A beats Item B iff x~a~≥x~b~ and y~a~≥y~b~
+Given two items A =(X<sub>a</sub>, Y<sub>a</sub>) and B =(X<sub>b</sub>, Y<sub>b</sub>), Item A beats Item B iff x<sub>a</sub>≥x<sub>b</sub> and y<sub>a</sub>≥y<sub>b</sub>
 
 | Example | Method Calling / Return                    |
 | ------- | ------------------------------------------ |
@@ -143,7 +143,7 @@ Please return the maximum possible number of blocks in a valid partitioning.
 
 A valid partitioning of the integer array is defined as follows. 
 
-+ The numbers are split into blocks — groups of consecutive numbers. The block~i,j~ consists of number n~i~, n~i+1~, ..., n~j~. A block can have only a single number.
++ The numbers are split into blocks — groups of consecutive numbers. The block<sub>i,j</sub> consists of number n<sub>i</sub>, n<sub>i+1</sub>, ..., n<sub>j</sub>. A block can have only a single number.
 + Every number belongs to one block only.
 + The partitioning should satisfy the condition that after each block is sorted, the whole sequence becomes sorted as well.
 
@@ -197,13 +197,13 @@ public abstract class LLK{
 
 ### Assignment
 Your program will take a bunch of string arrays as input.
-Please determine whether a given array comes from { 0^k^1^k^ \| k ∈ Z^+^ }
+Please determine whether a given array comes from { 0<sup>k</sup>1<sup>k</sup> \| k ∈ Z<sup>+</sup> }
 ( the input arrays do not contain empty string and non 0,1 characters)
 
 For example,
 
-1. Input: ["0011","00111"] , Output: [true,false]
-2. Input: ["01","1100","1111"] , Output: [true,false,false]
+1. Input: `["0011","00111"]` , Output: `[true,false]`
+2. Input: `["01","1100","1111"]` , Output: `[true,false,false]`
 
 | Example  | Method Calling / Return                            |
 | -------- | -------------------------------------------------- |
