@@ -47,7 +47,6 @@ Please return the longest shortest-path in the given graph.
 Given a graph G = (V, E), find max<sub>u,v</sub> d(u, v), where d(u,v) denotes the shortest path length between node u and node v, for all possible u, v
 
 (In this home work, You may use `java.util.collections`、 `java.util.ArrayList` 、 `java.util.Stack`, but  `java.util.*`  is not allowed.)
-{{0,1},{0,2},{0,4},{1,3},{1,4},{2,5},{6,7}}
 
 | Example | Method Calling / Return                    |
 | ------- | ------------------------------------------ |
