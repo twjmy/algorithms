@@ -1,7 +1,6 @@
 ---
 lang: zh-tw
 tags: java, algorithm # 在此輸入標籤(以","分隔)
-title: 1092 演算法 # 在此輸入標題
 description: NCHU CSE 1092 Term Algorithm Homework # 在此輸入描述
 image: null # 在此輸入預覽圖片網址
 ---
