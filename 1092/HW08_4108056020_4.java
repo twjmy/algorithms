@@ -1,4 +1,4 @@
-public class HW08_4108056020_4 extends Buy_Phone_v2{
+public class HW08_4108056020_4 extends Buy_Phone_v2 {
 	final int[][] AUX = new int[1000][]; int a[][];
 
 	public int[][] bestPhone(final int[][] inputArr){
