@@ -101,7 +101,7 @@ public class ArrDup{
         for (i = 0; i < N;) AUX[CNT[A[i][0]]++] = A[i++];   // sort in AUX
         for (i = 0; i < N; i++)                     // replace all array properties
             for(j = 0; j < 6; j++)
-                A[i][j] = AUX[i][5-j];
+                A[i][j] = AUX[i][5-j];  // simulate the situation that we change single property
         for (i = 0; i < END; ++i){
             for (j = END; j > i; --j){  // O(n^2)
                 if (AUX[j] == null) continue;
