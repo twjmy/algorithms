@@ -1,4 +1,4 @@
-public class HW05_4108056020_hash_gcd extends LLK{
+public class HW05_4108056020_hash_gcd extends LLK {
 	class Node{
 		final int dx, dy; final Node Next;
 		public Node(final int dx, final int dy, final Node Next)
