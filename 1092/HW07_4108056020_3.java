@@ -1,4 +1,4 @@
-public class HW07_4108056020_3 extends Buy_Phone{
+public class HW07_4108056020_3 extends Buy_Phone {
 	final int[][]TMP=new int[1000][],REV=new int[1000][];
 	public int[][]bestPhone(final int[][]A){
 		int len=A.length-1,count=len-1;mergeSort(A,0,len);
