@@ -1,18 +1,14 @@
 public class HW09_4108056020_1 extends LSD {
-    final int setGet(final int k) {
-        for (SetNode c = set[k&cap]; c != null; c = c.next) {
-            if (c.key == k)
-                return c.val;
-        }
-        return 0;
-    }
+    final class AdjNode {
+        int dist;
+        final int key;
+        final Bag val;
+        final AdjNode next;
 
-    final Bag adjGet(final int n) {
-        for (AdjNode c = adjList[n&adjList_cap]; c != null; c = c.next) {
-            if (c.key == n)
-                return c.val;
+        AdjNode(final int n, final int subnode) {
+            val = new Bag(subnode);
+            next = adjList[(key = n)&adjList_cap];
         }
-        return null;
     }
 
     final class SetNode {
@@ -25,25 +21,10 @@ public class HW09_4108056020_1 extends LSD {
         }
     }
 
-    final class AdjNode {
-        int degree;
-        final int key;
-        final Bag val;
-        final AdjNode next;
-
-        AdjNode(final int n, final int subnode) {
-            (val = new Bag()).add(subnode);
-            next = adjList[(key = n)&adjList_cap];
-        }
-    }
-
     final class Bag {
-        int N, list[];
+        int N = -1, list[];
 
-        Bag() {
-            N = -1;
-            list = new int[16];
-        }
+        Bag(int n) { list = new int[16]; add(n); }
 
         final void add(final int n) {
             if (++N == list.length) {
@@ -55,39 +36,43 @@ public class HW09_4108056020_1 extends LSD {
         }
     }
 
-    final static int nextBinaryNumber(int i){
-        int n = 31;
-        if (i > 65535) { n -= 16; i >>>= 16; }
-        if (i >   255) { n -=  8; i >>>=  8; }
-        if (i >    15) { n -=  4; i >>>=  4; }
-        if (i >     4) { n -=  2; i >>>=  2; }
-        return 1 << 32 - n - (i >>> 1);
-    }
-
     int maxDepth, maxDegree, maxDepthNode, maxDegreeNode, adjList_cap, cap, head, tail;
     AdjNode[] adjList; SetNode[] set;
 
     final public int Distance(final int[][] A) {
         final int LEN = A.length;
         maxDegree = maxDegreeNode = -1; maxDepth = head = tail = 0;
-        adjList_cap = nextBinaryNumber((LEN<<1)-1);
-        cap = nextBinaryNumber(LEN-1);
+
+        int self_deptht = 31; adjList_cap = (LEN<<1)-1;
+        if (adjList_cap >= 1 << 16 ) { self_deptht -= 16; adjList_cap >>>= 16; }
+        if (adjList_cap >= 1 <<  8 ) { self_deptht -=  8; adjList_cap >>>=  8; }
+        if (adjList_cap >= 1 <<  4 ) { self_deptht -=  4; adjList_cap >>>=  4; }
+        if (adjList_cap >= 1 <<  2 ) { self_deptht -=  2; adjList_cap >>>=  2; }
+        adjList_cap = 1 << 32 - self_deptht - (adjList_cap >>> 1);
+
+        self_deptht = 31; cap = LEN-1;
+        if (cap >= 1 << 16 ) { self_deptht -= 16; cap >>>= 16; }
+        if (cap >= 1 <<  8 ) { self_deptht -=  8; cap >>>=  8; }
+        if (cap >= 1 <<  4 ) { self_deptht -=  4; cap >>>=  4; }
+        if (cap >= 1 <<  2 ) { self_deptht -=  2; cap >>>=  2; }
+        cap = 1 << 32 - self_deptht - (cap >>> 1);
+
         adjList = new AdjNode[adjList_cap--];
         set = new SetNode[cap];
         final int[] queue = new int[cap--];
 
-        boolean put;
+        boolean put; AdjNode ant; SetNode snt; Bag bagt;
 
-        for (final int[] v : A) {
-            final int a = v[0], b = v[1];
+        for (final int[] i : A) {
+            final int a = i[0], b = i[1];
             put = true;
-            for (AdjNode c = adjList[a&adjList_cap]; c != null; c = c.next) {
-                if (c.key == a) {
-                    if (++c.degree > maxDegree) {
-                        maxDegree = c.degree;
+            for (ant = adjList[a&adjList_cap]; ant != null; ant = ant.next) {
+                if (ant.key == a) {
+                    if (++ant.dist > maxDegree) {
+                        maxDegree = ant.dist;
                         maxDegreeNode = a;
                     }
-                    c.val.add(b);
+                    ant.val.add(b);
                     put = false;
                     break;
                 }
@@ -95,13 +80,13 @@ public class HW09_4108056020_1 extends LSD {
             if(put) adjList[a&adjList_cap] = new AdjNode(a, b);
 
             put = true;
-            for (AdjNode c = adjList[b&adjList_cap]; c != null; c = c.next) {
-                if (c.key == b) {
-                    if (++c.degree > maxDegree) {
-                        maxDegree = c.degree;
+            for (ant = adjList[b&adjList_cap]; ant != null; ant = ant.next) {
+                if (ant.key == b) {
+                    if (++ant.dist > maxDegree) {
+                        maxDegree = ant.dist;
                         maxDegreeNode = b;
                     }
-                    c.val.add(a);
+                    ant.val.add(a);
                     put = false;
                     break;
                 }
@@ -117,18 +102,33 @@ public class HW09_4108056020_1 extends LSD {
         while (head != tail) {
             maxDegreeNode = queue[head];
             head = (head+1)&cap;
-            final int self_depth = setGet(maxDegreeNode)+1;
+
+            self_deptht = 1;
+            for (snt = set[maxDegreeNode&cap]; snt != null; snt = snt.next) {
+                if (snt.key == maxDegreeNode){
+                    self_deptht = snt.val + 1;
+                    break;
+                }
+            }
+            final int self_depth = self_deptht;
             if (self_depth > maxDepth) {
                 maxDepth = self_depth;
                 maxDepthNode = maxDegreeNode;
             }
 
-            final Bag arr = adjGet(maxDegreeNode);
-            for (int i=0; i <= arr.N;) {
-                final int n = arr.list[i++];
+            bagt = null;
+            for (ant = adjList[maxDegreeNode&adjList_cap]; ant != null; ant = ant.next) {
+                if (ant.key == maxDegreeNode){
+                    bagt = ant.val;
+                    break;
+                }
+            }
+            final Bag bag = bagt;
+            for (int i = 0; i <= bag.N;) {
+                final int n = bag.list[i++];
                 put = true;
-                for (SetNode c = set[n&cap]; c != null; c = c.next) {
-                    if (c.key == n){
+                for (snt = set[n&cap]; snt != null; snt = snt.next) {
+                    if (snt.key == n){
                         put = false;
                         break;
                     }
@@ -151,16 +151,31 @@ public class HW09_4108056020_1 extends LSD {
         while (head != tail) {
             maxDepthNode = queue[head];
             head = (head+1)&cap;
-            final int self_depth = setGet(maxDepthNode)+1;
+
+            self_deptht = 1;
+            for (snt = set[maxDepthNode&cap]; snt != null; snt = snt.next) {
+                if (snt.key == maxDepthNode){
+                    self_deptht = snt.val + 1;
+                    break;
+                }
+            }
+            final int self_depth = self_deptht;
             if (self_depth > maxDepth)
                 maxDepth = self_depth;
 
-            final Bag arr = adjGet(maxDepthNode);
-            for (int i=0; i <= arr.N;) {
-                final int n = arr.list[i++];
+            bagt = null;
+            for (ant = adjList[maxDepthNode&adjList_cap]; ant != null; ant = ant.next) {
+                if (ant.key == maxDepthNode){
+                    bagt = ant.val;
+                    break;
+                }
+            }
+            final Bag bag = bagt;
+            for (int i = 0; i <= bag.N;) {
+                final int n = bag.list[i++];
                 put = true;
-                for (SetNode c = set[n&cap]; c != null; c = c.next) {
-                    if (c.key == n){
+                for (snt = set[n&cap]; snt != null; snt = snt.next) {
+                    if (snt.key == n){
                         put = false;
                         break;
                     }
