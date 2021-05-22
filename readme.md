@@ -77,13 +77,11 @@ public abstract class LSD{
 
 Your program will take a six-dimensional integer array as input. 
 
-Each element represents a smartphone model which contains two features (e.g., screen size and performance ranking).
+Each element represents a smartphone model which contains **six** features (e.g. screen size, performance ranking and etc.).
 
 Please return an sorted array containing a list of unbeatable smartphone models (In other words, filter out the phone models that can be beaten by some model).
 
 The return array should be sorted by the first element of each array in the output.
-{{8,7,7,4,2,1},{2,4,4,6,2,1},{4,0,5,1,3,2},{5,2,4,3,7,3},{7,5,6,9,8,9}}
-{{7,5,6,9,8,9},{8,7,7,4,2,1}}
 
 | Example | Method Calling / Return                    |
 | ------- | ------------------------------------------ |
@@ -110,7 +108,7 @@ public abstract class Buy_Phone_v2{
 
 Your program will take a two-dimensional integer array as input. 
 
-Each element represents a smartphone model which contains two features (e.g., screen size and performance ranking).
+Each element represents a smartphone model which contains two features (e.g. screen size and performance ranking).
 
 Please return an array containing a list of unbeatable smartphone models (In other words, filter out the phone models that can be beat by some model).
 
@@ -164,6 +162,8 @@ public abstract class Dessert_Desert{
 
 ### Solution
 
+[參考](https://leetcode.com/problems/max-chunks-to-make-sorted-ii/)
+
 施工中...:gear:
 
 ---
@@ -190,6 +190,8 @@ public abstract class LLK{
 ```
 
 ### Solution
+
+[參考](https://github.com/liao2000/Algorithms-Meet-Java/tree/master/Homework/HW04_PCL)
 
 施工中...:gear:
 
@@ -223,6 +225,68 @@ public abstract class One_0k_rock {
 ```
 
 ### Solution
+
+#### Brute-force (Regular Expression)
+
+由於 Java 的 String 內建的 [`matches(String)`](https://docs.oracle.com/javase/9/docs/api/java/lang/String.html#matches-java.lang.String-) 可以讓我們使用正則表達式判斷，取字串長度的一半(`l>>>1`)作為 0<sup>k</sup>1<sup>k</sup> 裡的 k ，所以可以這樣實作
+
+```java=!
+public class HW04_RE extends One_0k_rock {
+    public boolean[] one0k(final String[] str) {
+        final boolean[] result = new boolean[str.length];
+        for(int i = 0, len, half; i < str.length; i++){
+            len = str[i].length();
+            half = len>>>1;
+            if(str[i].matches("0{"+half+"}1{"+half+"}"))
+                result[i] = true;
+        }
+        return result;
+    }
+}
+```
+
+這樣的實作我們無法得知時間複雜度是多少，因為我們不是寫 [`matches(String)`](https://docs.oracle.com/javase/9/docs/api/java/lang/String.html#matches-java.lang.String-) 這個函式的人。
+
+#### Left-right compare
+
+一個基本的想法，從左邊到中間數過去第一個、右邊到中間數過來第一個開始比較，不對就跳出迴圈，可以這樣實作
+
+```java=!
+public class HW04_2 extends One_0k_rock {
+    public boolean[] one0k(final String[] str) {
+        final boolean[] result = new boolean[str.length];
+        for(int i=-1,j,half,len; ++i<str.length;) {
+            len = str[i].length();
+            if((len&1)==1) continue; // 奇數個的情況跳過: l&1 相當於 l%2
+            half = len>>>1;
+            for(j = -1; str[i].charAt(++j)=='0' && str[i].charAt(l-1-j)=='1';);
+            // 完成上面操作後的 j 如果等於 half 就代表條件通過了 half 次
+            if(j == half) result[i] = true;
+        }
+        return result;
+    }
+}
+
+```
+
+#### Left-right compare from middle
+
+如果從中間開始比，可以同時判斷奇數的情況，省去一個步驟，可以這樣實作
+
+```java=!
+public class HW04_2 extends One_0k_rock {
+    public boolean[] one0k(final String[] str) {
+        final boolean[] result = new boolean[str.length];
+        for(int i=-1,j,len; ++i<str.length;) {
+            len= str[i].length()-1; j = (len>>>1)+1;
+            while(--j>-1&&str[i].charAt(j)=='0'&&str[i].charAt(l-1-j)=='1');
+            // 完成上面操作後的 j 如果等於 -1 就代表條件通過了 len>>>1 次
+            if(j == -1) result[i] = true;
+        }
+        return result;
+    }
+    
+```
 
 施工中...:gear:
 
