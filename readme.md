@@ -59,7 +59,7 @@ Given a graph G = (V, E), find max<sub>u,v</sub> d(u, v), where d(u,v) denotes t
 
 ### Abstract class
 
-```java!=
+```java=!
 public abstract class LSD{
     public abstract int Distance(int[][] array);
 }
@@ -92,7 +92,7 @@ The return array should be sorted by the first element of each array in the outp
 
 ### Abstract class
 
-```java!=
+```java=!
 public abstract class Buy_Phone_v2{
     public abstract int[][] bestPhone(int[][] inputArr);
 }
@@ -123,7 +123,7 @@ Given two items A =(X<sub>a</sub>, Y<sub>a</sub>) and B =(X<sub>b</sub>, Y<sub>b
 
 ### Abstract class
 
-```java!=
+```java=!
 public abstract class Buy_Phone{
     public abstract int[][] bestPhone(int[][] inputArr);
 }
@@ -156,7 +156,7 @@ A valid partitioning of the integer array is defined as follows.
 
 ### Abstract class
 
-```java!=
+```java=!
 public abstract class Dessert_Desert{
     public abstract int[] maxBlocks(int[][] inputArr);
 }
@@ -183,7 +183,7 @@ Here is our sample testdata: `[[1,1],[2,2],[3,6]]`
 
 ### Abstract class
 
-```java!=
+```java=!
 public abstract class LLK{
     public abstract boolean checkLLK(int[][] array);
 }
@@ -216,7 +216,7 @@ For example,
 
 ### Abstract class
 
-```java!=
+```java=!
 public abstract class One_0k_rock {
     public abstract boolean[] one0k(String[] str);
 }
