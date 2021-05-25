@@ -1,193 +1,125 @@
 public class HW09_4108056020_1 extends LSD {
-    final class AdjNode {
-        int dist;
-        final int key;
-        final Bag val;
-        final AdjNode next;
-
-        AdjNode(final int n, final int subnode) {
-            val = new Bag(subnode);
-            next = adjList[(key = n)&adjList_cap];
-        }
-    }
-
     final class SetNode {
-        final int key, val;
-        final SetNode next;
+        final SetNode NEXT;
+        final int K, V;
 
         SetNode(final int k, final int v) {
-            val = v;
-            next = set[(key = k)&cap];
+            NEXT = set[(K = k)&cap];
+            V = v;
         }
     }
 
-    final class Bag {
-        int N = -1, list[];
+    final class AdjNode {
+        final AdjNode NEXT;
+        final int K;
+        int N = 0, list[] = new int[0x10];
 
-        Bag(int n) { list = new int[16]; add(n); }
-
-        final void add(final int n) {
-            if (++N == list.length) {
-                final int[] newList = new int[list.length<<1];
-                System.arraycopy(list, 0, newList, 0, N);
-                list = newList;
-            }
-            list[N] = n;
+        AdjNode(final int k, final int v) {
+            NEXT = adj[(K = k)&acap];
+            list[0] = v;
         }
     }
 
-    int maxDepth, maxDegree, maxDepthNode, maxDegreeNode, adjList_cap, cap, head, tail;
-    AdjNode[] adjList; SetNode[] set;
+    AdjNode[] adj; SetNode[] set; int acap, cap;
 
     final public int Distance(final int[][] A) {
-        final int LEN = A.length;
-        maxDegree = maxDegreeNode = -1; maxDepth = head = tail = 0;
+        int max, maxK, head, tail, i; max = maxK = -1; head = tail = 0;
+        final int queue[] = new int[(cap = 1<<32-Integer.numberOfLeadingZeros(A.length-1))], cap = --this.cap;
+        adj = new AdjNode[(acap = 1<<32-Integer.numberOfLeadingZeros((A.length<<1)-1))]; final int acap = --this.acap;
 
-        int self_deptht = 31; adjList_cap = (LEN<<1)-1;
-        if (adjList_cap >= 1 << 16 ) { self_deptht -= 16; adjList_cap >>>= 16; }
-        if (adjList_cap >= 1 <<  8 ) { self_deptht -=  8; adjList_cap >>>=  8; }
-        if (adjList_cap >= 1 <<  4 ) { self_deptht -=  4; adjList_cap >>>=  4; }
-        if (adjList_cap >= 1 <<  2 ) { self_deptht -=  2; adjList_cap >>>=  2; }
-        adjList_cap = 1 << 32 - self_deptht - (adjList_cap >>> 1);
+        boolean put; AdjNode ant; SetNode snt;
 
-        self_deptht = 31; cap = LEN-1;
-        if (cap >= 1 << 16 ) { self_deptht -= 16; cap >>>= 16; }
-        if (cap >= 1 <<  8 ) { self_deptht -=  8; cap >>>=  8; }
-        if (cap >= 1 <<  4 ) { self_deptht -=  4; cap >>>=  4; }
-        if (cap >= 1 <<  2 ) { self_deptht -=  2; cap >>>=  2; }
-        cap = 1 << 32 - self_deptht - (cap >>> 1);
+        for (final int[] v : A) {
+            final int a = v[0], b = v[1];
 
-        adjList = new AdjNode[adjList_cap--];
-        set = new SetNode[cap];
-        final int[] queue = new int[cap--];
-
-        boolean put; AdjNode ant; SetNode snt; Bag bagt;
-
-        for (final int[] i : A) {
-            final int a = i[0], b = i[1];
-            put = true;
-            for (ant = adjList[a&adjList_cap]; ant != null; ant = ant.next) {
-                if (ant.key == a) {
-                    if (++ant.dist > maxDegree) {
-                        maxDegree = ant.dist;
-                        maxDegreeNode = a;
+            for (put = true, ant = adj[a&acap]; ant != null; ant = ant.NEXT) {
+                if (ant.K == a) {
+                    final AdjNode AN = ant;
+                    if (++AN.N > max) { maxK = a; max = AN.N; }
+                    if (AN.N == AN.list.length) {
+                        final int[] newList = new int[AN.N<<1];
+                        System.arraycopy(AN.list, 0, newList, 0, AN.N);
+                        AN.list = newList;
                     }
-                    ant.val.add(b);
+                    AN.list[AN.N] = b;
                     put = false;
                     break;
                 }
             }
-            if(put) adjList[a&adjList_cap] = new AdjNode(a, b);
+            if(put) adj[a&acap] = new AdjNode(a, b);
 
-            put = true;
-            for (ant = adjList[b&adjList_cap]; ant != null; ant = ant.next) {
-                if (ant.key == b) {
-                    if (++ant.dist > maxDegree) {
-                        maxDegree = ant.dist;
-                        maxDegreeNode = b;
+            for (put = true, ant = adj[b&acap]; ant != null; ant = ant.NEXT) {
+                if (ant.K == b) {
+                    final AdjNode AN = ant;
+                    if (++AN.N > max) { maxK = b; max = AN.N; }
+                    if (AN.N == AN.list.length) {
+                        final int[] newList = new int[AN.N<<1];
+                        System.arraycopy(AN.list, 0, newList, 0, AN.N);
+                        AN.list = newList;
                     }
-                    ant.val.add(a);
+                    AN.list[AN.N] = a;
                     put = false;
                     break;
                 }
             }
-            if(put) adjList[b&adjList_cap] = new AdjNode(b, a);
+            if(put) adj[b&acap] = new AdjNode(b, a);
         }
 
-        set[maxDegreeNode&cap] = new SetNode(maxDegreeNode, 1);
+        max = -1;
 
-        queue[tail] = maxDegreeNode;
+        (set = new SetNode[cap+1])[maxK&cap] = new SetNode(maxK, 1);
+
+        queue[tail] = maxK; tail = (tail+1)&cap;
+
+        while (head != tail) {
+            maxK = queue[head]; head = (head+1)&cap;
+
+            for (i = 1, snt = set[maxK&cap]; snt != null; snt = snt.NEXT)
+                if (snt.K == maxK){ i = snt.V + 1; break; }
+
+            final int depth = i;
+            if (depth > max) max = depth;
+
+            for (ant = adj[maxK&acap]; ant != null && ant.K != maxK; ant = ant.NEXT);
+            final int N = ant.N+1, list[] = ant.list;
+            for (i = 0; i < N;) {
+                final int K = list[i++];
+                for (put = true, snt = set[K&cap]; snt != null; snt = snt.NEXT)
+                    if (snt.K == K){ put = false; break; }
+                if(put){
+                    set[K&cap] = new SetNode(K, depth);
+                    queue[tail] = K; tail = (tail+1)&cap;
+                }
+            }
+        }
+
+        (set = new SetNode[cap+1])[maxK&cap] = new SetNode(maxK, 1);
+
+        queue[tail] = maxK;
         tail = (tail+1)&cap;
 
         while (head != tail) {
-            maxDegreeNode = queue[head];
-            head = (head+1)&cap;
+            maxK = queue[head]; head = (head+1)&cap;
 
-            self_deptht = 1;
-            for (snt = set[maxDegreeNode&cap]; snt != null; snt = snt.next) {
-                if (snt.key == maxDegreeNode){
-                    self_deptht = snt.val + 1;
-                    break;
-                }
-            }
-            final int self_depth = self_deptht;
-            if (self_depth > maxDepth) {
-                maxDepth = self_depth;
-                maxDepthNode = maxDegreeNode;
-            }
+            for (i = 1, snt = set[maxK&cap]; snt != null; snt = snt.NEXT)
+                if (snt.K == maxK){ i = snt.V + 1; break; }
 
-            bagt = null;
-            for (ant = adjList[maxDegreeNode&adjList_cap]; ant != null; ant = ant.next) {
-                if (ant.key == maxDegreeNode){
-                    bagt = ant.val;
-                    break;
-                }
-            }
-            final Bag bag = bagt;
-            for (int i = 0; i <= bag.N;) {
-                final int n = bag.list[i++];
-                put = true;
-                for (snt = set[n&cap]; snt != null; snt = snt.next) {
-                    if (snt.key == n){
-                        put = false;
-                        break;
-                    }
-                }
+            final int depth = i;
+            if (depth > max) max = depth;
+
+            for (ant = adj[maxK&acap]; ant != null && ant.K != maxK; ant = ant.NEXT);
+            final int N = ant.N+1, list[] = ant.list;
+            for (i = 0; i < N;) {
+                final int K = list[i++];
+                for (put = true, snt = set[K&cap]; snt != null; snt = snt.NEXT)
+                    if (snt.K == K){ put = false; break; }
                 if(put){
-                    set[n&cap] = new SetNode(n, self_depth);
-                    queue[tail] = n;
-                    tail = (tail+1)&cap;
+                    set[K&cap] = new SetNode(K, depth);
+                    queue[tail] = K; tail = (tail+1)&cap;
                 }
             }
         }
 
-        set = new SetNode[cap+1];
-
-        set[maxDepthNode&cap] = new SetNode(maxDepthNode, 1);
-
-        queue[tail] = maxDepthNode;
-        tail = (tail+1)&cap;
-
-        while (head != tail) {
-            maxDepthNode = queue[head];
-            head = (head+1)&cap;
-
-            self_deptht = 1;
-            for (snt = set[maxDepthNode&cap]; snt != null; snt = snt.next) {
-                if (snt.key == maxDepthNode){
-                    self_deptht = snt.val + 1;
-                    break;
-                }
-            }
-            final int self_depth = self_deptht;
-            if (self_depth > maxDepth)
-                maxDepth = self_depth;
-
-            bagt = null;
-            for (ant = adjList[maxDepthNode&adjList_cap]; ant != null; ant = ant.next) {
-                if (ant.key == maxDepthNode){
-                    bagt = ant.val;
-                    break;
-                }
-            }
-            final Bag bag = bagt;
-            for (int i = 0; i <= bag.N;) {
-                final int n = bag.list[i++];
-                put = true;
-                for (snt = set[n&cap]; snt != null; snt = snt.next) {
-                    if (snt.key == n){
-                        put = false;
-                        break;
-                    }
-                }
-                if(put){
-                    set[n&cap] = new SetNode(n, self_depth);
-                    queue[tail] = n;
-                    tail = (tail+1)&cap;
-                }
-            }
-        }
-
-        return maxDepth-2;
+        return max-2;
     }
 }
