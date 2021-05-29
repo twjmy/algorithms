@@ -20,6 +20,7 @@ image: null # 在此輸入預覽圖片網址
 + [HW07 - Buy Phone](#HW07---Buy-Phone)
 + [HW08 - Buy Phone v2](#HW08---Buy-Phone-v2)
 + [HW09 - LSD](#HW09---LSD)
++ [HW10 - LSD](#HW10---Sorting)
 
 ---
 
@@ -37,6 +38,32 @@ image: null # 在此輸入預覽圖片網址
 ---
 
 -->
+
+## HW10 - Sorting
+
+### Assignment
+
+Your program will take an integer array as input. 
+Please return the sorted ascending array in the given array.
+
+| Example | Method Calling / Return                    |
+| ------- | ------------------------------------------ |
+| Input   | `sorting(new int[]{-1,2,5,9,8,7,1,3,2})` |
+| Output  | `sorting(int[][]) = (int[]) {-1,1,2,2,3,5,7,8,9}` |
+
+### Abstract class
+
+```java=!
+public abstract class SortingArray {
+    public abstract int[] sorting(int[] A);
+}
+```
+
+### Solution
+
+施工中...:gear:
+
+---
 
 ## HW09 - LSD
 
