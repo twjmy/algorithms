@@ -20,7 +20,7 @@ image: null # 在此輸入預覽圖片網址
 + [HW07 - Buy Phone](#HW07---Buy-Phone)
 + [HW08 - Buy Phone v2](#HW08---Buy-Phone-v2)
 + [HW09 - LSD](#HW09---LSD)
-+ [HW10 - LSD](#HW10---Sorting)
++ [HW10 - Sorting](#HW10---Sorting)
 
 ---
 
