@@ -1,13 +1,27 @@
 /**<!--미안해...노정훤-->
  * NCHU CSE 1092 algorithm homework local test class
- * @version 5.27
+ * @version 5.29
  * @author twjmy@msn.com
  */
 public class Test{
 	public static void main(final String[] args){
-		final Test test = new Test(1,"min",false,false,System.getProperty("user.dir"));
+		final Test test = new Test(1,null,false,false,System.getProperty("user.dir"));
 
-		for(int i = 0; i < 10; i++) // simulate the same way TA runs
+		for(final int i : new int[10]) // simulate the same way TA runs
+			for(final int n : new int[]{7,1000,20000,1})
+				for(final SortingArray e : new SortingArray[]{
+					// new HW10_4108056020_1(),
+					new HW10_4108056020_2(),
+				}){
+					final int[] TD = test.loadData_SortingArray(test.PATH+"\\SortingArray_test_data_"+n+".txt");
+					final int[] ANS = java.util.Arrays.copyOf(TD,TD.length);
+					java.util.Arrays.sort(ANS);
+					test.timing(e, new int[][]{TD,ANS});
+				}
+		test.checkAverageFastest();
+
+/* 
+		for(final int i : new int[10]) // simulate the same way TA runs
 			for(final int n : new int[]{7694,788,598,398})
 				for(final LSD e : new LSD[]{
 					// new HW09_4108056026_2(),
@@ -20,7 +34,7 @@ public class Test{
 				}) test.timing(e, test.loadData_LSD(test.PATH+"\\LSD_test_data_"+n+".txt"));
 				// now we can load data via absolute path of the file
 		test.checkAverageFastest();
-
+ */
 /* 
 		// test.loadData_Buy_Phone_v2();// test.generateData_Buy_Phone_v2();
 		test.Buy_Phone_v2_test_data = new int[][]{{8,7,7,4,2,1},{2,4,4,6,2,1},{4,0,5,1,3,2},{5,2,4,3,7,3},{7,5,6,9,8,9}};
@@ -119,6 +133,114 @@ public class Test{
  */
 	}
 
+	public int[] timing(final SortingArray HW, final int[][] TD) {
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Start to timing "+HW.getClass()+" function sorting()...");
+		double averageTime = 0;
+		double time;
+		int[] result = null;
+		for(int i = -1; RUN_TIME > ++i && averageTime != -1;){
+			time = -System.nanoTime();
+			result = HW.sorting(TD[0]);
+			time = (System.nanoTime()+time)/1000000000.0;
+			if(SHOW_COUNT) System.out.printf(
+			"\t"+HW.getClass()+" running count..."+(i+1)+"\tTime: %.6fs\n",time);
+			//System.out.println("Debug msg: sorted int[] a = "+java.util.Arrays.toString(a));
+			//System.out.println("Debug msg: sorted int[] td[1] = "+java.util.Arrays.toString(td[1]));
+			//System.out.println("Debug msg: checking a["+j+"]"+ a[j] +" ?= td[0]["+j+"]"+td[0][j]);
+			if(CHECK_ANS!=null) for(int j = -1; result.length > ++j && averageTime != -1;)
+			if(result[j] != TD[0][j]) averageTime = -1; //judge if "a" right
+			if(averageTime != -1) averageTime += time;
+		}
+		if(averageTime == -1) System.out.println(
+		"\t"+HW.getClass()+" function sorting() Wrong Answer.");
+		else {
+			System.out.printf(
+			"\t"+HW.getClass()+" function sorting() "+
+			"average running time: %.6fs\n",averageTime/RUN_TIME);
+			if(CHECK_ANS!=null) System.out.println(
+			"\tResault: "+java.util.Arrays.toString(HW.sorting(TD[0])));
+		}
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
+		return result;
+	}
+
+	public int[] loadData_SortingArray(){
+		return loadData_SortingArray(PATH);
+	}
+
+	public int[] loadData_SortingArray(final String PATH) {
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("SortingArray test data initializing from: "+PATH);
+		java.util.ArrayList<Integer> data = new java.util.ArrayList<>();
+		try {
+			final java.io.BufferedReader br = new java.io.BufferedReader(
+			new java.io.InputStreamReader(new java.io.FileInputStream(PATH)));
+			String line;
+			while(br.ready() && (line = br.readLine()) != null){
+				data.add(Integer.valueOf(line));
+				if(SHOW_TEST_DATA) System.out.println(line);
+			}
+			br.close();
+		} catch (final java.io.FileNotFoundException e) {
+			System.out.println(PATH + " file not found.");
+			System.exit(0);
+		} catch (final java.io.IOException e) {
+		}
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("SortingArray test data initialized.");
+		return data.stream().mapToInt(Integer::intValue).toArray();
+	}
+
+	public int[][] generateData_SortingArray() {
+		return generateData_SortingArray(PATH, (int)(Math.random()*20000)+1);
+	}
+
+	public int[][] generateData_SortingArray(final String data_path) {
+		return generateData_SortingArray(data_path, (int)(Math.random()*20000)+1);
+	}
+
+	public int[][] generateData_SortingArray(final int data_size) {
+		return generateData_SortingArray(PATH, data_size);
+	}
+
+	public int[][] generateData_SortingArray(final String data_path, final int data_size) {
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("SortingArray test data generating by size " + data_size + "...");
+		final int[][] data = new int[2][data_size];
+		try {
+			new java.io.File(data_path).createNewFile();
+			java.io.BufferedWriter bw = new java.io.BufferedWriter(
+			new java.io.FileWriter(new java.io.File(
+			data_path+"SortingArray_test_data.txt")));
+			//final java.util.Random r = new java.util.Random();
+			for(int i = -1; data_size > ++i;){
+				//data[0][i] = r.nextInt();
+				switch((int)(Math.random()*2)){
+					case 0:
+					data[0][i] = (int)(Math.random()*Integer.MAX_VALUE);
+					break;
+					case 1:
+					data[0][i] = (int)(Math.random()*Integer.MIN_VALUE);
+					break;
+				}
+				bw.write(data[0][i]+((i == data_size-1)?"":"\r\n"));
+			}
+			bw.flush(); bw.close();
+			final int[] ans = data[0];
+			java.util.Arrays.sort(ans);
+			new java.io.File(data_path).createNewFile();
+			bw = new java.io.BufferedWriter(new java.io.FileWriter(
+			new java.io.File(data_path+"SortingArray_test_data_ans.txt")));
+			for(int i = -1; data_size > ++i;){
+				data[1][i] = ans[i];
+				bw.write(ans[i]+((i == data_size-1)?"":"\r\n"));
+			}
+			bw.flush(); bw.close();
+		} catch (final java.io.IOException e) {
+		}
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min")&&SHOW_TEST_DATA) for(int i = -1; data_size > ++i;)
+			System.out.println(data[0][i]+""+data[1][i]);
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("SortingArray test data generated.");
+		return data;
+	}
+
 	/**
 	 * The test data for {@link #timing(LSD, int[][])} while not assigned.
 	 *
@@ -154,7 +276,7 @@ public class Test{
 	 * @see #timing(LSD)
 	 */
 	public int timing(final LSD HW, final int[][] TD) {
-		if(!CHECK_ANS.equals("min"))System.out.println("Start timing method Distance() of "+HW.getClass().getName()+"...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Start timing method Distance() of "+HW.getClass().getName()+"...");
 		double totalCost = 0;
 		double time;
 		int td[][], result = 0;
@@ -165,7 +287,7 @@ public class Test{
 			time = -System.nanoTime();
 			result = HW.Distance(td);
 			time = (System.nanoTime()+time)/1e6;
-			if(!CHECK_ANS.equals("min")&&SHOW_COUNT) System.out.printf(
+			if(CHECK_ANS!=null&&!CHECK_ANS.equals("min")&&SHOW_COUNT) System.out.printf(
 						"\t" + HW.getClass().getName() + " running count..." + (i + 1) + "\tTime: "
 						+ (time > 1e3 ? "%.6f " : "%.3f m") + "s\tResult: " + result + "\n",
 						time * (time > 1e3 ? 1000 : 1));
@@ -178,12 +300,12 @@ public class Test{
 			final double averageTime = totalCost/RUN_TIME;
 			timed(HW, averageTime);
 			System.out.printf(
-			((!CHECK_ANS.equals("min"))?"\t":"")+HW.getClass().getName()+" method Distance() "
+			((CHECK_ANS!=null&&!CHECK_ANS.equals("min"))?"\t":"")+HW.getClass().getName()+" method Distance() "
 			+"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s"
 			+(CHECK_ANS!=null?("\tResult: "+result+
 			(CHECK_ANS.equals("min")?("\tArray length: "+TD.length):"")):"")+"\n",averageTime/(averageTime>1e3?1e3:1));
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
 		return result;
 	}
 
@@ -232,7 +354,7 @@ public class Test{
 	 * @see #generateData_LSD()
 	 */
 	public int[][] generateData_LSD(final int LEN, final int RANGE, final String PATH){
-		if(!CHECK_ANS.equals("min"))System.out.println("LSD test data generating by size: " + LEN + ", range: 0 ~ " + (RANGE-1) + "...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("LSD test data generating by size: " + LEN + ", range: 0 ~ " + (RANGE-1) + "...");
 		final java.util.List<Integer[]> test_data = new java.util.ArrayList<Integer[]>(LEN);
 		for(int i = -1; LEN > ++i;){
 			test_data.add(new Integer[]{
@@ -242,7 +364,7 @@ public class Test{
 		try {
 			final java.io.File file = new java.io.File(PATH);
 			file.createNewFile();
-			if(!CHECK_ANS.equals("min"))System.out.println("LSD test data saving on: "+PATH+"\\LSD_test_data.txt");
+			if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("LSD test data saving on: "+PATH+"\\LSD_test_data.txt");
 			final java.io.BufferedWriter bw = new java.io.BufferedWriter(
 				new java.io.FileWriter(new java.io.File(
 					PATH+"\\LSD_test_data.txt"))
@@ -267,7 +389,7 @@ public class Test{
 				result[i][0]+" "+result[i][1]
 			);
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("LSD test data and answer generated.");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("LSD test data and answer generated.");
 		return result;
 	}
 
@@ -293,7 +415,7 @@ public class Test{
 	 * @see #loadData_LSD()
 	 */
 	public int[][] loadData_LSD(final String PATH){
-		if(!CHECK_ANS.equals("min"))System.out.println("LSD test data loading from: " + PATH);
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("LSD test data loading from: " + PATH);
 		final java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
 		try {
 			final java.io.BufferedReader br = new java.io.BufferedReader(
@@ -305,20 +427,21 @@ public class Test{
 				});
 			}
 			br.close();
-		} catch (final java.io.IOException e) {
+		} catch (final java.io.FileNotFoundException e) {
 			System.out.println(PATH + " file not found.");
 			System.exit(0);
+		} catch (final java.io.IOException e) {
 		}
 		LSD_test_data = new int[data.size()][];
 		for(int i = -1; data.size() > ++i;){
 			LSD_test_data[i] = new int[]{
 				data.get(i)[0].intValue(), data.get(i)[1].intValue()
 			};
-			if(!CHECK_ANS.equals("min") && SHOW_TEST_DATA) System.out.println(
+			if(CHECK_ANS!=null&&!CHECK_ANS.equals("min") && SHOW_TEST_DATA) System.out.println(
 				LSD_test_data[i][0]+" "+LSD_test_data[i][1]
 			);
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("LSD test data initialized. Array length: "+LSD_test_data.length);
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("LSD test data initialized. Array length: "+LSD_test_data.length);
 		return LSD_test_data;
 	}
 
@@ -357,7 +480,7 @@ public class Test{
 	 * @see #timing(Buy_Phone_v2)
 	 */
 	public int[][] timing(final Buy_Phone_v2 HW, final int[][] TD) {
-		if(!CHECK_ANS.equals("min"))System.out.println("Start timing method bestPhone() of "+HW.getClass().getName()+"...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Start timing method bestPhone() of "+HW.getClass().getName()+"...");
 		double totalCost = 0;
 		double time;
 		int[][] td, result = null;
@@ -396,7 +519,7 @@ public class Test{
 				case "min","default": System.out.println("\tResult: "+java.util.Arrays.deepToString(result));
 			}
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
 		return result;
 	}
 
@@ -445,7 +568,7 @@ public class Test{
 	 * @see #generateData_Buy_Phone_v2()
 	 */
 	public int[][] generateData_Buy_Phone_v2(final int LEN, final int RANGE, final String PATH){
-		if(!CHECK_ANS.equals("min"))System.out.println("Buy_Phone_v2 test data generating by size: " + LEN + ", range: 0 ~ " + (RANGE-1) + "...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Buy_Phone_v2 test data generating by size: " + LEN + ", range: 0 ~ " + (RANGE-1) + "...");
 		final java.util.List<Integer[]> test_data = new java.util.ArrayList<Integer[]>(LEN);
 		for(int i = -1; LEN > ++i;){
 			test_data.add(new Integer[]{
@@ -457,7 +580,7 @@ public class Test{
 		try {
 			final java.io.File file = new java.io.File(PATH);
 			file.createNewFile();
-			if(!CHECK_ANS.equals("min"))System.out.println("Buy_Phone_v2 test data saving on: "+PATH);
+			if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Buy_Phone_v2 test data saving on: "+PATH);
 			final java.io.BufferedWriter bw = new java.io.BufferedWriter(
 				new java.io.FileWriter(new java.io.File(
 					PATH))
@@ -488,7 +611,7 @@ public class Test{
 				result[i][3]+" "+result[i][4]+" "+result[i][5]
 			);
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("Buy_Phone_v2 test data and answer generated.");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Buy_Phone_v2 test data and answer generated.");
 		return result;
 	}
 
@@ -514,7 +637,7 @@ public class Test{
 	 * @see #loadData_Buy_Phone_v2()
 	 */
 	public int[][] loadData_Buy_Phone_v2(final String PATH){
-		if(!CHECK_ANS.equals("min"))System.out.println("Buy_Phone_v2 test data loading from: " + PATH);
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Buy_Phone_v2 test data loading from: " + PATH);
 		final java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
 		try {
 			final java.io.BufferedReader br = new java.io.BufferedReader(
@@ -528,9 +651,10 @@ public class Test{
 				});
 			}
 			br.close();
-		} catch (final java.io.IOException e) {
+		} catch (final java.io.FileNotFoundException e) {
 			System.out.println(PATH + " file not found.");
 			System.exit(0);
+		} catch (final java.io.IOException e) {
 		}
 		Buy_Phone_v2_test_data = new int[data.size()][];
 		for(int i = -1; data.size() > ++i;){
@@ -545,7 +669,7 @@ public class Test{
 				Buy_Phone_v2_test_data[i][4]+" "+Buy_Phone_v2_test_data[i][5]+" "
 			);
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("Buy_Phone_v2 test data initialized. Array length: "+Buy_Phone_v2_test_data.length);
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Buy_Phone_v2 test data initialized. Array length: "+Buy_Phone_v2_test_data.length);
 		return Buy_Phone_v2_test_data;
 	}
 
@@ -584,7 +708,7 @@ public class Test{
 	 * @see #timing(Buy_Phone)
 	 */
 	public int[][] timing(final Buy_Phone HW, final int[][] TD) {
-		if(!CHECK_ANS.equals("min"))System.out.println("Start timing method bestPhone() of "+HW.getClass().getName()+"...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Start timing method bestPhone() of "+HW.getClass().getName()+"...");
 		double totalCost = 0;
 		double time;
 		int[][] td, result = null;
@@ -623,7 +747,7 @@ public class Test{
 				case "min","default": System.out.println("\tResult: "+java.util.Arrays.deepToString(result));
 			}
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
 		return result;
 	}
 
@@ -672,7 +796,7 @@ public class Test{
 	 * @see #generateData_Buy_Phone()
 	 */
 	public int[][] generateData_Buy_Phone(final int LEN, final int RANGE, final String PATH){
-		if(!CHECK_ANS.equals("min"))System.out.println("Buy_Phone test data generating by size: " + LEN + ", range: 0 ~ " + (RANGE-1) + "...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Buy_Phone test data generating by size: " + LEN + ", range: 0 ~ " + (RANGE-1) + "...");
 		final java.util.List<Integer[]> test_data = new java.util.ArrayList<Integer[]>(LEN);
 		for(int i = -1, x, y; LEN > ++i;){
 			x = (int)(Math.random()*RANGE); y = (int)(Math.random()*RANGE);
@@ -681,7 +805,7 @@ public class Test{
 		try {
 			final java.io.File file = new java.io.File(PATH);
 			file.createNewFile();
-			if(!CHECK_ANS.equals("min"))System.out.println("Buy_Phone test data saving on: "+PATH+"\\Buy_Phone_test_data.txt");
+			if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Buy_Phone test data saving on: "+PATH+"\\Buy_Phone_test_data.txt");
 			final java.io.BufferedWriter bw = new java.io.BufferedWriter(
 				new java.io.FileWriter(new java.io.File(
 					PATH+"\\Buy_Phone_test_data.txt"))
@@ -699,7 +823,7 @@ public class Test{
 			result[i] = new int[]{test_data.get(i)[0], test_data.get(i)[1]};
 			if(SHOW_TEST_DATA) System.out.println(result[i][0]+" "+result[i][1]);
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("Buy_Phone test data and answer generated.");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Buy_Phone test data and answer generated.");
 		return result;
 	}
 
@@ -725,7 +849,7 @@ public class Test{
 	 * @see #loadData_Buy_Phone()
 	 */
 	public int[][] loadData_Buy_Phone(final String PATH){
-		if(!CHECK_ANS.equals("min"))System.out.println("Buy_Phone test data loading from: " + PATH);
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Buy_Phone test data loading from: " + PATH);
 		final java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
 		try {
 			final java.io.BufferedReader br = new java.io.BufferedReader(
@@ -736,16 +860,17 @@ public class Test{
 				data.add(xy);
 			}
 			br.close();
-		} catch (final java.io.IOException e) {
+		} catch (final java.io.FileNotFoundException e) {
 			System.out.println(PATH + " file not found.");
 			System.exit(0);
+		} catch (final java.io.IOException e) {
 		}
 		Buy_Phone_test_data = new int[data.size()][2];
 		for(int i = -1; data.size() > ++i;){
 			Buy_Phone_test_data[i][0] = data.get(i)[0].intValue(); Buy_Phone_test_data[i][1] = data.get(i)[1].intValue();
 			if(SHOW_TEST_DATA) System.out.println("("+Buy_Phone_test_data[i][0]+","+Buy_Phone_test_data[i][1]+")");
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("Buy_Phone test data initialized. Array length: "+Buy_Phone_test_data.length);
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Buy_Phone test data initialized. Array length: "+Buy_Phone_test_data.length);
 		return Buy_Phone_test_data;
 	}
 
@@ -784,7 +909,7 @@ public class Test{
 	 * @see #timing(LLK)
 	 */
 	public boolean timing(final LLK HW, final int[][] TD) {
-		if(!CHECK_ANS.equals("min"))System.out.println("Start timing method checkLLK() of "+HW.getClass().getName()+"...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Start timing method checkLLK() of "+HW.getClass().getName()+"...");
 		double totalCost = 0;
 		double time;
 		int[][] td; boolean result = false;
@@ -810,7 +935,7 @@ public class Test{
 			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s"+(CHECK_ANS.equals("min")?"":"\n"),averageTime/(averageTime>1e3?1e3:1));
 			if(CHECK_ANS!=null) System.out.println("\tResult: "+result);
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
 		return result;
 	}
 
@@ -859,7 +984,7 @@ public class Test{
 	 * @see #generateData_LLK()
 	 */
 	public int[][] generateData_LLK(final int LEN, final int RANGE, final String PATH){
-		if(!CHECK_ANS.equals("min"))System.out.println("LLK test data generating by size: " + LEN + ", range: -" + RANGE + " ~ " + (RANGE-1) + "...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("LLK test data generating by size: " + LEN + ", range: -" + RANGE + " ~ " + (RANGE-1) + "...");
 		final java.util.List<Integer[]> test_data = new java.util.ArrayList<Integer[]>(LEN);
 		for(int i = -1, x, y; LEN > ++i;){
 			x = (int)(Math.random()*RANGE); y = (int)(Math.random()*RANGE);
@@ -869,7 +994,7 @@ public class Test{
 		try {
 			final java.io.File file = new java.io.File(PATH);
 			file.createNewFile();
-			if(!CHECK_ANS.equals("min"))System.out.println("LLK test data saving on: "+PATH);
+			if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("LLK test data saving on: "+PATH);
 			final java.io.BufferedWriter bw = new java.io.BufferedWriter(
 				new java.io.FileWriter(new java.io.File(PATH))
 			);
@@ -886,7 +1011,7 @@ public class Test{
 			result[i] = new int[]{test_data.get(i)[0], test_data.get(i)[1]};
 			if(SHOW_TEST_DATA) System.out.println(result[i][0]+" "+result[i][1]);
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("LLK test data and answer generated.");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("LLK test data and answer generated.");
 		return result;
 	}
 
@@ -912,7 +1037,7 @@ public class Test{
 	 * @see #loadData_LLK()
 	 */
 	public int[][] loadData_LLK(final String PATH){
-		if(!CHECK_ANS.equals("min"))System.out.println("LLK test data loading from: " + PATH);
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("LLK test data loading from: " + PATH);
 		final java.util.ArrayList<Integer[]> data = new java.util.ArrayList<Integer[]>();
 		try {
 			final java.io.BufferedReader br = new java.io.BufferedReader(
@@ -923,16 +1048,17 @@ public class Test{
 				data.add(xy);
 			}
 			br.close();
-		} catch (final java.io.IOException e) {
+		} catch (final java.io.FileNotFoundException e) {
 			System.out.println(PATH + " file not found.");
 			System.exit(0);
+		} catch (final java.io.IOException e) {
 		}
 		LLK_test_data = new int[data.size()][2];
 		for(int i = -1; data.size() > ++i;){
 			LLK_test_data[i][0] = data.get(i)[0].intValue(); LLK_test_data[i][1] = data.get(i)[1].intValue();
 			if(SHOW_TEST_DATA) System.out.println("("+LLK_test_data[i][0]+","+LLK_test_data[i][1]+")");
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("LLK test data initialized. Array length: "+LLK_test_data.length);
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("LLK test data initialized. Array length: "+LLK_test_data.length);
 		return LLK_test_data;
 	}
 
@@ -983,7 +1109,7 @@ public class Test{
 	 * @see #timing(One_0k_rock)
 	 */
 	public boolean[] timing(final One_0k_rock HW, final String[] TD) {
-		if(!CHECK_ANS.equals("min"))System.out.println("Start timing method one0k() of "+HW.getClass().getName()+"...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Start timing method one0k() of "+HW.getClass().getName()+"...");
 		double totalCost = 0;
 		double time = 0;
 		String[] td; boolean[] result = null;
@@ -1013,7 +1139,7 @@ public class Test{
 		}
 		if(CHECK_ANS!=null) System.out.println("\tResult: " + java.util.Arrays.toString(result) + (CHECK_ANS.equals("min")?"":("\tCorrect: "
 					+ java.util.Arrays.toString(One_0k_rock_ans))));
-		if(!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
 		return result;
 	}
 
@@ -1064,7 +1190,7 @@ public class Test{
 	 * @see #generateData_One_0k_rock()
 	 */
 	public String[] generateData_One_0k_rock(final int LEN, final int MAX, final String PATH){
-		if(!CHECK_ANS.equals("min"))System.out.println("One_0k_rock test data generating by size: " + LEN + ", max length: " + MAX + "...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("One_0k_rock test data generating by size: " + LEN + ", max length: " + MAX + "...");
 		One_0k_rock_test_data = new String[LEN];
 		One_0k_rock_ans = new boolean[LEN];
 		final Thread[] T = new Thread[5];
@@ -1112,7 +1238,7 @@ public class Test{
 		try {
 			final java.io.File file = new java.io.File(PATH);
 			file.createNewFile();
-			if(!CHECK_ANS.equals("min"))System.out.println("One_0k_rock test data saving on: "+PATH+"\\One_0k_rock_test_data.txt");
+			if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("One_0k_rock test data saving on: "+PATH+"\\One_0k_rock_test_data.txt");
 			java.io.BufferedWriter bw = new java.io.BufferedWriter(
 				new java.io.FileWriter(new java.io.File(
 					PATH+"\\One_0k_rock_test_data.txt"))
@@ -1120,7 +1246,7 @@ public class Test{
 			for(int i = -1; LEN > ++i;)
 				bw.write(One_0k_rock_test_data[i]+(i==LEN-1?"":"\r\n"));
 			bw.flush(); bw.close();
-			if(!CHECK_ANS.equals("min"))System.out.println("One_0k_rock test data answer saving on: "+PATH+"\\One_0k_rock_test_data_ans.txt");
+			if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("One_0k_rock test data answer saving on: "+PATH+"\\One_0k_rock_test_data_ans.txt");
 			bw = new java.io.BufferedWriter(
 				new java.io.FileWriter(new java.io.File(
 					PATH+"\\One_0k_rock_test_data_ans.txt"))
@@ -1130,7 +1256,7 @@ public class Test{
 			bw.flush(); bw.close();
 		} catch (final java.io.IOException e) {
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("One_0k_rock test data and answer generated.");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("One_0k_rock test data and answer generated.");
 		return One_0k_rock_test_data;
 	}
 
@@ -1159,7 +1285,7 @@ public class Test{
 	 * @see #loadData_One_0k_rock()
 	 */
 	public String[] loadData_One_0k_rock(final String PATH) {
-		if(!CHECK_ANS.equals("min"))System.out.println("One_0k_rock test data loading from: " + PATH + "\\One_0k_rock_test_data.txt");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("One_0k_rock test data loading from: " + PATH + "\\One_0k_rock_test_data.txt");
 		java.util.List<String> data = new java.util.ArrayList<>(), ans = new java.util.ArrayList<>();
 		try {
 			data = java.nio.file.Files.readAllLines(java.nio.file.Paths.get(PATH + "\\One_0k_rock_test_data.txt"));
@@ -1173,7 +1299,7 @@ public class Test{
 		 for(int i = -1; ++i < result.length;)
 		 	System.out.println(result[i]);
 
-		if(!CHECK_ANS.equals("min"))System.out.println("One_0k_rock test data answer loading from: "+PATH+"\\One_0k_rock_test_data_ans.txt");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("One_0k_rock test data answer loading from: "+PATH+"\\One_0k_rock_test_data_ans.txt");
 		try {
 			ans = java.nio.file.Files.readAllLines(java.nio.file.Paths.get(PATH + "\\One_0k_rock_test_data_ans.txt"));
 		} catch (final java.io.IOException e) {
@@ -1188,7 +1314,7 @@ public class Test{
 			One_0k_rock_ans[i] = Boolean.parseBoolean(answ[i]);
 			if(SHOW_TEST_DATA) System.out.println(""+One_0k_rock_ans[i]);
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("One_0k_rock test data initialized. Array length: "+One_0k_rock_test_data.length);
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("One_0k_rock test data initialized. Array length: "+One_0k_rock_test_data.length);
 		return One_0k_rock_test_data;
 	}
 
@@ -1239,7 +1365,7 @@ public class Test{
 	 * @see #timing(HillFinding)
 	 */
 	public int timing(final HillFinding HW, final int[] TD) {
-		if(!CHECK_ANS.equals("min"))System.out.println("Start timing method H_Finding() of "+HW.getClass().getName()+"...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Start timing method H_Finding() of "+HW.getClass().getName()+"...");
 		double totalCost = 0;
 		double time = 0;
 		int result = -2, td[];
@@ -1263,7 +1389,7 @@ public class Test{
 			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s"+(CHECK_ANS.equals("min")?"":"\n"),averageTime/(averageTime>1e3?1e3:1));
 		}
 		if(CHECK_ANS!=null) System.out.println("\tResult: "+result+", Correct: "+HillFinding_ans);
-		if(!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
 		return result;
 	}
 
@@ -1313,7 +1439,7 @@ public class Test{
 	 * @see #generateData_HillFinding()
 	 */
 	public int[] generateData_HillFinding(final int LEN, final int RANGE, final String PATH){
-		if(!CHECK_ANS.equals("min"))System.out.println("HillFinding test data generating by size: " + LEN + ", range: -" + RANGE + " ~ " + (RANGE-1) + "...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("HillFinding test data generating by size: " + LEN + ", range: -" + RANGE + " ~ " + (RANGE-1) + "...");
 		final java.util.List<Integer> sortedArray = new java.util.ArrayList<Integer>(LEN);
 		java.util.List<Integer> test_data = null;
 		for(int i = -1; LEN > ++i;){
@@ -1329,7 +1455,7 @@ public class Test{
 		try {
 			final java.io.File file = new java.io.File(PATH);
 			file.createNewFile();
-			if(!CHECK_ANS.equals("min"))System.out.println("HillFinding test data saving on: "+PATH+"\\HillFinding_test_data.txt");
+			if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("HillFinding test data saving on: "+PATH+"\\HillFinding_test_data.txt");
 			java.io.BufferedWriter bw = new java.io.BufferedWriter(
 				new java.io.FileWriter(new java.io.File(
 					PATH+"\\HillFinding_test_data.txt"))
@@ -1340,7 +1466,7 @@ public class Test{
 				bw.write(test_data.get(i)+(i==LEN-1?"":"\r\n"));
 			}
 			bw.flush(); bw.close();
-			if(!CHECK_ANS.equals("min"))System.out.println("HillFinding test data answer saving on: "+PATH+"\\HillFinding_test_data_ans.txt");
+			if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("HillFinding test data answer saving on: "+PATH+"\\HillFinding_test_data_ans.txt");
 			bw = new java.io.BufferedWriter(
 				new java.io.FileWriter(new java.io.File(
 					PATH+"\\HillFinding_test_data_ans.txt"))
@@ -1349,7 +1475,7 @@ public class Test{
 			bw.flush(); bw.close();
 		} catch (final java.io.IOException e) {
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("HillFinding test data and answer generated.");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("HillFinding test data and answer generated.");
 		final int[] result = test_data.stream().mapToInt(i -> i).toArray();
 		if(SHOW_TEST_DATA) System.out.println(test_data+"\nAnswer: "+HillFinding_ans);
 		return result;
@@ -1378,7 +1504,7 @@ public class Test{
 	 * @see #loadData_HillFinding()
 	 */
 	public int[] loadData_HillFinding(final String PATH) {
-		if(!CHECK_ANS.equals("min"))System.out.println("HillFinding test data loading from: " + PATH + "\\HillFinding_test_data.txt");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("HillFinding test data loading from: " + PATH + "\\HillFinding_test_data.txt");
 		final java.util.ArrayList<Integer> data = new java.util.ArrayList<>();
 		try {
 			final java.io.BufferedReader br = new java.io.BufferedReader(
@@ -1394,7 +1520,7 @@ public class Test{
 			System.exit(0);
 		} catch (final java.io.IOException e) {
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("HillFinding test data answer loading from: "+PATH+"\\HillFinding_test_data_ans.txt");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("HillFinding test data answer loading from: "+PATH+"\\HillFinding_test_data_ans.txt");
 		try {
 			final java.io.BufferedReader br = new java.io.BufferedReader(
 			new java.io.InputStreamReader(new java.io.FileInputStream(PATH+"\\HillFinding_test_data_ans.txt")));
@@ -1410,7 +1536,7 @@ public class Test{
 		} catch (final java.io.IOException e) {
 		}
 		HillFinding_test_data = data.stream().mapToInt(Integer::intValue).toArray();
-		if(!CHECK_ANS.equals("min"))System.out.println("HillFinding test data initialized. Array length: "+HillFinding_test_data.length);
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("HillFinding test data initialized. Array length: "+HillFinding_test_data.length);
 		return HillFinding_test_data;
 	}
 
@@ -1424,7 +1550,7 @@ public class Test{
 	 * @see #loadData_ThreeSum()
 	 */
 	public int timing(final ThreeSum HW, final int[] TD) {
-		if(!CHECK_ANS.equals("min"))System.out.println("Start timing method T_Sum() of "+HW.getClass().getName()+"...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Start timing method T_Sum() of "+HW.getClass().getName()+"...");
 		double totalCost = 0;
 		double time = 0;
 		int result = -1, td[];
@@ -1448,7 +1574,7 @@ public class Test{
 			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s"+(CHECK_ANS.equals("min")?"":"\n"),averageTime);
 		}
 		if(CHECK_ANS!=null) System.out.println("\tResult: "+result);// +", Correct: 1338261");
-		if(!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
 		return result;
 	}
 
@@ -1471,7 +1597,7 @@ public class Test{
 	 * @see #loadData_ThreeSum()
 	 */
 	public int[] loadData_ThreeSum(final String PATH) {
-		if(!CHECK_ANS.equals("min"))System.out.println("ThreeSum test data loading from: " + PATH);
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("ThreeSum test data loading from: " + PATH);
 		final java.util.ArrayList<Integer> data = new java.util.ArrayList<>();
 		try {
 			final java.io.BufferedReader br = new java.io.BufferedReader(
@@ -1488,7 +1614,7 @@ public class Test{
 		} catch (final java.io.IOException e) {
 		}
 		final int[] ThreeSum_test_data = data.stream().mapToInt(Integer::intValue).toArray();
-		if(!CHECK_ANS.equals("min"))System.out.println("ThreeSum test data initialized. Array length: "+ThreeSum_test_data.length);
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("ThreeSum test data initialized. Array length: "+ThreeSum_test_data.length);
 		return ThreeSum_test_data;
 	}
 
@@ -1508,7 +1634,7 @@ public class Test{
 	 */
 	@Deprecated(since = "2.24")
 	public int timing(final ArrayData HW, final int[] TD) {
-		if(!CHECK_ANS.equals("min"))System.out.println("Start timing method min() of "+HW.getClass().getName()+"...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Start timing method min() of "+HW.getClass().getName()+"...");
 		double totalCost = 0;
 		double time = 0; int result = 0;
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
@@ -1534,7 +1660,7 @@ public class Test{
 		}
 		System.out.println("\tResult: "+result);
 
-		if(!CHECK_ANS.equals("min"))System.out.println("Start timing "+HW.getClass().getName()+" method max()...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Start timing "+HW.getClass().getName()+" method max()...");
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
 			time = -System.nanoTime();
 			result = HW.max();
@@ -1557,7 +1683,7 @@ public class Test{
 			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s\n",averageTime/(averageTime>1e3?1e3:1));
 		}
 		System.out.println("\tResult: "+result);
-		if(!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
 		return result;
 	}
 
@@ -1570,7 +1696,7 @@ public class Test{
 	 * @see #timing(ArrayData, int[])
 	 */
 	public int[] generateData_ArrayData(final int LEN){
-		if(!CHECK_ANS.equals("min"))System.out.println("Generating ArrayData test data...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Generating ArrayData test data...");
 		ArrayData_test_data = new int[LEN];
 		final StringBuffer str = new StringBuffer("[");
 		for(int e=-1;ArrayData_test_data.length>++e;){
@@ -1581,7 +1707,7 @@ public class Test{
 		try {
 			final java.io.File file = new java.io.File(PATH);
 			file.createNewFile();
-			if(!CHECK_ANS.equals("min"))System.out.println("ArrayData test data saving on: "+PATH+"\\ArrayData_test_data.txt");
+			if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("ArrayData test data saving on: "+PATH+"\\ArrayData_test_data.txt");
 			final java.io.BufferedWriter bw = new java.io.BufferedWriter(
 				new java.io.FileWriter(new java.io.File(
 					PATH+"\\ArrayData_test_data.txt"))
@@ -1598,7 +1724,7 @@ public class Test{
 			// bw.write(...); bw.flush(); bw.close();
 		} catch (final java.io.IOException e) {
 		}
-		if(!CHECK_ANS.equals("min"))System.out.println("ArrayData test data and answer generated.");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("ArrayData test data and answer generated.");
 		str.replace(str.length()-2, str.length(), "]");
 		if(SHOW_TEST_DATA) System.out.println(str);
 		return ArrayData_test_data;
@@ -1767,7 +1893,8 @@ public class Test{
 		System.out.println(this.getClass().getName()+": Path: " + path);
 		System.out.println(this.getClass().getName()+": Run times of every method: "+rt);
 		if(sc) System.out.println(this.getClass().getName()+": Show count status.");
-		switch(ca.toLowerCase()){
+		if(ca==null) this.CHECK_ANS=null;
+		else switch(ca.toLowerCase()){
 			case "default","matrix","row","min":
 				System.out.println(
 					this.getClass().getName()+": Check answers in format '"
