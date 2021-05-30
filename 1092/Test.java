@@ -8,7 +8,7 @@ public class Test{
 		final Test test = new Test(1,null,false,false,System.getProperty("user.dir"));
 
 		for(final int i : new int[10]) // simulate the same way TA runs
-			for(final int n : new int[]{7,1000,20000,1})
+			for(final String n : new String[]{"7","1000","20000-","10","1","20000_r+","20000","15","12","20000_r"})
 				for(final SortingArray e : new SortingArray[]{
 					// new HW10_4108056020_1(),
 					new HW10_4108056020_2(),
