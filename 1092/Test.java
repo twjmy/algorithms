@@ -1,17 +1,30 @@
-/**<!--미안해...노정훤-->
- * NCHU CSE 1092 algorithm homework local test class
- * @version 5.30
+/**
+ * <p> Use the example below to build {@link Test} class by constructor
+ * {@link #Test(int, String, boolean, boolean, String)}:
+ * <blackquote> <pre> Test example = new Test(10, "min", false, true, "C:\\"); </pre> </blackquote>
+ * The parameters is for setting the {@code final} variable for the object by the order below:
+ * <p> {@link #RUN_TIME}, {@link #CHECK_ANS}, {@link #SHOW_COUNT}, {@link #SHOW_TEST_DATA}, {@link #PATH}
+ * <p> Setting the parameters directly after class built is <b>forbidden</b>.
+ *
+ * @version 6.3
  * @author twjmy@msn.com
+ * @apiNote NCHU CSE 1092 algorithm homework local test class.
  */
 public class Test{
-	public static void main(final String[] args){
-		final Test test = new Test(1,null,false,false,System.getProperty("user.dir"));
+	public static void main(final String...미안해_노정훤){ // System.getProperty("user.dir") // find Test.java located at
+		final Test test = new Test(1,"min",false,false,"C:\\OneDrive - 中興大學\\courses\\Alg\\1092");
 
-		for(final int i : new int[10]) // simulate the same way TA runs
-			for(final String n : new String[]{"7","1000","20000-","10","1","20000_r+","20000","15","12","20000_r"})
+		for(final int __ : new int[10]) // simulate the same way TA runs
+			for(final String n : new String[]{"10","1000","20000","10_1","1","20000_1","20000_2","15","12","20000_3"})
 				for(final SortingArray e : new SortingArray[]{
+					// new HW10_4108056001_1(),
+					// new HW10_4108056001_2(),
+					// new HW10_4108056001_3(),
 					// new HW10_4108056020_1(),
 					new HW10_4108056020_2(),
+					new HW10_4108056020_3(),
+					new HW10_4108056020_4(),
+					new HW10_4108056020_5(),
 				}){
 					final int[] TD = test.loadData_SortingArray(test.PATH+"\\SortingArray_test_data_"+n+".txt");
 					final int[] ANS = java.util.Arrays.copyOf(TD,TD.length);
@@ -21,7 +34,7 @@ public class Test{
 		test.checkAverageFastest();
 
 /* 
-		for(final int i : new int[10]) // simulate the same way TA runs
+		for(final int __ : new int[10]) // simulate the same way TA runs
 			for(final int n : new int[]{7694,788,598,398})
 				for(final LSD e : new LSD[]{
 					// new HW09_4108056026_2(),
@@ -135,37 +148,88 @@ public class Test{
 
 	public int[] timing(final SortingArray HW, final int[][] TD) {
 		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Start to timing "+HW.getClass()+" function sorting()...");
-		double averageTime = 0;
+		double totalCost = 0;
 		double time;
 		int[] result = null;
-		for(int i = -1; RUN_TIME > ++i && averageTime != -1;){
+		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
 			time = -System.nanoTime();
 			result = HW.sorting(TD[0]);
-			time = (System.nanoTime()+time)/1000000000.0;
-			if(SHOW_COUNT) System.out.printf(
-			"\t"+HW.getClass()+" running count..."+(i+1)+"\tTime: %.6fs\n",time);
-			//System.out.println("Debug msg: sorted int[] a = "+java.util.Arrays.toString(a));
-			//System.out.println("Debug msg: sorted int[] td[1] = "+java.util.Arrays.toString(td[1]));
-			//System.out.println("Debug msg: checking a["+j+"]"+ a[j] +" ?= td[0]["+j+"]"+td[0][j]);
-			if(CHECK_ANS!=null) for(int j = -1; result.length > ++j && averageTime != -1;)
-			if(result[j] != TD[0][j]) averageTime = -1; //judge if "a" right
-			if(averageTime != -1) averageTime += time;
+			time += System.nanoTime();
+			if(CHECK_ANS!=null&&!CHECK_ANS.equals("min")&&SHOW_COUNT) System.out.printf(
+						"\t" + HW.getClass().getName() + " running count..." + (i + 1) + "\tTime: "
+						+ (time > 1e3 ? "%.6f " : "%.3f m") + "s\tResult: " + result + "\n",
+						time * (time > 1e3 ? 1000 : 1));
+			if(CHECK_ANS!=null) for(int j = -1; result.length > ++j && totalCost != -1;)
+			if(result[j] != TD[1][j]) totalCost = -1; //judge if "a" right
+			if(totalCost != -1) totalCost += time;
 		}
-		if(averageTime == -1) System.out.println(
-		"\t"+HW.getClass()+" function sorting() Wrong Answer.");
+		if(totalCost == -1) System.out.println("\t"+HW.getClass()+" function sorting() Wrong Answer.");
 		else {
+			final double averageTime = totalCost/RUN_TIME;
+			timed(HW, averageTime);
 			System.out.printf(
-			"\t"+HW.getClass()+" function sorting() "+
-			"average running time: %.6fs\n",averageTime/RUN_TIME);
-			if(CHECK_ANS!=null) System.out.println(
-			"\tResault: "+java.util.Arrays.toString(HW.sorting(TD[0])));
+			((CHECK_ANS!=null&&!CHECK_ANS.equals("min"))?"\t":"")+HW.getClass().getName()+" method Distance() "
+			+"average running time: "+(averageTime>1e9?"%.6f ":"%.3f m")+"s"
+			+(CHECK_ANS!=null&&!CHECK_ANS.equals("min")?("\tResult: "+java.util.Arrays.toString(result)):"")+"\n",averageTime/(averageTime>1e9?1e9:1e6));
 		}
 		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
 		return result;
 	}
 
+	public int[][] generateData_SortingArray() {
+		return generateData_SortingArray((int)(Math.random()*20000)+1, PATH);
+	}
+
+	public int[][] generateData_SortingArray(final String PATH) {
+		return generateData_SortingArray((int)(Math.random()*20000)+1, PATH);
+	}
+
+	public int[][] generateData_SortingArray(final int SIZE) {
+		return generateData_SortingArray(SIZE, PATH);
+	}
+
+	public int[][] generateData_SortingArray(final int SIZE, final String PATH) {
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("SortingArray test data generating by size " + SIZE + "...");
+		final int[][] data = new int[2][SIZE];
+		try {
+			new java.io.File(PATH).createNewFile();
+			java.io.BufferedWriter bw = new java.io.BufferedWriter(
+			new java.io.FileWriter(new java.io.File(
+			PATH+"\\SortingArray_test_data.txt")));
+			//final java.util.Random r = new java.util.Random();
+			for(int i = -1; SIZE > ++i;){
+				//data[0][i] = r.nextInt();
+				switch((int)(Math.random()*2)){
+					case 0:
+					data[0][i] = (int)(Math.random()*Integer.MAX_VALUE);
+					break;
+					case 1:
+					data[0][i] = (int)(Math.random()*Integer.MIN_VALUE);
+					break;
+				}
+				bw.write(data[0][i]+((i == SIZE-1)?"":"\r\n"));
+			}
+			bw.flush(); bw.close();
+			final int[] ans = data[0];
+			java.util.Arrays.sort(ans);
+			new java.io.File(PATH).createNewFile();
+			bw = new java.io.BufferedWriter(new java.io.FileWriter(
+			new java.io.File(PATH+"\\SortingArray_test_data_ans.txt")));
+			for(int i = -1; SIZE > ++i;){
+				data[1][i] = ans[i];
+				bw.write(ans[i]+((i == SIZE-1)?"":"\r\n"));
+			}
+			bw.flush(); bw.close();
+		} catch (final java.io.IOException e) {
+		}
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min")&&SHOW_TEST_DATA) for(int i = -1; SIZE > ++i;)
+			System.out.println(data[0][i]+""+data[1][i]);
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("SortingArray test data generated.");
+		return data;
+	}
+
 	public int[] loadData_SortingArray(){
-		return loadData_SortingArray(PATH);
+		return loadData_SortingArray(PATH+"\\SortingArray_test_data.txt");
 	}
 
 	public int[] loadData_SortingArray(final String PATH) {
@@ -187,58 +251,6 @@ public class Test{
 		}
 		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("SortingArray test data initialized.");
 		return data.stream().mapToInt(Integer::intValue).toArray();
-	}
-
-	public int[][] generateData_SortingArray() {
-		return generateData_SortingArray(PATH, (int)(Math.random()*20000)+1);
-	}
-
-	public int[][] generateData_SortingArray(final String data_path) {
-		return generateData_SortingArray(data_path, (int)(Math.random()*20000)+1);
-	}
-
-	public int[][] generateData_SortingArray(final int data_size) {
-		return generateData_SortingArray(PATH, data_size);
-	}
-
-	public int[][] generateData_SortingArray(final String data_path, final int data_size) {
-		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("SortingArray test data generating by size " + data_size + "...");
-		final int[][] data = new int[2][data_size];
-		try {
-			new java.io.File(data_path).createNewFile();
-			java.io.BufferedWriter bw = new java.io.BufferedWriter(
-			new java.io.FileWriter(new java.io.File(
-			data_path+"SortingArray_test_data.txt")));
-			//final java.util.Random r = new java.util.Random();
-			for(int i = -1; data_size > ++i;){
-				//data[0][i] = r.nextInt();
-				switch((int)(Math.random()*2)){
-					case 0:
-					data[0][i] = (int)(Math.random()*Integer.MAX_VALUE);
-					break;
-					case 1:
-					data[0][i] = (int)(Math.random()*Integer.MIN_VALUE);
-					break;
-				}
-				bw.write(data[0][i]+((i == data_size-1)?"":"\r\n"));
-			}
-			bw.flush(); bw.close();
-			final int[] ans = data[0];
-			java.util.Arrays.sort(ans);
-			new java.io.File(data_path).createNewFile();
-			bw = new java.io.BufferedWriter(new java.io.FileWriter(
-			new java.io.File(data_path+"SortingArray_test_data_ans.txt")));
-			for(int i = -1; data_size > ++i;){
-				data[1][i] = ans[i];
-				bw.write(ans[i]+((i == data_size-1)?"":"\r\n"));
-			}
-			bw.flush(); bw.close();
-		} catch (final java.io.IOException e) {
-		}
-		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min")&&SHOW_TEST_DATA) for(int i = -1; data_size > ++i;)
-			System.out.println(data[0][i]+""+data[1][i]);
-		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("SortingArray test data generated.");
-		return data;
 	}
 
 	/**
@@ -286,7 +298,7 @@ public class Test{
 				td[j] = java.util.Arrays.copyOf(TD[j], 2);
 			time = -System.nanoTime();
 			result = HW.Distance(td);
-			time = (System.nanoTime()+time)/1e6;
+			time += System.nanoTime();
 			if(CHECK_ANS!=null&&!CHECK_ANS.equals("min")&&SHOW_COUNT) System.out.printf(
 						"\t" + HW.getClass().getName() + " running count..." + (i + 1) + "\tTime: "
 						+ (time > 1e3 ? "%.6f " : "%.3f m") + "s\tResult: " + result + "\n",
@@ -301,9 +313,9 @@ public class Test{
 			timed(HW, averageTime);
 			System.out.printf(
 			((CHECK_ANS!=null&&!CHECK_ANS.equals("min"))?"\t":"")+HW.getClass().getName()+" method Distance() "
-			+"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s"
+			+"average running time: "+(averageTime>1e9?"%.6f ":"%.3f m")+"s"
 			+(CHECK_ANS!=null?("\tResult: "+result+
-			(CHECK_ANS.equals("min")?("\tArray length: "+TD.length):"")):"")+"\n",averageTime/(averageTime>1e3?1e3:1));
+			(CHECK_ANS.equals("min")?("\tArray length: "+TD.length):"")):"")+"\n",averageTime/(averageTime>1e9?1e9:1e6));
 		}
 		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
 		return result;
@@ -490,9 +502,9 @@ public class Test{
 				td[j] = java.util.Arrays.copyOf(TD[j], 6);
 			time = -System.nanoTime();
 			result = HW.bestPhone(td);
-			time = (System.nanoTime()+time)/1e6;
+			time += System.nanoTime();
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+HW.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f ":"%.3f m")+"s\n",time*(time>1e3?1000:1));
+			"\t"+HW.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e9?"%.6f ":"%.3f m")+"s\n",time*(time>1e9?1e9:1e6));
 			// if(CHECK_ANS!=null) if(!result) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -504,7 +516,7 @@ public class Test{
 			System.out.printf(
 				(CHECK_ANS.equals("min")?"":"\t")+HW.getClass().getName() + " method bestPhone() average running time: "
 					+ (averageTime > 1e3 ? "%.6f " : "%.3f m") + "s" + (CHECK_ANS.equals("min") ? "" : "\n"),
-					averageTime/(averageTime>1e3?1e3:1));
+					averageTime/(averageTime>1e9?1e9:1e6));
 			switch(CHECK_ANS){
 				case "matrix","row": 
 					final StringBuffer SB = new StringBuffer("\tResult: \n");
@@ -718,9 +730,9 @@ public class Test{
 				td[j] = java.util.Arrays.copyOf(TD[j], 6);
 			time = -System.nanoTime();
 			result = HW.bestPhone(td);
-			time = (System.nanoTime()+time)/1e6;
+			time += System.nanoTime();
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+HW.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f ":"%.3f m")+"s\n",time*(time>1e3?1000:1));
+			"\t"+HW.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e9?"%.6f ":"%.3f m")+"s\n",time*(time>1e9?1e9:1e6));
 			// if(CHECK_ANS!=null) if(!result) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -919,9 +931,9 @@ public class Test{
 				td[j] = java.util.Arrays.copyOf(TD[j], 2);
 			time = -System.nanoTime();
 			result = HW.checkLLK(td);
-			time = (System.nanoTime()+time)/1e6;
+			time += System.nanoTime();
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+HW.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f ":"%.3f m")+"s\n",time*(time>1e3?1000:1));
+			"\t"+HW.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e9?"%.6f ":"%.3f m")+"s\n",time*(time>1e9?1e9:1e6));
 			// if(CHECK_ANS!=null) if(!result) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -932,7 +944,7 @@ public class Test{
 			timed(HW, averageTime);
 			System.out.printf(
 			(CHECK_ANS.equals("min")?"":"\t")+HW.getClass().getName()+" method checkLLK() "+
-			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s"+(CHECK_ANS.equals("min")?"":"\n"),averageTime/(averageTime>1e3?1e3:1));
+			"average running time: "+(averageTime>1e9?"%.6f ":"%.3f m")+"s"+(CHECK_ANS.equals("min")?"":"\n"),averageTime/(averageTime>1e9?1e9:1e6));
 			if(CHECK_ANS!=null) System.out.println("\tResult: "+result);
 		}
 		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
@@ -1117,9 +1129,9 @@ public class Test{
 			td = java.util.Arrays.copyOf(TD,TD.length);
 			time = -System.nanoTime();
 			result = HW.one0k(td);
-			time = (System.nanoTime()+time)/1e6;
+			time += System.nanoTime();
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+HW.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f ":"%.3f m")+"s\n",time*(time>1e3?1000:1));
+			"\t"+HW.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e9?"%.6f ":"%.3f m")+"s\n",time*(time>1e9?1e9:1e6));
 			if(CHECK_ANS != null && One_0k_rock_ans != null)
 			 for(int c = -1; ++c < One_0k_rock_ans.length;)
 			  if(result[c] != One_0k_rock_ans[c]){
@@ -1135,7 +1147,7 @@ public class Test{
 			timed(HW, averageTime);
 			System.out.printf(
 			(CHECK_ANS.equals("min")?"":"\t")+HW.getClass().getName()+" method one0k() "+
-			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s"+(CHECK_ANS.equals("min")?"":"\n"),averageTime/(averageTime>1e3?1e3:1));
+			"average running time: "+(averageTime>1e9?"%.6f ":"%.3f m")+"s"+(CHECK_ANS.equals("min")?"":"\n"),averageTime/(averageTime>1e9?1e9:1e6));
 		}
 		if(CHECK_ANS!=null) System.out.println("\tResult: " + java.util.Arrays.toString(result) + (CHECK_ANS.equals("min")?"":("\tCorrect: "
 					+ java.util.Arrays.toString(One_0k_rock_ans))));
@@ -1373,9 +1385,9 @@ public class Test{
 			td = java.util.Arrays.copyOf(TD,TD.length);
 			time = -System.nanoTime();
 			result = HW.H_Finding(td);
-			time = (System.nanoTime()+time)/1e6;
+			time += System.nanoTime();
 			if(SHOW_COUNT) System.out.printf(
-			"\t"+HW.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e3?"%.6f ":"%.3f m")+"s\n",time*(time>1e3?1000:1));
+			"\t"+HW.getClass().getName()+" running count..."+(i+1)+"\tTime: "+(time>1e9?"%.6f ":"%.3f m")+"s\n",time*(time>1e9?1e9:1e6));
 			if(CHECK_ANS!=null) if(HillFinding_ans != -2 && result != HillFinding_ans) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -1386,7 +1398,7 @@ public class Test{
 			timed(HW, averageTime);
 			System.out.printf(
 			(CHECK_ANS.equals("min")?"":"\t")+HW.getClass().getName()+" method H_Finding() "+
-			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s"+(CHECK_ANS.equals("min")?"":"\n"),averageTime/(averageTime>1e3?1e3:1));
+			"average running time: "+(averageTime>1e9?"%.6f ":"%.3f m")+"s"+(CHECK_ANS.equals("min")?"":"\n"),averageTime/(averageTime>1e9?1e9:1e6));
 		}
 		if(CHECK_ANS!=null) System.out.println("\tResult: "+result+", Correct: "+HillFinding_ans);
 		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
@@ -1571,7 +1583,7 @@ public class Test{
 			timed(HW, averageTime);
 			System.out.printf(
 			(CHECK_ANS.equals("min")?"":"\t")+HW.getClass().getName()+" method T_Sum() "+
-			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s"+(CHECK_ANS.equals("min")?"":"\n"),averageTime);
+			"average running time: "+(averageTime>1e9?"%.6f ":"%.3f m")+"s"+(CHECK_ANS.equals("min")?"":"\n"),averageTime);
 		}
 		if(CHECK_ANS!=null) System.out.println("\tResult: "+result);// +", Correct: 1338261");
 		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
@@ -1640,7 +1652,7 @@ public class Test{
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
 			time = -System.nanoTime();
 			result = HW.min();
-			time = (System.nanoTime()+time)/1e6;
+			time += System.nanoTime();
 			if(SHOW_COUNT) System.out.printf(
 						(CHECK_ANS.equals("min") ? "" : "\t") + HW.getClass().getName() + " running count..." + (i + 1)
 								+ "\tTime: " + (time > 1e3 ? "%.6f " : "%.3f m") + "s"
@@ -1656,7 +1668,7 @@ public class Test{
 			timed(HW, averageTime);
 			System.out.printf(
 			(CHECK_ANS.equals("min")?"":"\t")+HW.getClass().getName()+" method min() "+
-			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s\n",averageTime/(averageTime>1e3?1e3:1));
+			"average running time: "+(averageTime>1e9?"%.6f ":"%.3f m")+"s\n",averageTime/(averageTime>1e9?1e9:1e6));
 		}
 		System.out.println("\tResult: "+result);
 
@@ -1664,7 +1676,7 @@ public class Test{
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
 			time = -System.nanoTime();
 			result = HW.max();
-			time = (System.nanoTime()+time)/1e6;
+			time += System.nanoTime();
 			if(SHOW_COUNT) System.out.printf(
 						(CHECK_ANS.equals("min") ? "" : "\t") + HW.getClass().getName() + " running count..." + (i + 1)
 								+ "\tTime: " + (time > 1e3 ? "%.6f " : "%.3f m") + "s"
@@ -1680,7 +1692,7 @@ public class Test{
 			timed(HW, averageTime);
 			System.out.printf(
 			(CHECK_ANS.equals("min")?"":"\t")+HW.getClass().getName()+" method max() "+
-			"average running time: "+(averageTime>1e3?"%.6f ":"%.3f m")+"s\n",averageTime/(averageTime>1e3?1e3:1));
+			"average running time: "+(averageTime>1e9?"%.6f ":"%.3f m")+"s\n",averageTime/(averageTime>1e9?1e9:1e6));
 		}
 		System.out.println("\tResult: "+result);
 		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("End of timing "+HW.getClass().getName()+".\n");
@@ -1793,7 +1805,7 @@ public class Test{
 				fastest_cost = averageTime;
 			}
 			System.out.printf(HW.getClass().getName() + " average cost: "
-					+ (averageTime>1e3?"%.6f ":"%.3f m")+"s\n", averageTime/(averageTime>1e3?1e3:1));
+					+ (averageTime>1e9?"%.6f ":"%.3f m")+"s\n", averageTime/(averageTime>1e9?1e9:1e6));
 		});
 		return checkFastest();
 	}
@@ -1816,7 +1828,7 @@ public class Test{
 		}
 		System.out.printf("["+java.time.LocalDate.now() + " " + java.time.LocalTime.now() + "] "
 				+ fastest.getClass().getName() + " is the fastest, cost: "
-				+ (fastest_cost>1e3?"%.6f ":"%.3f m")+"s\n\n", fastest_cost/(fastest_cost>1e3?1e3:1));
+				+ (fastest_cost>1e9?"%.6f ":"%.3f m")+"s\n\n", fastest_cost/(fastest_cost>1e9?1e9:1e6));
 		Object tmp = fastest;
 		fastest = null;
 		fastest_cost = Double.MAX_VALUE;
@@ -1861,31 +1873,14 @@ public class Test{
 	public final String PATH;
 
 	/**
-	 * Use the example below to build {@link Test} by setting the <b>parameters</b>.
-	 * <blackquote>
-	 *
-	 * <pre>
-	 * Test t11 = new Test(20, "min", false, true, "C:\\");
-	 * </pre>
-	 *
-	 * </blackquote> Setting the parameters directly after class built is
-	 * <b>forbidden</b>.
-	 * <p>
-	 * There are default values of <b>parameters</b> while not assigned(<b>build by
-	 * {@link #Test()}</b>).
-	 *
-	 * @param rt   {@link #RUN_TIME} default: {@code 10}
-	 * @param ca   {@link #CHECK_ANS} default: {@code null}
-	 * @param sc   {@link #SHOW_COUNT} default: {@code false}
-	 * @param std  {@link #SHOW_TEST_DATA} default: {@code false}
-	 * @param path {@link #PATH} default: {@code System.getProperty("user.dir"))}
+	 * <p> There are default values of <b>parameters</b> while not assigned(<b>build by {@link #Test()}</b>).
+	 * 
+	 * @param rt   setting: {@link #RUN_TIME} default: {@code 10}
+	 * @param ca   setting: {@link #CHECK_ANS} default: {@code null} Options: "default","matrix","row","min"
+	 * @param sc   setting: {@link #SHOW_COUNT} default: {@code false}
+	 * @param std  setting: {@link #SHOW_TEST_DATA} default: {@code false}
+	 * @param path setting: {@link #PATH} default: {@code System.getProperty("user.dir"))}
 	 * @since 3.20
-	 * @see #Test()
-	 * @see #RUN_TIME
-	 * @see #CHECK_ANS
-	 * @see #SHOW_COUNT
-	 * @see #SHOW_TEST_DATA
-	 * @see #PATH
 	 */
 	public Test(final int rt, final String ca, final boolean sc, final boolean std, final String path){
 		this.RUN_TIME=rt; this.PATH=path;
@@ -1906,9 +1901,8 @@ public class Test{
 	}
 
 	/**
-	 * <h3>Default Value of Parameter while not assign</h3> <blackquote>
-	 *
-	 * <pre>
+	 * Default Value of Parameter while not assign:
+	 * <blackquote><pre>
 	 * final int RUN_TIME = 10;
 	 * final String CHECK_ANS = null;
 	 *  // Options: "default","matrix","row","min"
@@ -1916,9 +1910,7 @@ public class Test{
 	 * final boolean SHOW_TEST_DATA = false;
 	 * final String PATH = System.getProperty("user.dir");
 	 *  // current workspace.
-	 * </pre>
-	 *
-	 * </blackquote>
+	 * </pre></blackquote>
 	 * 
 	 * @see #RUN_TIME
 	 * @see #CHECK_ANS
