@@ -1921,3 +1921,38 @@ public class Test{
 	 */
 	public Test(){ this(10,null,false,false,System.getProperty("user.dir")); }
 }
+abstract class GroupCounting {
+	public abstract int count(String[] A, String[] B);
+}
+abstract class SortingArray {
+	public abstract int[] sorting(int[] A);
+}
+abstract class LSD{
+	public abstract int Distance(int[][] array);
+}
+abstract class Buy_Phone_v2{
+	public abstract int[][] bestPhone(int[][] inputArr);
+}
+abstract class Buy_Phone{
+	public abstract int[][] bestPhone(int[][] inputArr);
+}
+abstract class Dessert_Desert{
+	public abstract int[] maxBlocks(int[][] inputArr);
+}
+abstract class LLK{
+	public abstract boolean checkLLK(int[][] array);
+}
+abstract class One_0k_rock {
+	public abstract boolean[] one0k(String[] str);
+}
+abstract class HillFinding {
+	public abstract int H_Finding(int[] A);
+}
+abstract class ThreeSum {
+	public abstract int T_sum(int[] A);
+}
+abstract class ArrayData {
+	public int [] A;
+	public abstract int max();
+	public abstract int min();
+}
