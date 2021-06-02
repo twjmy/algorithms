@@ -808,7 +808,7 @@ public class Test{
 	 * @see #generateData_Buy_Phone()
 	 */
 	public int[][] generateData_Buy_Phone(final int LEN, final int RANGE, final String PATH){
-		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Buy_Phone test data generating by size: " + LEN + ", range: 0 ~ " + (RANGE-1) + "...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Buy_Phone test data generating by size: "+LEN+", range: 0 ~ "+(RANGE-1)+"...");
 		final java.util.List<Integer[]> test_data = new java.util.ArrayList<Integer[]>(LEN);
 		for(int i = -1, x, y; LEN > ++i;){
 			x = (int)(Math.random()*RANGE); y = (int)(Math.random()*RANGE);
@@ -996,7 +996,7 @@ public class Test{
 	 * @see #generateData_LLK()
 	 */
 	public int[][] generateData_LLK(final int LEN, final int RANGE, final String PATH){
-		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("LLK test data generating by size: " + LEN + ", range: -" + RANGE + " ~ " + (RANGE-1) + "...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("LLK test data generating by size: "+LEN+", range: -"+RANGE+" ~ "+(RANGE-1)+"...");
 		final java.util.List<Integer[]> test_data = new java.util.ArrayList<Integer[]>(LEN);
 		for(int i = -1, x, y; LEN > ++i;){
 			x = (int)(Math.random()*RANGE); y = (int)(Math.random()*RANGE);
@@ -1451,7 +1451,7 @@ public class Test{
 	 * @see #generateData_HillFinding()
 	 */
 	public int[] generateData_HillFinding(final int LEN, final int RANGE, final String PATH){
-		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("HillFinding test data generating by size: " + LEN + ", range: -" + RANGE + " ~ " + (RANGE-1) + "...");
+		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("HillFinding test data generating by size: "+LEN+", range: -"+RANGE+" ~ "+(RANGE-1)+"...");
 		final java.util.List<Integer> sortedArray = new java.util.ArrayList<Integer>(LEN);
 		java.util.List<Integer> test_data = null;
 		for(int i = -1; LEN > ++i;){
