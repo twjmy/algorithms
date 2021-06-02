@@ -1,5 +1,5 @@
 /**
- * <p> Use the example below to build {@link Test} class by constructor
+ * Use the example below to build {@link Test} class by constructor
  * {@link #Test(int, String, boolean, boolean, String)}:
  * <blackquote> <pre> Test example = new Test(10, "min", false, true, "C:\\"); </pre> </blackquote>
  * The parameters is for setting the {@code final} variable for the object by the order below:
