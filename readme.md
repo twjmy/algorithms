@@ -21,23 +21,43 @@ image: null # 在此輸入預覽圖片網址
 + [HW08 - Buy Phone v2](#HW08---Buy-Phone-v2)
 + [HW09 - LSD](#HW09---LSD)
 + [HW10 - Sorting](#HW10---Sorting)
++ [HW11 - GroupCounting](#HW11---GroupCounting)
 
 ---
 
-<!--
-## HW - 
+## HW11 - GroupCounting
 
 ### Assignment
 
+Your program will take two string array as input.
+
+The points corresponding to the same index in the array will be connected to form an edge.
+
+Please return the number of the groups in the given array.
+
+<details>
+ <summary>Example</summary>
+ <img src="https://i.imgur.com/cftSW8J.png" alt="Example"/>
+</details>
+
+| Example | Method Calling / Return                    |
+| ------- | ------------------------------------------ |
+| Input   | `String A = {"A","B","B","C","B","D","F","G"}, B = {"E","E","C","D","D","E","H","H"}` |
+| Output  | `int count(A,B) = 2` |
+
 ### Abstract class
+
+```java=!
+public abstract class GroupCounting {
+    public abstract int count(String[] A, String[] B);
+}
+```
 
 ### Solution
 
 施工中...:gear:
 
 ---
-
--->
 
 ## HW10 - Sorting
 
@@ -46,10 +66,10 @@ image: null # 在此輸入預覽圖片網址
 Your program will take an integer array as input. 
 Please return the sorted ascending array in the given array.
 
-| Example | Method Calling / Return                    |
-| ------- | ------------------------------------------ |
-| Input   | `sorting(new int[]{-1,2,5,9,8,7,1,3,2})` |
-| Output  | `sorting(int[][]) = (int[]) {-1,1,2,2,3,5,7,8,9}` |
+| Example | Method Calling / Return                   |
+| ------- | ----------------------------------------- |
+| Input   | `int[] A = {-1,2,5,9,8,7,1,3,2}`          |
+| Output  | `int[] sorting(A) = {-1,1,2,2,3,5,7,8,9}` |
 
 ### Abstract class
 
@@ -81,8 +101,8 @@ Given a graph G = (V, E), find max<sub>u,v</sub> d(u, v), where d(u,v) denotes t
 
 | Example | Method Calling / Return                    |
 | ------- | ------------------------------------------ |
-| Input   | `Distance(new int[][]{{0,1},{0,2},{0,4},{1,3},{1,4},{2,5},{6,7}})` |
-| Output  | `Distance(int[][]) = (int) 4` |
+| Input   | `int[][] array = {{0,1},{0,2},{0,4},{1,3},{1,4},{2,5},{6,7}}` |
+| Output  | `int Distance(array) = 4` |
 
 ### Abstract class
 
@@ -112,8 +132,8 @@ The return array should be sorted by the first element of each array in the outp
 
 | Example | Method Calling / Return                    |
 | ------- | ------------------------------------------ |
-| Input   | `bestPhone(new int[][]{{8,7,7,4,2,1},{2,4,4,6,2,1},{4,0,5,1,3,2},{5,2,4,3,7,3},{7,5,6,9,8,9}})` |
-| Output  | `bestPhone(int[][]) = (int[][]) {{7,5,6,9,8,9},{8,7,7,4,2,1}}` |
+| Input   | `int[][] inputArr = {{8,7,7,4,2,1},{2,4,4,6,2,1},{4,0,5,1,3,2},{5,2,4,3,7,3},{7,5,6,9,8,9}}` |
+| Output  | `int[][] bestPhone(inputArr) = {{7,5,6,9,8,9},{8,7,7,4,2,1}}` |
 
 ### Abstract class
 
@@ -143,8 +163,8 @@ Given two items A =(X<sub>a</sub>, Y<sub>a</sub>) and B =(X<sub>b</sub>, Y<sub>b
 
 | Example | Method Calling / Return                    |
 | ------- | ------------------------------------------ |
-| Input   | `bestPhone(new int[][]{{1,1},{2,4},{2,10},{5,4},{4,8},{5,5},{8,4},{10,2},{10,1}})` |
-| Output  | `bestPhone(int[][]) = (int[][]) {{2,10},{4,8},{5,5},{8,4},{10,2}}` |
+| Input   | `int[][] inputArr = {{1,1},{2,4},{2,10},{5,4},{4,8},{5,5},{8,4},{10,2},{10,1}}` |
+| Output  | `int[][] bestPhone(inputArr) = {{2,10},{4,8},{5,5},{8,4},{10,2}}` |
 
 ### Abstract class
 
@@ -176,8 +196,8 @@ A valid partitioning of the integer array is defined as follows.
 
 | Example | Method Calling / Return                    |
 | ------- | ------------------------------------------ |
-| Input   | `maxBlocks(new int[][]{{1,1,1,1,1,1,1},{1,3,5,7,9},{1,2,3},{5,4,3,2,1},{2,1,3,2}})` |
-| Output  | `maxBlocks(int[][]) = (int[]) {7,5,3,1,2}` |
+| Input   | `int[][] inputArr = {{1,1,1,1,1,1,1},{1,3,5,7,9},{1,2,3},{5,4,3,2,1},{2,1,3,2}}` |
+| Output  | `int[] maxBlocks(inputArr) = {7,5,3,1,2}` |
 
 ### Abstract class
 
@@ -203,10 +223,10 @@ Your program will take a set that consists of two-dimensional points as input. P
 
 Here is our sample testdata: `[[1,1],[2,2],[3,6]]`
 
-| Example | Method Calling / Return                    |
-| ------- | ------------------------------------------ |
-| Input   | `checkLLK(new int[][]{{1,1},{2,2},{3,6}})` |
-| Output  | `checkLLK(int[][]) = (boolean) false`      |
+| Example | Method Calling / Return               |
+| ------- | ------------------------------------- |
+| Input   | `int[][] array = {{1,1},{2,2},{3,6}}` |
+| Output  | `boolean checkLLK(array) = false`     |
 
 ### Abstract class
 
@@ -236,12 +256,12 @@ For example,
 1. Input: `["0011","00111"]` , Output: `[true,false]`
 2. Input: `["01","1100","1111"]` , Output: `[true,false,false]`
 
-| Example  | Method Calling / Return                            |
-| -------- | -------------------------------------------------- |
-| Input 1  | `one0k(new String[]{"0011","00111"})`              |
-| Output 1 | `one0k(String[]) = (boolean[]) {true,false}`       |
-| Input 2  | `one0k(new String[]{"01","1100","1111"})`          |
-| Output 2 | `one0k(String[]) = (boolean[]) {true,false,false}` |
+| Example  | Method Calling / Return                      |
+| -------- | -------------------------------------------- |
+| Input 1  | `String[] str1 = {"0011","00111"}`           |
+| Output 1 | `boolean[] ne0k(str1) = {true,false}`        |
+| Input 2  | `String[] str2 = {"01","1100","1111"}`       |
+| Output 2 | `boolean[] one0k(str2) = {true,false,false}` |
 
 ### Abstract class
 
@@ -338,12 +358,12 @@ TestCase(input) will not include arrays like:
 1. All same: `8,8,8,8,8,8`
 2. Whole ascending: `1,2,3,4,5,6,7`
 
-| Example  | Method Calling / Return               |
-| -------- | ------------------------------------- |
-| Input 1  | `H_Finding(new int[]{5,6,7,1,2,3,4})` |
-| Output 1 | `H_Finding(int[]) = (int) 3`          |
-| Input 2  | `H_Finding(new int[]{5,7,8,8,1,3,4})` |
-| Output 2 | `H_Finding(int[]) = (int) 2`          |
+| Example  | Method Calling / Return      |
+| -------- | ---------------------------- |
+| Input 1  | `int[] A1 = {5,6,7,1,2,3,4}` |
+| Output 1 | `int H_Finding(A1) = 3`      |
+| Input 2  | `int[] A2 = {5,7,8,8,1,3,4}` |
+| Output 2 | `int H_Finding(A2) = 2`      |
 
 ### Abstract class
 
@@ -408,7 +428,7 @@ public class HW03_4108056020_1 extends HillFinding {
 | Example | Method Calling / Return           |
 | ------- | --------------------------------- |
 | Input   | `T_sum(new int[]{-1,1,2,4,8,-3})` |
-| Output  | `T_sum(int[]) = (int) 2`          |
+| Output  | `int T_sum(int[]) = 2`            |
 
 分別是 (1,2,-3) 以及 (-1,4,-3) 2組
 
@@ -476,10 +496,10 @@ public class HW02_1 extends ThreeSum{
 
 會給一個Array，分別求Array的最大值和最小值
 
-| Example | Method Calling / Return            |
-| ------- | ---------------------------------- |
-| Input   | `ArrayData(new int{1,2,3})`        |
-| Output  | `min() = (int) 3, max() = (int) 1` |
+| Example | Method Calling / Return     |
+| ------- | --------------------------- |
+| Input   | `ArrayData(new int{1,2,3})` |
+| Output  | `int min() = 3, max() = 1`  |
 
 ### Abstract class
 
