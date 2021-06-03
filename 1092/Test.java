@@ -1,7 +1,7 @@
 /**
  * Use the example below to build {@link Test} class by constructor
  * {@link #Test(int, String, boolean, boolean, String)}:
- * <pre> Test example = new Test(10, "min", false, true, "C:\\"); </pre>
+ * <pre> Test example = new Test(10, "min", false, true, "C:\\JavaProjects"); </pre>
  * The parameters is for setting the {@code final} variable for the object by the order below:
  * <p> {@link #RUN_TIME}, {@link #CHECK_ANS}, {@link #SHOW_COUNT}, {@link #SHOW_TEST_DATA}, {@link #PATH}
  * <p> Setting the parameters directly after class built is <b>forbidden</b>.
