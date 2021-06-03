@@ -1807,6 +1807,7 @@ public class Test{
 			System.out.printf(HW.getClass().getName() + " average cost: "
 					+ (averageTime>1e9?"%.6f ":"%.3f m")+"s\n", averageTime/(averageTime>1e9?1e9:1e6));
 		});
+		MAP.clear();
 		return checkFastest();
 	}
 
