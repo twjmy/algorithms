@@ -11,7 +11,7 @@
  * @apiNote NCHU CSE 1092 algorithm homework local test class.
  */
 public class Test{
-	public static void main(final String...미안해_노정훤){ // System.getProperty("user.dir") // find Test.java located at
+	public static void main(final String...미안해_노정훤){ // System.getProperty("user.dir") // the directory Test.java located at
 		final Test test = new Test(1,"min",false,false,"C:\\OneDrive - 中興大學\\courses\\Alg\\1092");
 
 		for(final int __ : new int[10]) // simulate the same way TA runs
