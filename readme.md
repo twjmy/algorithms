@@ -42,7 +42,7 @@ Please return the number of the groups in the given array.
 
 | Example | Method Calling / Return                    |
 | ------- | ------------------------------------------ |
-| Input   | `String A = {"A","B","B","C","B","D","F","G"}, B = {"E","E","C","D","D","E","H","H"}` |
+| Input   | `String[] A = {"A","B","B","C","B","D","F","G"}, B = {"E","E","C","D","D","E","H","H"}` |
 | Output  | `int count(A,B) = 2` |
 
 ### Abstract class
@@ -278,7 +278,7 @@ public abstract class One_0k_rock {
 由於 Java 的 String 內建的 [`matches(String)`](https://docs.oracle.com/javase/9/docs/api/java/lang/String.html#matches-java.lang.String-) 可以讓我們使用正則表達式判斷，取字串長度的一半(`l>>>1`)作為 0<sup>k</sup>1<sup>k</sup> 裡的 k ，所以可以這樣實作
 
 ```java=!
-public class HW04_RE extends One_0k_rock {
+public class HW04_1 extends One_0k_rock {
     public boolean[] one0k(final String[] str) {
         final boolean[] result = new boolean[str.length];
         for(int i = 0, len, half; i < str.length; i++){
@@ -316,12 +316,14 @@ public class HW04_2 extends One_0k_rock {
 
 ```
 
+你可能會想問，為什麼不直接 `str[i].charAt(++j)<str[i].charAt(l-1-j)` 就好？答案是因為用 `chatAt(int)` 也需要耗時間，我直接生一個現有的字串來比較，如果不對就會直接跳出迴圈，就可以省去多一次呼叫的時間。這樣對於每個正確的字串來說時間複雜度會是 `T(4+½N+½N+2) = T(6+N) ~ O(N)` 。
+
 #### Left-right compare from middle
 
-如果從中間開始比，可以同時判斷奇數的情況，省去一個步驟，可以這樣實作
+感謝 @bettyteng21 提出，如果從中間開始比，可以同時判斷奇數的情況，省去一個步驟，可以這樣實作
 
 ```java=!
-public class HW04_2 extends One_0k_rock {
+public class HW04_3 extends One_0k_rock {
     public boolean[] one0k(final String[] str) {
         final boolean[] result = new boolean[str.length];
         for(int i=-1,j,len; ++i<str.length;) {
@@ -335,7 +337,7 @@ public class HW04_2 extends One_0k_rock {
     
 ```
 
-施工中...:gear:
+這樣對於每個正確的字串來說時間複雜度會是 `T(2+½N+½N+½N+2) = T(4+3N/2) ~ O(3N/2)` ，理論上應該要比較慢，但可能由於測資的 `false` 結果居多所以比較快。
 
 ---
 
@@ -396,7 +398,7 @@ public class HW03_1 extends HillFinding {
 同樣，參考老師的[投影片](https://www.dropbox.com/s/cxrvhuj9mnk2uio/%E6%BC%94%E7%AE%97%E6%B3%95%E8%AC%9B%E7%BE%A92020.pdf) Lecture 2 第 40 頁裡的程式碼，修改一下
 
 ```java=!
-public class HW03_4108056020_1 extends HillFinding {
+public class HW03_2 extends HillFinding {
     public int H_Finding(final int[] A) {
         final int END = A.length-1;
         int lo = 0, hi=END;
@@ -466,7 +468,7 @@ public class HW02_1 extends ThreeSum{
 
 ```java=!
 import java.util.Arrays;
-public class HW02_1 extends ThreeSum{
+public class HW02_2 extends ThreeSum{
     public int T_sum(int[] a){
         Arrays.sort(a);
         int N = a.length-2;
