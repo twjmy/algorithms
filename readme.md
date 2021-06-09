@@ -320,7 +320,7 @@ public class HW04_2 extends One_0k_rock {
 
 #### Left-right compare from middle
 
-感謝 @bettyteng21 提出，如果從中間開始比，可以同時判斷奇數的情況，省去一個步驟，可以這樣實作
+感謝 [@bettyteng21](https://github.com/bettyteng21) 提出，如果從中間開始比，可以同時判斷奇數的情況，省去一個步驟，可以這樣實作
 
 ```java=!
 public class HW04_3 extends One_0k_rock {
@@ -337,7 +337,7 @@ public class HW04_3 extends One_0k_rock {
     
 ```
 
-這樣對於每個正確的字串來說時間複雜度會是 `T(2+½N+½N+½N+2) = T(4+3N/2) ~ O(3N/2)` ，理論上應該要比較慢，但可能由於測資的 `false` 結果居多所以比較快。
+這樣對於每個正確的字串來說時間複雜度會是 `T(2+½N+½N+½N+2) = T(4+3N/2) ~ O(3N/2)` ，理論上應該要比較慢，但可能由於測資的 `false` 結果居多所以排名出來的結果比較快。
 
 ---
 
