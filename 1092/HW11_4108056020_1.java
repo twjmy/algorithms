@@ -28,7 +28,7 @@ public class HW11_4108056020_1 extends GroupCounting{
 			while(UNION[b] != b) b = UNION[b] = UNION[UNION[b]];
 			if(a == b) continue;
 			if(UNIONW[a] > UNIONW[b])
-				 UNIONW[a] += 1 + (UNION[b] = a);
+			     UNIONW[a] += 1 + (UNION[b] = a);
 			else UNIONW[b] += 1 + (UNION[a] = b);
 			unionN++;
 		}
