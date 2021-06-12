@@ -1,6 +1,6 @@
 public class HW11_4108056020_2 extends GroupCounting{
 	public int count(final String[] A, final String[] B){
-		final int LEN = A.length, UNION[] = new int[10000000];
+		final int LEN = A.length, UNION[] = new int[2000000];
 		int nodeN = 0, unionN = 0;
 		for(int i = 0, a, b, t; i < LEN; i++){
 			a = Integer.parseInt(A[i])+1; b = Integer.parseInt(B[i])+1;
