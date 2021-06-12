@@ -40,7 +40,7 @@ public class HW11_4108056020_3 extends GroupCounting{
 				}else{ UNION[b] = -1; nodeN++; }
 				if(a == b) continue;
 				if(UNION[a] > UNION[b])
-					{ UNION[b] += UNION[a]; UNION[a] = b; }
+				    { UNION[b] += UNION[a]; UNION[a] = b; }
 				else{ UNION[a] += UNION[b]; UNION[b] = a; }
 				unionN++;
 			}
