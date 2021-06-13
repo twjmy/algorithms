@@ -275,15 +275,16 @@ public abstract class One_0k_rock {
 
 #### Brute-force (Regular Expression)
 
-由於 Java 的 String 內建的 [`matches(String)`](https://docs.oracle.com/javase/9/docs/api/java/lang/String.html#matches-java.lang.String-) 可以讓我們使用正則表達式判斷，取字串長度的一半(`l>>>1`)作為 0<sup>k</sup>1<sup>k</sup> 裡的 k ，所以可以這樣實作
+由於 Java 的 String 內建的 [`matches(String)`](https://docs.oracle.com/javase/9/docs/api/java/lang/String.html#matches-java.lang.String-) 可以讓我們使用正則表達式判斷，取字串長度的一半(`len>>>1`)作為 0<sup>k</sup>1<sup>k</sup> 裡的 k ，所以可以這樣實作
 
 ```java=!
 public class HW04_1 extends One_0k_rock {
     public boolean[] one0k(final String[] str) {
         final boolean[] result = new boolean[str.length];
-        for(int i = 0, len, half; i < str.length; i++){
-            len = str[i].length();
-            half = len>>>1;
+        for(int i = 0; i < str.length; i++){
+            final int len = str[i].length();
+            if((len&1)==1) continue; // 奇數個的情況跳過: l&1 相當於 l%2
+            final int half = len>>>1;
             if(str[i].matches("0{"+half+"}1{"+half+"}"))
                 result[i] = true;
         }
@@ -292,7 +293,7 @@ public class HW04_1 extends One_0k_rock {
 }
 ```
 
-這樣的實作我們無法得知時間複雜度是多少，因為我們不是寫 [`matches(String)`](https://docs.oracle.com/javase/9/docs/api/java/lang/String.html#matches-java.lang.String-) 這個函式的人。
+這樣的實作我們無法得知時間複雜度是多少，因為我們不是寫 [`matches(String)`](https://docs.oracle.com/javase/9/docs/api/java/lang/String.html#matches-java.lang.String-) 這個函式的人，但結果都比下面來的慢。
 
 #### Left-right compare
 
@@ -302,13 +303,14 @@ public class HW04_1 extends One_0k_rock {
 public class HW04_2 extends One_0k_rock {
     public boolean[] one0k(final String[] str) {
         final boolean[] result = new boolean[str.length];
-        for(int i=-1,j,half,len; ++i<str.length;) {
-            len = str[i].length();
-            if((len&1)==1) continue; // 奇數個的情況跳過: l&1 相當於 l%2
-            half = len>>>1;
-            for(j = -1; str[i].charAt(++j)=='0' && str[i].charAt(l-1-j)=='1';);
-            // 完成上面操作後的 j 如果等於 half 就代表條件通過了 half 次
-            if(j == half) result[i] = true;
+        for(int i=0,j; i<str.length; ++j) {
+            final String s = str[i];
+            final int len = s.length();
+            if((len&1)==1) continue;
+            final int end = len -1;
+            for(j = -1; s.charAt(++j)=='0' && s.charAt(end-j)=='1';);
+            // j 如果指到 len>>>1 就代表條件通過了 (len>>>1)-1 次
+            if((len>>>1)==j) result[i] = true;
         }
         return result;
     }
@@ -316,9 +318,9 @@ public class HW04_2 extends One_0k_rock {
 
 ```
 
-你可能會想問，為什麼不直接 `str[i].charAt(++j)<str[i].charAt(l-1-j)` 就好？答案是因為用 `chatAt(int)` 也需要耗時間，我直接生一個現有的字串來比較，如果不對就會直接跳出迴圈，就可以省去多一次呼叫的時間。這樣對於每個正確的字串來說時間複雜度會是 `T(4+½N+½N+2) = T(6+N) ~ O(N)` 。
+你可能會想問，為什麼不直接 `str[i].charAt(++j)<str[i].charAt(l-1-j)` 就好？答案是因為用 `chatAt(int)` 也需要耗時間，我直接生一個立即的字符來比較，如果不對當下直接跳出迴圈，就可以省去多一次呼叫的時間。這樣對於每個正確的字串來說時間複雜度會是 `T(5+½N+½N+2) = T(7+N) ~ O(N)` 。
 
-#### Left-right compare from middle
+#### Left-right compare - from middle
 
 感謝 [@bettyteng21](https://github.com/bettyteng21) 提出，如果從中間開始比，可以同時判斷奇數的情況，省去一個步驟，可以這樣實作
 
@@ -326,18 +328,22 @@ public class HW04_2 extends One_0k_rock {
 public class HW04_3 extends One_0k_rock {
     public boolean[] one0k(final String[] str) {
         final boolean[] result = new boolean[str.length];
-        for(int i=-1,j,len; ++i<str.length;) {
-            len= str[i].length()-1; j = (len>>>1)+1;
-            while(--j>-1&&str[i].charAt(j)=='0'&&str[i].charAt(l-1-j)=='1');
-            // 完成上面操作後的 j 如果等於 -1 就代表條件通過了 len>>>1 次
-            if(j == -1) result[i] = true;
+        for(int i=0; i<str.length; ++i) {
+            final String s = str[i];
+            final int end = s.length()-1;
+            try{
+                for(int j=(end>>>1)+1; s.charAt(--j)=='0' && s.charAt(end-j)=='1';);
+            }catch(IndexOutOfBoundsException __){
+                // j 如果指到 -1 就代表條件通過了 len>>>1 次
+                result[i] = true;
+            }
         }
         return result;
     }
     
 ```
 
-這樣對於每個正確的字串來說時間複雜度會是 `T(2+½N+½N+½N+2) = T(4+3N/2) ~ O(3N/2)` ，理論上應該要比較慢，但可能由於測資的 `false` 結果居多所以排名出來的結果比較快。
+快那麼一點，這樣對於每個正確的字串來說時間複雜度會是 `T(3+½N+½N+1) = T(4+N) ~ O(N)` ，但我有看過 [@bettyteng21](https://github.com/bettyteng21) 的程式碼，時間複雜度算下來其實比上面從前面開始比的方法來的高，但就比較快，推測是因為測資 `false` 的結果居多所導致。
 
 ---
 
