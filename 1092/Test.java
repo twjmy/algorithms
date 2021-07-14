@@ -3,49 +3,45 @@
  * {@link #Test(int, String, boolean, boolean, String)}:
  * <pre> Test example = new Test(10, "min", false, true, "C:\\JavaProjects"); </pre>
  * The parameters is for setting the {@code final} variable for the object by the order below:
- * <p> {@link #RUN_TIME}, {@link #CHECK_ANS}, {@link #SHOW_COUNT}, {@link #SHOW_TEST_DATA}, {@link #PATH}
+ * <p> {@link #RUN_TIME}, {@link #CHECK_ANS}(5 options), {@link #SHOW_COUNT}, {@link #SHOW_TEST_DATA}, {@link #PATH}
  * <p> Setting the parameters directly after class built is <b>forbidden</b>.
+ * <hr> Show the timing result by using the example below:
+ * <pre> example.timing(new HWXX_X(), TEST_DATA); </pre>
  *
- * @version 6.3
+ * @version 6.7
  * @author twjmy@msn.com
  * @apiNote NCHU CSE 1092 algorithm homework local test class.
  */
-public class Test{
-	public static void main(final String...미안해_노정훤){ // System.getProperty("user.dir") // the directory Test.java located at
+public class Test{ // !current workspace path string in code: // System.getProperty("user.dir")
+	public static void main(final String...미안해_노정훤){
 		final Test test = new Test(1,"min",false,false,"C:\\OneDrive - 中興大學\\courses\\Alg\\1092");
 
-		for(final int __ : new int[10]) // simulate the same way TA runs
+		for(final SortingArray e : new SortingArray[]{
+			// new HW10_4108056001_1(),
+			// new HW10_4108056001_2(),
+			// new HW10_4108056001_3(),
+			new HW10_4108056020_1(),
+			// new HW10_4108056020_2(),
+			// new HW10_4108056020_3(),
+			// new HW10_4108056020_4(),
+			// new HW10_4108056020_5(),
+		}) for(final int __ : new int[10])
 			for(final String n : new String[]{"10","1000","20000","10_1","1","20000_1","20000_2","15","12","20000_3"})
-				for(final SortingArray e : new SortingArray[]{
-					// new HW10_4108056001_1(),
-					// new HW10_4108056001_2(),
-					// new HW10_4108056001_3(),
-					// new HW10_4108056020_1(),
-					new HW10_4108056020_2(),
-					new HW10_4108056020_3(),
-					new HW10_4108056020_4(),
-					new HW10_4108056020_5(),
-				}){
-					final int[] TD = test.loadData_SortingArray(test.PATH+"\\SortingArray_test_data_"+n+".txt");
-					final int[] ANS = java.util.Arrays.copyOf(TD,TD.length);
-					java.util.Arrays.sort(ANS);
-					test.timing(e, new int[][]{TD,ANS});
-				}
+				test.timing(e, test.loadData_SortingArray(test.PATH+"\\SortingArray_test_data_"+n+".txt"));
 		test.checkAverageFastest();
 
 /* 
-		for(final int __ : new int[10]) // simulate the same way TA runs
-			for(final int n : new int[]{7694,788,598,398})
-				for(final LSD e : new LSD[]{
-					// new HW09_4108056026_2(),
-					// new HW09_4108056020_1(),
-					new HW09_4108056020_2(),
-					new HW09_4108056020_3(),
-					new HW09_4108056020_4(),
-					new HW09_4108056020_5(),
-					// new HW09_4108056020_repeat(),
-				}) test.timing(e, test.loadData_LSD(test.PATH+"\\LSD_test_data_"+n+".txt"));
-				// now we can load data via absolute path of the file
+		for(final LSD e : new LSD[]{
+			// new HW09_4108056026_2(),
+			// new HW09_4108056020_1(),
+			new HW09_4108056020_2(),
+			new HW09_4108056020_3(),
+			new HW09_4108056020_4(),
+			new HW09_4108056020_5(),
+			// new HW09_4108056020_repeat(),
+		}) for(final int __ : new int[10]) // simulate the same way TA runs
+			for(final int n : new int[]{7694,788,598,398}) // now we can load data via absolute path of the file
+				test.timing(e, test.loadData_LSD(test.PATH+"\\LSD_test_data_"+n+".txt"));
 		test.checkAverageFastest();
  */
 /* 
@@ -146,21 +142,25 @@ public class Test{
  */
 	}
 
-	public int[] timing(final SortingArray HW, final int[][] TD) {
+	public int[] timing(final SortingArray HW, final int[] TD) {
 		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Start to timing "+HW.getClass()+" function sorting()...");
-		double totalCost = 0;
-		double time;
+		long totalCost = 0;
+		long time;
 		int[] result = null;
+		final int[] ANS = java.util.Arrays.copyOf(TD, TD.length); java.util.Arrays.sort(ANS);
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
+			final int[] td = java.util.Arrays.copyOf(TD, TD.length);
 			time = -System.nanoTime();
-			result = HW.sorting(TD[0]);
+			result = HW.sorting(td);
 			time += System.nanoTime();
 			if(CHECK_ANS!=null&&!CHECK_ANS.equals("min")&&SHOW_COUNT) System.out.printf(
 						"\t" + HW.getClass().getName() + " running count..." + (i + 1) + "\tTime: "
-						+ (time > 1e3 ? "%.6f " : "%.3f m") + "s\tResult: " + result + "\n",
-						time * (time > 1e3 ? 1000 : 1));
-			if(CHECK_ANS!=null) for(int j = -1; result.length > ++j && totalCost != -1;)
-			if(result[j] != TD[1][j]) totalCost = -1; //judge if "a" right
+						+ (time > 1e9 ? "%.6f " : "%.3f m") + "s\tResult: " + result + "\n",
+						time * (time > 1e9 ? 1e9: 1e6));
+			if(CHECK_ANS!=null){
+				for(int j = -1; result.length > ++j && totalCost != -1;)
+					if(result[j] != ANS[j]) totalCost = -1; //judge if "a" right
+			}
 			if(totalCost != -1) totalCost += time;
 		}
 		if(totalCost == -1) System.out.println("\t"+HW.getClass()+" function sorting() Wrong Answer.");
@@ -234,7 +234,7 @@ public class Test{
 
 	public int[] loadData_SortingArray(final String PATH) {
 		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("SortingArray test data initializing from: "+PATH);
-		java.util.ArrayList<Integer> data = new java.util.ArrayList<>();
+		final java.util.ArrayList<Integer> data = new java.util.ArrayList<>();
 		try {
 			final java.io.BufferedReader br = new java.io.BufferedReader(
 			new java.io.InputStreamReader(new java.io.FileInputStream(PATH)));
@@ -289,8 +289,8 @@ public class Test{
 	 */
 	public int timing(final LSD HW, final int[][] TD) {
 		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Start timing method Distance() of "+HW.getClass().getName()+"...");
-		double totalCost = 0;
-		double time;
+		long totalCost = 0;
+		long time;
 		int td[][], result = 0;
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
 			td = new int[TD.length][];
@@ -301,8 +301,8 @@ public class Test{
 			time += System.nanoTime();
 			if(CHECK_ANS!=null&&!CHECK_ANS.equals("min")&&SHOW_COUNT) System.out.printf(
 						"\t" + HW.getClass().getName() + " running count..." + (i + 1) + "\tTime: "
-						+ (time > 1e3 ? "%.6f " : "%.3f m") + "s\tResult: " + result + "\n",
-						time * (time > 1e3 ? 1000 : 1));
+						+ (time > 1e9 ? "%.6f " : "%.3f m") + "s\tResult: " + result + "\n",
+						time * (time > 1e9 ? 1e9: 1e6));
 			// if(CHECK_ANS!=null) if(!result) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -493,8 +493,8 @@ public class Test{
 	 */
 	public int[][] timing(final Buy_Phone_v2 HW, final int[][] TD) {
 		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Start timing method bestPhone() of "+HW.getClass().getName()+"...");
-		double totalCost = 0;
-		double time;
+		long totalCost = 0;
+		long time;
 		int[][] td, result = null;
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
 			td = new int[TD.length][];
@@ -515,7 +515,7 @@ public class Test{
 			timed(HW, averageTime);
 			System.out.printf(
 				(CHECK_ANS.equals("min")?"":"\t")+HW.getClass().getName() + " method bestPhone() average running time: "
-					+ (averageTime > 1e3 ? "%.6f " : "%.3f m") + "s" + (CHECK_ANS.equals("min") ? "" : "\n"),
+					+ (averageTime > 1e9 ? "%.6f " : "%.3f m") + "s" + (CHECK_ANS.equals("min") ? "" : "\n"),
 					averageTime/(averageTime>1e9?1e9:1e6));
 			switch(CHECK_ANS){
 				case "matrix","row": 
@@ -721,8 +721,8 @@ public class Test{
 	 */
 	public int[][] timing(final Buy_Phone HW, final int[][] TD) {
 		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Start timing method bestPhone() of "+HW.getClass().getName()+"...");
-		double totalCost = 0;
-		double time;
+		long totalCost = 0;
+		long time;
 		int[][] td, result = null;
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
 			td = new int[TD.length][];
@@ -743,8 +743,8 @@ public class Test{
 			timed(HW, averageTime);
 			System.out.printf(
 			(CHECK_ANS.equals("min")?"":"\t")+HW.getClass().getName() + " method bestPhone() average running time: "
-					+ (averageTime > 1e3 ? "%.6f " : "%.3f m") + "s" + (CHECK_ANS.equals("min") ? "" : "\n"),
-					averageTime / (averageTime > 1e3?1e3:1));
+					+ (averageTime > 1e9 ? "%.6f " : "%.3f m") + "s" + (CHECK_ANS.equals("min") ? "" : "\n"),
+					averageTime / (averageTime > 1e9?1e3:1));
 			switch(CHECK_ANS){
 				case "matrix","row": 
 					final StringBuffer SB = new StringBuffer("\tResult: \n");
@@ -922,8 +922,8 @@ public class Test{
 	 */
 	public boolean timing(final LLK HW, final int[][] TD) {
 		if(CHECK_ANS!=null&&!CHECK_ANS.equals("min"))System.out.println("Start timing method checkLLK() of "+HW.getClass().getName()+"...");
-		double totalCost = 0;
-		double time;
+		long totalCost = 0;
+		long time;
 		int[][] td; boolean result = false;
 		for(int i = -1; RUN_TIME > ++i && totalCost != -1;){
 			td = new int[TD.length][];
@@ -1655,9 +1655,9 @@ public class Test{
 			time += System.nanoTime();
 			if(SHOW_COUNT) System.out.printf(
 						(CHECK_ANS.equals("min") ? "" : "\t") + HW.getClass().getName() + " running count..." + (i + 1)
-								+ "\tTime: " + (time > 1e3 ? "%.6f " : "%.3f m") + "s"
+								+ "\tTime: " + (time > 1e9 ? "%.6f " : "%.3f m") + "s"
 								+ (CHECK_ANS.equals("min") ? "" : "\n"),
-						time * (time > 1e3 ? 1000 : 1));
+						time * (time > 1e9 ? 1e9: 1e6));
 			// if(CHECK_ANS!=null) if(a != -1-1-1) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -1679,9 +1679,9 @@ public class Test{
 			time += System.nanoTime();
 			if(SHOW_COUNT) System.out.printf(
 						(CHECK_ANS.equals("min") ? "" : "\t") + HW.getClass().getName() + " running count..." + (i + 1)
-								+ "\tTime: " + (time > 1e3 ? "%.6f " : "%.3f m") + "s"
+								+ "\tTime: " + (time > 1e9 ? "%.6f " : "%.3f m") + "s"
 								+ (CHECK_ANS.equals("min") ? "" : "\n"),
-						time * (time > 1e3 ? 1000 : 1));
+						time * (time > 1e9 ? 1e9: 1e6));
 			// if(CHECK_ANS!=null) if(a != -1-1-1) totalCost = -1;
 			if(totalCost != -1) totalCost += time;
 		}
@@ -1795,6 +1795,8 @@ public class Test{
 	 * @see #timed(Object, double)
 	 */
 	public Object checkAverageFastest(){
+		final Object fastestP = fastest;
+		final double fastest_costP = fastest_cost;
 		fastest = null;
 		fastest_cost = Double.MAX_VALUE;
 		MAP.forEach((final String hashcode, final java.util.ArrayList<Object> list) -> {
@@ -1807,8 +1809,11 @@ public class Test{
 			System.out.printf(HW.getClass().getName() + " average cost: "
 					+ (averageTime>1e9?"%.6f ":"%.3f m")+"s\n", averageTime/(averageTime>1e9?1e9:1e6));
 		});
+		final Object result = checkFastest();
 		MAP.clear();
-		return checkFastest();
+		fastest = fastestP;
+		fastest_cost = fastest_costP;
+		return result;
 	}
 
 	/**
@@ -1830,7 +1835,7 @@ public class Test{
 		System.out.printf("["+java.time.LocalDate.now() + " " + java.time.LocalTime.now() + "] "
 				+ fastest.getClass().getName() + " is the fastest, cost: "
 				+ (fastest_cost>1e9?"%.6f ":"%.3f m")+"s\n\n", fastest_cost/(fastest_cost>1e9?1e9:1e6));
-		Object tmp = fastest;
+		final Object tmp = fastest;
 		fastest = null;
 		fastest_cost = Double.MAX_VALUE;
 		return tmp;
@@ -1880,7 +1885,7 @@ public class Test{
 	 * @param ca   setting: {@link #CHECK_ANS} default: {@code null} Options: "default","matrix","row","min"
 	 * @param sc   setting: {@link #SHOW_COUNT} default: {@code false}
 	 * @param std  setting: {@link #SHOW_TEST_DATA} default: {@code false}
-	 * @param path setting: {@link #PATH} default: {@code System.getProperty("user.dir"))}
+	 * @param path setting: {@link #PATH} default: the current workspace: {@code System.getProperty("user.dir"))}
 	 * @since 3.20
 	 */
 	public Test(final int rt, final String ca, final boolean sc, final boolean std, final String path){
@@ -1910,7 +1915,6 @@ public class Test{
 	 * final boolean SHOW_COUNT = false;
 	 * final boolean SHOW_TEST_DATA = false;
 	 * final String PATH = System.getProperty("user.dir");
-	 *  // current workspace.
 	 * </pre></blackquote>
 	 * 
 	 * @see #RUN_TIME
