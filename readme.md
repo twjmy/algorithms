@@ -4,12 +4,11 @@ tags: java, algorithm # 在此輸入標籤(以","分隔)
 image: null # 在此輸入預覽圖片網址
 ---
 
-# 1092 演算法 [![hackmd-github-sync-badge](https://hackmd.io/fRHOXqCNSx6Wd3yEKjQf2w/badge)](https://hackmd.io/@VJ/1092-algorithms-nchu/edit?both) [![](https://img.shields.io/badge/dynamic/json?color=aqua&query=%24.viewcount&label=%E9%BB%9E%E6%93%8A%E6%AC%A1%E6%95%B8&suffix=%E6%AC%A1&url=https%3A%2F%2Fhackmd.io%2F%40VJ%2F1092-algorithms-nchu%2Finfo)](https://hackmd.io/@VJ/1092-algorithms-nchu/edit?both)
+# 1092 中興大學資工系必修課-演算法
 
-<details><summary>目錄</summary>
+![](https://img.shields.io/github/last-commit/twjmy/algorithms?color=success) ![](https://img.shields.io/github/languages/top/twjmy/algorithms) ![](https://img.shields.io/badge/dynamic/json?color=aqua&query=%24.viewcount&label=%E9%BB%9E%E6%93%8A%E6%AC%A1%E6%95%B8&suffix=%E6%AC%A1&url=https%3A%2F%2Fhackmd.io%2F%40VJ%2F1092-algorithms-nchu%2Finfo) [![hackmd-github-sync-badge](https://hackmd.io/fRHOXqCNSx6Wd3yEKjQf2w/badge)](https://hackmd.io/@VJ/1092-algorithms-nchu/edit?both)
 
-[TOC]
-</details>
+<details open><summary>目錄</summary>
 
 + [HW01 - ArrayData](#HW01---ArrayData)
 + [HW02 - ThreeSum](#HW02---ThreeSum)
@@ -22,6 +21,8 @@ image: null # 在此輸入預覽圖片網址
 + [HW09 - LSD](#HW09---LSD)
 + [HW10 - Sorting](#HW10---Sorting)
 + [HW11 - GroupCounting](#HW11---GroupCounting)
+
+</details>
 
 ---
 
