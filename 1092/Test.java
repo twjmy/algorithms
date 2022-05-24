@@ -8,13 +8,20 @@
  * <hr> Show the timing result by using the example below:
  * <pre> example.timing(new HWXX_X(), TEST_DATA); </pre>
  *
- * @version 6.7
+ * @version 6.7.1
  * @author twjmy@msn.com
  * @apiNote NCHU CSE 1092 algorithm homework local test class.
  */
-public class Test{ // !current workspace path string in code: // System.getProperty("user.dir")
-	public static void main(final String...미안해_노정훤){
-		final Test test = new Test(1,"min",false,false,"C:\\OneDrive - 中興大學\\courses\\Alg\\1092");
+public class Test{
+	public static void main(final String...args){
+		final Test test = new Test(
+			1,
+			"min",
+			false,
+			false,
+			"C:\\OneDriveTemp\\OneDrive - 中興大學\\courses\\algorithms"
+			// current workspace path string in code: // System.getProperty("user.dir")
+		);
 
 		for(final SortingArray e : new SortingArray[]{
 			// new HW10_4108056001_1(),
@@ -1777,7 +1784,7 @@ public class Test{ // !current workspace path string in code: // System.getPrope
 	 * @see #fastest
 	 * @see #fastest_cost
 	 * @see #checkFastest()
-	 * @see 
+	 * @see #checkAverageFastest()
 	 * @see #timed(Object, double)
 	 */
 	final public java.util.HashMap<String, java.util.ArrayList<Object>> MAP = new java.util.HashMap<String, java.util.ArrayList<Object>>();
@@ -1881,41 +1888,41 @@ public class Test{ // !current workspace path string in code: // System.getPrope
 	/**
 	 * <p> There are default values of <b>parameters</b> while not assigned(<b>build by {@link #Test()}</b>).
 	 * 
-	 * @param rt   setting: {@link #RUN_TIME} default: {@code 10}
-	 * @param ca   setting: {@link #CHECK_ANS} default: {@code null} Options: "default","matrix","row","min"
-	 * @param sc   setting: {@link #SHOW_COUNT} default: {@code false}
-	 * @param std  setting: {@link #SHOW_TEST_DATA} default: {@code false}
-	 * @param path setting: {@link #PATH} default: the current workspace: {@code System.getProperty("user.dir"))}
+	 * @param RUN_TIME   setting: {@link #RUN_TIME} default: {@code 10}
+	 * @param CHECK_ANS   setting: {@link #CHECK_ANS} default: {@code null} Options: "default","matrix","row","min"
+	 * @param SHOW_COUNT   setting: {@link #SHOW_COUNT} default: {@code false}
+	 * @param SHOW_TEST_DATA  setting: {@link #SHOW_TEST_DATA} default: {@code false}
+	 * @param PATH  setting: {@link #PATH} default: the current workspace: {@code System.getProperty("user.dir"))}
 	 * @since 3.20
 	 */
-	public Test(final int rt, final String ca, final boolean sc, final boolean std, final String path){
-		this.RUN_TIME=rt; this.PATH=path;
-		this.SHOW_COUNT=sc; this.SHOW_TEST_DATA=std;
-		System.out.println(this.getClass().getName()+": Path: " + path);
-		System.out.println(this.getClass().getName()+": Run times of every method: "+rt);
-		if(sc) System.out.println(this.getClass().getName()+": Show count status.");
-		if(ca==null) this.CHECK_ANS=null;
-		else switch(ca.toLowerCase()){
-			case "default","matrix","row","min":
+	public Test(final int RUN_TIME, final String CHECK_ANS, final boolean SHOW_COUNT, final boolean SHOW_TEST_DATA, final String PATH){
+		System.out.println(this.getClass().getName()+": Run times of every method: "+(this.RUN_TIME=RUN_TIME));
+		System.out.println(this.getClass().getName()+": Path: " + (this.PATH=PATH));
+		if(this.SHOW_COUNT=SHOW_COUNT)
+			System.out.println(this.getClass().getName()+": Show count status.");
+		if(this.SHOW_TEST_DATA=SHOW_TEST_DATA)
+			System.out.println(this.getClass().getName()+": Show test data.");
+		if(CHECK_ANS==null) this.CHECK_ANS=null;
+		else switch(CHECK_ANS.toLowerCase()){
+			default: this.CHECK_ANS=null; break;
+			case "default", "matrix", "row", "min":
 				System.out.println(
 					this.getClass().getName()+": Check answers in format '"
-					+(this.CHECK_ANS=ca.toLowerCase())+"'."
+					+(this.CHECK_ANS=CHECK_ANS.toLowerCase())+"'."
 				);
-				break;
-			default: this.CHECK_ANS=null;
 		}
 	}
 
 	/**
 	 * Default Value of Parameter while not assign:
-	 * <blackquote><pre>
+	 * <pre>
 	 * final int RUN_TIME = 10;
 	 * final String CHECK_ANS = null;
 	 *  // Options: "default","matrix","row","min"
 	 * final boolean SHOW_COUNT = false;
 	 * final boolean SHOW_TEST_DATA = false;
 	 * final String PATH = System.getProperty("user.dir");
-	 * </pre></blackquote>
+	 * </pre>
 	 * 
 	 * @see #RUN_TIME
 	 * @see #CHECK_ANS
@@ -1924,7 +1931,15 @@ public class Test{ // !current workspace path string in code: // System.getPrope
 	 * @see #PATH
 	 * @see #Test(int, String, boolean, boolean, String)
 	 */
-	public Test(){ this(10,null,false,false,System.getProperty("user.dir")); }
+	public Test(){
+		this(
+			10,
+			null,
+			false,
+			false,
+			System.getProperty("user.dir")
+		);
+	}
 }
 abstract class GroupCounting {
 	public abstract int count(String[] A, String[] B);
